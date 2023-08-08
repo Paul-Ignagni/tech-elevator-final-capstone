@@ -1,24 +1,24 @@
 <template>
-  <div id="register" class="text-center">
-    <form @submit.prevent="register">
-      <h1>Create Account</h1>
-      <div role="alert" v-if="registrationErrors">
+  <div id="register" class="registration-page">
+    <form @submit.prevent="register" class="registration-form">
+      <h1 class="registration-title">Create Account</h1>
+      <div role="alert" v-if="registrationErrors" class="error-message">
         {{ registrationErrorMsg }}
       </div>
       <div class="form-input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" v-model="user.username" required autofocus />
+        <label for="username" class="input-label">Username</label>
+        <input type="text" id="username" v-model="user.username" required autofocus class="input-field" />
       </div>
       <div class="form-input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="user.password" required />
+        <label for="password" class="input-label">Password</label>
+        <input type="password" id="password" v-model="user.password" required class="input-field" />
       </div>
       <div class="form-input-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
+        <label for="confirmPassword" class="input-label">Confirm Password</label>
+        <input type="password" id="confirmPassword" v-model="user.confirmPassword" required class="input-field" />
       </div>
-      <button type="submit">Create Account</button>
-      <p><router-link :to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
+      <button type="submit" class="registration-button">Create Account</button>
+      <p class="login-link"><router-link :to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
   </div>
 </template>
@@ -74,7 +74,6 @@ export default {
 </script>
 
 <style scoped>
-
 .registration-page {
   display: flex;
   justify-content: center;
