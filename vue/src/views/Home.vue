@@ -6,7 +6,15 @@
 </template>
 
 <script>
+import comicService from "../services/ComicService.js"
 export default {
-  name: "home"
+  name: "home",
+  created(){
+    comicService.search("venom").then ((response) => {
+      console.log(response)
+      console.log(response.data.data.results[0].images[0])
+    })
+
+  }
 };
 </script>
