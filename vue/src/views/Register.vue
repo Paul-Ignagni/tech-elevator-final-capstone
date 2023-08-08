@@ -1,24 +1,24 @@
 <template>
-  <div id="register" class="text-center">
-    <form @submit.prevent="register">
-      <h1>Create Account</h1>
-      <div role="alert" v-if="registrationErrors">
+  <div id="register" class="registration-page">
+    <form @submit.prevent="register" class="registration-form">
+      <h1 class="registration-title">Create Account</h1>
+      <div role="alert" v-if="registrationErrors" class="error-message">
         {{ registrationErrorMsg }}
       </div>
       <div class="form-input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" v-model="user.username" required autofocus />
+        <label for="username" class="input-label">Username</label>
+        <input type="text" id="username" v-model="user.username" required autofocus class="input-field" />
       </div>
       <div class="form-input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="user.password" required />
+        <label for="password" class="input-label">Password</label>
+        <input type="password" id="password" v-model="user.password" required class="input-field" />
       </div>
       <div class="form-input-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
+        <label for="confirmPassword" class="input-label">Confirm Password</label>
+        <input type="password" id="confirmPassword" v-model="user.confirmPassword" required class="input-field" />
       </div>
-      <button type="submit">Create Account</button>
-      <p><router-link :to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
+      <button type="submit" class="registration-button">Create Account</button>
+      <p class="login-link"><router-link :to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
   </div>
 </template>
@@ -74,10 +74,66 @@ export default {
 </script>
 
 <style scoped>
+.registration-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f2f2f2;
+}
+
+.registration-form {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.registration-title {
+  color: #e53935;
+  font-size: 24px;
+  margin-bottom: 1.5rem;
+}
+
+.error-message {
+  color: #e53935;
+  margin-bottom: 1rem;
+}
+
 .form-input-group {
   margin-bottom: 1rem;
 }
-label {
+
+.input-label {
   margin-right: 0.5rem;
+}
+
+.input-field {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.registration-button {
+  background-color: #2962ff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.registration-button:hover {
+  background-color: #0039cb;
+}
+
+.login-link {
+  margin-top: 1rem;
+  text-align: center;
+  color: #2962ff;
 }
 </style>
