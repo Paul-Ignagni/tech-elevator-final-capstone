@@ -2,20 +2,23 @@
   <div class="home">
     <h1 class="comic-heading">Comic Book Search</h1>
     <div class="search-container">
-      <input v-model="searchQuery" placeholder="Enter comic name" class="search-input" />
+      <input v-model="searchQuery" placeholder="Enter comic name" class="search-input" @keydown.enter="searchComics" />
       <button @click="searchComics" class="search-button">Search</button>
     </div>
     <div class="search-results">
       <div v-for="comic in comics" :key="comic.id" class="comic-card">
         <div class="comic-cover">
           <img v-if="comic.images && comic.images.length > 0" :src="comic.images[0].path + '.' + comic.images[0].extension" alt="Comic Cover" />
+         <div v-else class="blank-comic-card">
+            <p class="image-not-available">Image not available</p>
+          </div>
         </div>
         <div class="comic-details">
           <h2>{{ comic.title }}</h2>
           <p v-if="comic.description">{{ comic.description }}</p>
           <p>Issue Number: {{ comic.issueNumber }}</p>
           <p>Page Count: {{ comic.pageCount }}</p>
-           <button @click="addToCollection(comic)" class="add-to-collection-button">Add to Collection</button>
+          <button @click="addToCollection(comic)" class="add-to-collection-button">Add to Collection</button>
         </div>
       </div>
     </div>
@@ -30,17 +33,26 @@ export default {
   data() {
     return {
       searchQuery: "",
-      comics: [],
+      comics: [], // This array will hold all comics fetched initially and after searching
       collection: []
     };
   },
+  created() {
+    // Fetch and display all available comics initially
+    this.fetchAllComics();
+  },
   methods: {
+    fetchAllComics() {
+      comicService.getAllComics().then((response) => {
+        this.comics = response.data.data.results;
+      });
+    },
     searchComics() {
       comicService.search(this.searchQuery).then((response) => {
         this.comics = response.data.data.results;
       });
     },
-     addToCollection(comic) {
+    addToCollection(comic) {
       this.collection.push(comic);
     }
   }
@@ -130,5 +142,17 @@ export default {
   50% { background-color: #FFB400; } /* Darker gold color */
   100% { background-color: #FFD700; } /* Return to gold color */
 
+}
+.blank-comic-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: red;
+  font-weight: bold;
+  height: 200px;
 }
 </style>
