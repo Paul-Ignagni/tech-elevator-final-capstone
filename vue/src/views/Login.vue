@@ -66,7 +66,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f2f2f2;
+   background: linear-gradient(45deg, pink 50%, lightblue 50%);
 }
 
 .login-form {
@@ -82,6 +82,7 @@ export default {
   color: #e53935;
   font-size: 24px;
   margin-bottom: 1.5rem;
+   font-family: 'Comic Sans MS', cursive;
 }
 
 .error-message {

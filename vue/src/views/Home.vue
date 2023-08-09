@@ -15,6 +15,7 @@
           <p v-if="comic.description">{{ comic.description }}</p>
           <p>Issue Number: {{ comic.issueNumber }}</p>
           <p>Page Count: {{ comic.pageCount }}</p>
+           <button @click="addToCollection(comic)" class="add-to-collection-button">Add to Collection</button>
         </div>
       </div>
     </div>
@@ -29,7 +30,8 @@ export default {
   data() {
     return {
       searchQuery: "",
-      comics: []
+      comics: [],
+      collection: []
     };
   },
   methods: {
@@ -37,6 +39,9 @@ export default {
       comicService.search(this.searchQuery).then((response) => {
         this.comics = response.data.data.results;
       });
+    },
+     addToCollection(comic) {
+      this.collection.push(comic);
     }
   }
 };
@@ -51,20 +56,37 @@ export default {
 .comic-heading {
   font-family: 'Comic Sans MS', cursive; /* Use a comic book font here */
   font-size: 28px;
+  margin-bottom: 20px;
+  color: darkcyan;
 }
 
 .search-container {
-  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .search-input {
   padding: 8px;
   font-size: 16px;
+  border: 2px solid #000; 
+  border-radius: 10px;
 }
 
 .search-button {
   padding: 8px 16px;
   font-size: 16px;
+  background-color: crimson; 
+  color: #FFF; 
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.search-button:hover {
+  background-color: #990000; 
 }
 
 .comic-card {
@@ -78,5 +100,35 @@ export default {
 .comic-card img {
   max-width: 100%;
   height: auto;
+}
+.home {
+  /* Set the background gradient */
+  background: linear-gradient(45deg, pink 50%, lightblue 50%);
+  padding: 20px;
+  color: white;
+  position: relative;
+}
+.add-to-collection-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: crimson; /* Set background color to crimson */
+  color: white; /* Set text color to white */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  animation: breathing 4s infinite;
+}
+
+.add-to-collection-button:hover {
+  background-color: #9C0017; /* Darker crimson on hover */
+  animation: none;
+}
+@keyframes breathing {
+   0% { background-color: #FFD700; } /* Gold color */
+  50% { background-color: #FFB400; } /* Darker gold color */
+  100% { background-color: #FFD700; } /* Return to gold color */
+
 }
 </style>
