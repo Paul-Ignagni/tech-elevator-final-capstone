@@ -12,11 +12,15 @@ public interface CollectionDao {
 
     List<Integer> getComicsInCollection(int collectionId);
 
-    boolean deleteCollection(int userId, int collectionId);
+    Collection createCollection(Collection collection);
 
-    boolean addComicToCollection(int collectionId, int comicId);
+    int deleteAllComicsFromCollection(int collectionId);
 
-    boolean deleteComicFromCollection(int collectionId, int comicId);
+    int deleteCollection(int collectionId);
+
+    int addComicToCollection(int collectionId, int comicId);
+
+    int deleteComicFromCollection(int collectionId, int comicId);
 }
 
 
