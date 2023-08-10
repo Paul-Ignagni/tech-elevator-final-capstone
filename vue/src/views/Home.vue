@@ -19,6 +19,7 @@
           <p>Issue Number: {{ comic.issueNumber }}</p>
           <p>Page Count: {{ comic.pageCount }}</p>
           <button @click="addToCollection(comic)" class="add-to-collection-button">Add to Collection</button>
+          <Collection :collection="collection" />
         </div>
       </div>
     </div>
@@ -28,15 +29,20 @@
 <script>
 import comicService from "../services/ComicService.js";
 import { gsap } from "gsap";
+import Collection from "../views/Collection.vue";
 
 export default {
   name: "home",
   data() {
     return {
+      message: "",
       searchQuery: "",
       comics: [], // This array will hold all comics fetched initially and after searching
       collection: []
     };
+  },
+  components: {
+    Collection,
   },
   created() {
     // Fetch and display all available comics initially
@@ -55,6 +61,7 @@ export default {
     },
     addToCollection(comic) {
       this.collection.push(comic);
+      this.message = `${comic.title} has been added to your collection.`;
     },
     handleCardClick(comic) {
       const cardElement = document.querySelector(`#comic-${comic.id}`);
