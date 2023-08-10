@@ -6,7 +6,7 @@
       <button @click="searchComics" class="search-button">Search</button>
     </div>
     <div class="search-results">
-      <div v-for="comic in comics" :key="comic.id" class="comic-card">
+      <div v-for="comic in comics" :key="comic.id" class="comic-card"  @click="handleCardClick(comic)" >
         <div class="comic-cover">
           <img v-if="comic.images && comic.images.length > 0" :src="comic.images[0].path + '.' + comic.images[0].extension" alt="Comic Cover" />
          <div v-else class="blank-comic-card">
@@ -27,6 +27,7 @@
 
 <script>
 import comicService from "../services/ComicService.js";
+import { gsap } from "gsap";
 
 export default {
   name: "home",
@@ -54,6 +55,30 @@ export default {
     },
     addToCollection(comic) {
       this.collection.push(comic);
+    },
+    handleCardClick(comic) {
+      const cardElement = document.querySelector(`#comic-${comic.id}`);
+
+      gsap.to(cardElement, {
+        duration: 1,
+        ease: "power3.inOut",
+        scaleX: 0.2,
+        scaleY: 0.2,
+        opacity: 0,
+        onComplete: () => {
+          this.addToCollection(comic); // Add the comic to the collection
+          gsap.to(cardElement, {
+            duration: 0.5,
+            scaleX: 1,
+            scaleY: 1,
+            opacity: 1,
+            onComplete: () => {
+              // Add any additional logic you need here
+              console.log("Animation complete");
+            }
+          }); // Restore the card's appearance
+        }
+      });
     }
   }
 };
@@ -107,6 +132,28 @@ export default {
   margin: 10px;
   display: inline-block;
   max-width: 200px;
+  max-height: 300px; /* Adjust the max-height to your preference */
+  overflow: hidden; /* Ensure content doesn't overflow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
+}
+.comic-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  animation: rainbow-border 2s infinite linear;
+}
+.comic-card.clicked {
+  transform: translateY(-5px) scale(0.9);
+  opacity: 0;
+  box-shadow: none; /* Remove box shadow during the disappearing animation */
+}
+@keyframes rainbow-border {
+  0% {
+    box-shadow: 0 0 10px #00eeff, 0 0 20px #f700fffa, 0 0 30px #c8ff00, 0 0 40px #ffbf00, 0 0 50px #ffbb00,
+      0 0 60px #ffd000, 0 0 70px #00f7ff, 0 0 80px #40ff00, 0 0 90px #00ff00;
+  }
+  100% {
+    box-shadow: 0 0 10px #ff0000, 0 0 20px #ff4000, 0 0 30px #ff8000, 0 0 40px #ffbf00, 0 0 50px #ffff00,
+      0 0 60px #bfff00, 0 0 70px #ea00ff63, 0 0 80px #f302f3, 0 0 90px #00ff00;
+  }
 }
 
 .comic-card img {
