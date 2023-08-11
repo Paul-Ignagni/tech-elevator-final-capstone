@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.CollectionDao;
 import com.techelevator.model.Collection;
+import com.techelevator.model.ComicData;
 import com.techelevator.model.ComicResponse;
 import com.techelevator.services.RestComicBookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class ComicController {
         this.collectionDao = collectionDao;
     }
     @RequestMapping(path = "/search/{title}", method = RequestMethod.GET)
-    public ComicResponse search(@PathVariable String title){
+    public ComicData search(@PathVariable String title){
         RestComicBookService service = new RestComicBookService();
         return service.getComics(title);
     }

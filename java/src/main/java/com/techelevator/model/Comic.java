@@ -1,14 +1,23 @@
 package com.techelevator.model;
 
 import java.util.Date;
+import java.util.Map;
 
-public class ComicResult {
+public class Comic {
+    private int id;
     private String title;
-    private int serialNumber;
+    private String description;
     public int issueNumber;
-    public Date releaseDate;
+    public Map<String, String> dates;
     private ComicImage [] images;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -16,6 +25,14 @@ public class ComicResult {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getIssueNumber() {
@@ -26,19 +43,12 @@ public class ComicResult {
         this.issueNumber = issueNumber;
     }
 
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
+    public Map<String, String> getDates() {
+        return dates;
     }
 
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setDates(Map<String, String> dates) {
+        this.dates = dates;
     }
 
     public ComicImage[] getImages() {

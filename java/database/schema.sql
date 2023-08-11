@@ -12,12 +12,23 @@ CREATE TABLE users (
 
 CREATE TABLE comic_info (
 	serial_number INT NOT NULL UNIQUE,
-	author varchar(100) NOT NULL,
-	publisher varchar(100) NOT NULL,
+	title varchar(150) NOT NULL,
 	series varchar(100),
-	genre varchar(50),
 	release_date DATE,
 	CONSTRAINT PK_serial PRIMARY KEY (serial_number)
+);
+
+CREATE TABLE creator (
+	creator_id SERIAL,
+	name varchar(150) NOT NULL,
+	CONSTRAINT PK_creator PRIMARY KEY (creator_id)
+);
+
+CREATE TABLE comic_info_creator (
+	serial_number INT NOT NULL,
+	creator_id INT NOT NULL,
+	CONSTRAINT FK_serial FOREIGN KEY (serial_number) REFERENCES comic_info(serial_number),
+	CONSTRAINT FK_creator FOREIGN KEY (creator_id) REFERENCES creator(creator_id)
 );
 
 CREATE TABLE character (

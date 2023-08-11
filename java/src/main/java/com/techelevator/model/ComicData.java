@@ -1,13 +1,20 @@
 package com.techelevator.model;
 
-public class ComicData {
-    private ComicResult [] results;
+import java.util.ArrayList;
+import java.util.List;
 
-    public ComicResult[] getResults() {
+public class ComicData {
+    private List<ComicData> results;
+
+    public ComicData() {
+        results = new ArrayList<>();
+    }
+
+    public List<ComicData> getResults() {
         return results;
     }
 
-    public void setResults(ComicResult[] results) {
+    public void setResults(List<ComicData> results) {
         this.results = results;
     }
 }
