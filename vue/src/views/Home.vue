@@ -18,27 +18,27 @@
           <p v-if="comic.description">{{ comic.description }}</p>
           <p>Issue Number: {{ comic.issueNumber }}</p>
           <p>Page Count: {{ comic.pageCount }}</p>
-          <button @click="addToCollection(comic)" class="add-to-collection-button">Add to Collection</button>
-          <Collection :collection="collection" />
+          <button @click="addToCollectionAndNavigate(comic)" class="add-to-collection-button">Add to Collection</button>
+    
         </div>
       </div>
     </div>
+    <Collection :collection="collection" />
   </div>
 </template>
-
 <script>
 import comicService from "../services/ComicService.js";
-import { gsap } from "gsap";
 import Collection from "../views/Collection.vue";
 
 export default {
   name: "home",
   data() {
     return {
-      message: "",
       searchQuery: "",
       comics: [], // This array will hold all comics fetched initially and after searching
-      collection: []
+      collection: [],
+      userId: 0, // Define the userId
+      initialCollectionId: 0, // Define the initialCollectionId
     };
   },
   components: {
@@ -60,35 +60,11 @@ export default {
       });
     },
     addToCollection(comic) {
-      this.collection.push(comic);
-      this.message = `${comic.title} has been added to your collection.`;
+     this.$store.commit('addToCollection', comic);
     },
-    handleCardClick(comic) {
-      const cardElement = document.querySelector(`#comic-${comic.id}`);
+    },
+  };
 
-      gsap.to(cardElement, {
-        duration: 1,
-        ease: "power3.inOut",
-        scaleX: 0.2,
-        scaleY: 0.2,
-        opacity: 0,
-        onComplete: () => {
-          this.addToCollection(comic); // Add the comic to the collection
-          gsap.to(cardElement, {
-            duration: 0.5,
-            scaleX: 1,
-            scaleY: 1,
-            opacity: 1,
-            onComplete: () => {
-              // Add any additional logic you need here
-              console.log("Animation complete");
-            }
-          }); // Restore the card's appearance
-        }
-      });
-    }
-  }
-};
 </script>
 
 <style>
@@ -134,6 +110,7 @@ export default {
 }
 
 .comic-card {
+  position: relative;
   border: 1px solid #ccc;
   padding: 10px;
   margin: 10px;
@@ -175,11 +152,14 @@ export default {
   position: relative;
 }
 .add-to-collection-button {
-  margin-top: 10px;
+  position: absolute; /* Position the button absolutely within the comic card */
+  bottom: 10px; /* Adjust the distance from the bottom as needed */
+  left: 50%; /* Position the button horizontally centered */
+  transform: translateX(-50%); /* Center the button horizontally */
   padding: 8px 16px;
   font-size: 14px;
-  background-color: crimson; /* Set background color to crimson */
-  color: white; /* Set text color to white */
+  background-color: crimson;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -187,26 +167,4 @@ export default {
   animation: breathing 4s infinite;
 }
 
-.add-to-collection-button:hover {
-  background-color: #9C0017; /* Darker crimson on hover */
-  animation: none;
-}
-@keyframes breathing {
-   0% { background-color: #FFD700; } /* Gold color */
-  50% { background-color: #FFB400; } /* Darker gold color */
-  100% { background-color: #FFD700; } /* Return to gold color */
-
-}
-.blank-comic-card {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  color: red;
-  font-weight: bold;
-  height: 200px;
-}
 </style>
