@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="sidebar" :class="{ 'open': isSidebarOpen }" @mouseenter="openSidebar" @mouseleave="closeSidebar">
-        <!--Add additional stuff here once figured out what is needed (and if the damn thing works)-->
+        <!--Add additional stuff here once figure out what is needed (and if the damn thing works)-->
         </div>
     </div>
     <Collection :collection="collection" />
