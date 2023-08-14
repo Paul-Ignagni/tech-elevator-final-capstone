@@ -19,14 +19,17 @@
       </div>
       <div class="form-input-group">
         <label class="input-label">User Type</label>
-        <input type="checkbox" v-model="user.registerStandardUser" /> Register as a standard user (free!)
-        <br>
-        <input type="checkbox" v-model="user.registerPremiumUser" /> Register as a premium user (also free!)
+        <div>
+          <input type="radio" v-model="user.registerType" value="standard" /> Register as a standard user (free!)
+        </div>
+        <div>
+          <input type="radio" v-model="user.registerType" value="premium" /> Register as a premium user (also free!)
+        </div>
       </div>
       <button type="submit" class="registration-button">Create Account</button>
       <p class="login-link"><router-link :to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
-      <div class="additional-info-box">
+    <div class="additional-info-box">
       <h2 class="additional-info-header">Not sure what kind of account to choose? We can help!</h2>
       <ul>
         <li><strong>Standard User</strong>
