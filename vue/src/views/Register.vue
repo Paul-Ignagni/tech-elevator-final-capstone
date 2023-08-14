@@ -17,6 +17,12 @@
         <label for="confirmPassword" class="input-label">Confirm Password</label>
         <input type="password" id="confirmPassword" v-model="user.confirmPassword" required class="input-field" />
       </div>
+      <div class="form-input-group">
+        <label class="input-label">User Type</label>
+        <input type="checkbox" v-model="user.registerStandardUser" /> Register as a standard user (free!)
+        <br>
+        <input type="checkbox" v-model="user.registerPremiumUser" /> Register as a premium user (also free!)
+      </div>
       <button type="submit" class="registration-button">Create Account</button>
       <p class="login-link"><router-link :to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
@@ -28,14 +34,16 @@ import authService from '../services/AuthService';
 
 export default {
   name: 'register',
-  data() {
-    return {
-      user: {
-        username: '',
-        password: '',
-        confirmPassword: '',
-        role: 'user',
-      },
+data() {
+  return {
+    user: {
+      username: '',
+      password: '',
+      confirmPassword: '',
+      role: 'user',
+      registerStandardUser: false,
+      registerPremiumUser: false,
+    },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
     };
