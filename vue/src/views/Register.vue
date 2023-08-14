@@ -26,6 +26,24 @@
       <button type="submit" class="registration-button">Create Account</button>
       <p class="login-link"><router-link :to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
+      <div class="additional-info-box">
+      <h2 class="additional-info-header">Not sure what kind of account to choose? We can help!</h2>
+      <ul>
+        <li><strong>Standard User</strong>
+          <ul>
+            <li>Can create a personal collection with up to 100 comics</li>
+            <li>Can view public collections</li>
+          </ul>
+        </li>
+        <li><strong>Premium User</strong>
+          <ul>
+            <li>Can create a personal collection with an unlimited number of comics</li>
+            <li>Can view public collections</li>
+          </ul>
+        </li>
+      </ul>
+      <p>Not ready to register? No problem! <router-link :to="{ name: 'home' }">View our home page</router-link> to browse public collections!</p>
+    </div>
   </div>
 </template>
 
@@ -149,5 +167,39 @@ data() {
   margin-top: 1rem;
   text-align: center;
   color: #2962ff;
+}
+
+.additional-info-box {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.additional-info-header {
+  color: #e53935;
+  font-size: 20px;
+  margin-bottom: 1rem;
+  font-family: 'Comic Sans MS', cursive;
+}
+
+.additional-info-box ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.additional-info-box ul li {
+  margin-bottom: 0.5rem;
+}
+
+.additional-info-box ul li ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+}
+
+.additional-info-box p {
+  margin-top: 1.5rem;
 }
 </style>
