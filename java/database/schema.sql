@@ -11,10 +11,14 @@ CREATE TABLE users (
 );
 
 CREATE TABLE comic_info (
-	serial_number INT NOT NULL UNIQUE,
-	title varchar(150) NOT NULL,
-	series varchar(100),
-	release_date DATE,
+	serial_number SERIAL,
+	comic_id INT,
+	title varchar(250),
+	description varchar(1200),
+	issueNumber INT,
+	series varchar(250),
+	release_date varchar(20),
+	imageUrl varchar(200),
 	CONSTRAINT PK_serial PRIMARY KEY (serial_number)
 );
 

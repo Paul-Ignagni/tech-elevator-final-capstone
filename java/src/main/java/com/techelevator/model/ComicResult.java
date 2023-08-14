@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ComicResult {
     private String title;
-    private int serialNumber;
+    private int comicId;
     public int issueNumber;
     public Date releaseDate;
     private ComicImage [] images;
@@ -26,11 +26,12 @@ public class ComicResult {
         this.issueNumber = issueNumber;
     }
 
-    public int getSerialNumber() {
-        return serialNumber;
+    public int getComicId() {
+        return comicId;
     }
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
+
+    public void setComicId(int comicId) {
+        this.comicId = comicId;
     }
 
     public Date getReleaseDate() {

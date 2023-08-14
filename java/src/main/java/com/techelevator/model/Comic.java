@@ -8,8 +8,9 @@ public class Comic {
     private String title;
     private String description;
     public int issueNumber;
-    public Map<String, String> dates;
-    private ComicImage [] images;
+    public String series;
+    public String dates;
+    private String images;
 
     public int getId() {
         return id;
@@ -43,19 +44,27 @@ public class Comic {
         this.issueNumber = issueNumber;
     }
 
-    public Map<String, String> getDates() {
+    public String getSeries() {
+        return series;
+    }
+
+    public void setSeries(String series) {
+        this.series = series;
+    }
+
+    public String getDates() {
         return dates;
     }
 
-    public void setDates(Map<String, String> dates) {
+    public void setDates(String dates) {
         this.dates = dates;
     }
 
-    public ComicImage[] getImages() {
+    public String getImages() {
         return images;
     }
 
-    public void setImages(ComicImage[] images) {
+    public void setImages(String images) {
         this.images = images;
     }
 }
