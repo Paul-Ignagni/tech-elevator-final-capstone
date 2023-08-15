@@ -39,9 +39,9 @@ public class RestComicBookService {
         return result;
     }
 
-    public List<Comic> getAllComics() {
-        Comic[] responseEntity = restTemplate.getForObject(API_BASE_URL, Comic[].class);
-        List<Comic> comics = Arrays.asList(responseEntity);
+    public List<ComicResult> getAllComics() {
+        ComicResult[] responseEntity = restTemplate.getForObject(API_BASE_URL, ComicResult[].class);
+        List<ComicResult> comics = Arrays.asList(responseEntity);
         return comics;
     }
 

@@ -1,9 +1,8 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.CollectionDao;
-import com.techelevator.model.Collection;
-import com.techelevator.model.CollectionEntry;
-import com.techelevator.model.ComicData;
+import com.techelevator.dao.ComicDao;
+import com.techelevator.model.*;
 import com.techelevator.services.RestComicBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,16 +18,24 @@ import java.util.List;
 public class CollectionController {
 
     private final CollectionDao collectionDao;
+    private final ComicDao comicDao;
+    private final RestComicBookService service = new RestComicBookService();
 
-    @Autowired
-    public CollectionController(CollectionDao collectionDao) {
+    public CollectionController(CollectionDao collectionDao, ComicDao comicDao) {
         this.collectionDao = collectionDao;
+        this.comicDao = comicDao;
     }
 
-    @RequestMapping(path = "/search/{title}", method = RequestMethod.GET)
+
+    @GetMapping("/search/{title}")
     public ComicData search(@PathVariable String title){
-        RestComicBookService service = new RestComicBookService();
         return service.getComics(title);
+    }
+
+
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    public List<Comic> all(){
+        return comicDao.getAllComics();
     }
 
     @RequestMapping(path = "/collections", method = RequestMethod.GET)

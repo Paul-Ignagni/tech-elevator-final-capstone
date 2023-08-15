@@ -8,7 +8,7 @@
     <div class="search-results">
       <div v-for="comic in comics" :key="comic.id" class="comic-card"  @click="handleCardClick(comic)" >
         <div class="comic-cover">
-          <img v-if="comic.images && comic.images.length > 0" :src="comic.images[0].path + '.' + comic.images[0].extension" alt="Comic Cover" />
+          <img v-if="comic.images && comic.images.length > 0" :src="`${comic.images}.jpg`" alt="Comic Cover" />
          <div v-else class="blank-comic-card">
             <p class="image-not-available">Image not available</p>
           </div>
@@ -26,14 +26,16 @@
         <!--Add additional stuff here once figure out what is needed (and if the damn thing works)-->
         </div>
     </div>
-    <Collection :collection="collection" />
+    
   </div>
 </template>
 
 
 <script>
 import comicService from "../services/ComicService.js";
-import Collection from "../views/Collection.vue";
+
+
+import axios from "axios"; // Import axios once
 
 export default {
   name: "home",
@@ -47,9 +49,8 @@ export default {
       isSidebarOpen: false,
     };
   },
-  components: {
-    Collection,
-  },
+
+  
   created() {
     // Fetch and display all available comics initially
     this.fetchAllComics();
@@ -57,16 +58,25 @@ export default {
   methods: {
     fetchAllComics() {
       comicService.getAllComics().then((response) => {
-        this.comics = response.data.data.results;
+        this.comics = response.data;
       });
     },
     searchComics() {
       comicService.search(this.searchQuery).then((response) => {
-        this.comics = response.data.data.results;
+        this.comics = response.data;
       });
     },
-    addToCollection(comic) {
-     this.$store.commit('addToCollection', comic);
+    async addToCollectionAndNavigate(comic) {
+      try {
+        const response = await axios.post(`/collections/${this.initialCollectionId}/addComic/${comic.id}`);
+        if (response.status === 200) {
+          this.$store.commit('addToCollection', comic);
+          console.log('Comic added to collection successfully');
+          this.$router.push({name: "collection"});
+        }
+      } catch (error) {
+        console.error('Failed to add comic to collection:', error);
+      }
     },
     openSidebar() {
       this.isSidebarOpen = true;

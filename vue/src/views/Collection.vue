@@ -20,6 +20,12 @@
       </div>
     </div>
     <button @click="saveCollection" class="save-collection-button">Save Collection</button>
+    <button @click="createNewCollection" class="create-collection-button">Create New Collection</button>
+    <div v-if="createdCollection">
+      <h3>New Collection Created:</h3>
+      <p>Collection ID: {{ createdCollection.id }}</p>
+      <p>Name: {{ createdCollection.name }}</p>
+    </div>
   </div>
 </template>
 
@@ -30,6 +36,7 @@ import axios from 'axios';
 export default {
   props: {
     collection: Array,
+    createdCollection: Object,
   },
   methods: {
     async saveCollection() {
@@ -45,9 +52,9 @@ export default {
     },
     async createCollection() {
       try {
-        const response = await axios.post('/api/collections/addCollection', {
-          userId: this.userId,
-          name: 'New Collection Name', // Set the collection name here
+        const response = await axios.post('/collections/addCollection', {
+          userId: this.userId, // Ensure this.userId is set correctly
+          name: 'New Collection Name',
         });
         return response.data;
       } catch (error) {
@@ -57,17 +64,20 @@ export default {
     async addComicsToCollection(collectionId) {
       try {
         for (const comic of this.collection) {
-          const comicId = comic.id; // Get the comic's ID
-          await axios.post(`/api/collections/${collectionId}/addComic/${comicId}`);
+          const comicId = comic.id; // Ensure comic.id exists in the comic object
+          await axios.post(`/collections/${collectionId}/addComic/${comicId}`);
         }
       } catch (error) {
         throw new Error('Failed to add comics to collection');
       }
+    },
+    createNewCollection() {
+      this.$emit('create-new-collection');
     },
   },
 };
 </script>
 
 <style>
-/* Add your styles here */
+/* Your styles here */
 </style>

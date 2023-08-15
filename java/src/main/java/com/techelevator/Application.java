@@ -52,12 +52,12 @@ public class Application {
         privateCollection.setPublic(true);
         rest.createCollection(privateCollection);
 
-        CollectionEntry entry1 = new CollectionEntry(1, 3);
-        rest.addToCollection(entry1);
-        CollectionEntry entry2 = new CollectionEntry(1,9);
-        rest.addToCollection(entry2);
-        CollectionEntry entry3 = new CollectionEntry(1,20);
-        rest.addToCollection(entry3);
-        System.out.println("done");
+//        CollectionEntry entry1 = new CollectionEntry(1, 3);
+//        rest.addToCollection(entry1);
+//        CollectionEntry entry2 = new CollectionEntry(1,9);
+//        rest.addToCollection(entry2);
+//        CollectionEntry entry3 = new CollectionEntry(1,20);
+//        rest.addToCollection(entry3);
+//        System.out.println("done");
     }
 }
