@@ -64,15 +64,17 @@ CREATE TABLE comic_book (
 CREATE TABLE collection (
 	collection_id SERIAL,
 	user_id INT NOT NULL,
-	collection_name varchar(100) NOT NULL,
+	collection_name varchar(250) NOT NULL,
 	isPublic BOOLEAN NOT NULL,
 	CONSTRAINT PK_collection PRIMARY KEY (collection_id),
 	CONSTRAINT FK_user FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE collection_comic_book (
+	entry_id SERIAL,
 	collection_id INT NOT NULL,
 	comic_id INT NOT NULL,
+	CONSTRAINT PK_collection_comic_book PRIMARY KEY (entry_id),
 	CONSTRAINT FK_collection FOREIGN KEY (collection_id) REFERENCES collection(collection_id),
 	CONSTRAINT FK_comic FOREIGN KEY (comic_id) REFERENCES comic_book(comic_id)
 );

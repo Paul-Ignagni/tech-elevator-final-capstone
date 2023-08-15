@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.CollectionDao;
 import com.techelevator.model.Collection;
+import com.techelevator.model.CollectionEntry;
 import com.techelevator.model.ComicData;
 import com.techelevator.services.RestComicBookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import java.util.List;
 @RestController
 @CrossOrigin
 public class CollectionController {
+
     private final CollectionDao collectionDao;
+
     @Autowired
     public CollectionController(CollectionDao collectionDao) {
         this.collectionDao = collectionDao;
@@ -44,26 +47,15 @@ public class CollectionController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/collections/addCollection")
+    @PostMapping(path = "/collections")
     public Collection create(@Valid @RequestBody Collection collection) {
         return collectionDao.createCollection(collection);
     }
 
-    @PostMapping(path = "/collections/{collectionId}/addComic/{comicId}")
-    public ResponseEntity<String> addComicToCollection(@PathVariable int collectionId, @PathVariable int comicId) {
-        try {
-            // Implement the logic to add the comic to the collection using CollectionDao
-            int added = collectionDao.addComicToCollection(collectionId, comicId);
-
-            if (added > 0) {
-                return ResponseEntity.ok("Comic added to collection successfully");
-            } else {
-                return ResponseEntity.badRequest().body("Failed to add comic to collection");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error occurred while adding comic to collection");
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(path = "/collections/{collectionId}")
+    public CollectionEntry addComicToCollection(@PathVariable int collectionId, @Valid @RequestBody CollectionEntry entry) {
+        return collectionDao.addComicToCollection(entry.getCollectionId(), entry);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

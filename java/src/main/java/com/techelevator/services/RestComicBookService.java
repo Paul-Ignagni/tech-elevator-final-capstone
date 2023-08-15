@@ -9,11 +9,11 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.techelevator.controller.ComicController;
 import com.techelevator.dao.ComicDao;
 import com.techelevator.dao.JdbcComicDao;
-import com.techelevator.model.Comic;
-import com.techelevator.model.ComicData;
-import com.techelevator.model.ComicResponse;
+import com.techelevator.model.*;
+import com.techelevator.model.Collection;
 import org.openqa.selenium.json.Json;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -76,5 +76,20 @@ public class RestComicBookService {
         }
     }
 
+    public void createCollection(Collection newCollection) {
+        try {
+            restTemplate.postForObject("http://localhost:9000/collections", newCollection, Collection.class);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addToCollection(CollectionEntry entry) {
+        try {
+            restTemplate.postForObject("http://localhost:9000/collections/" + entry.getCollectionId(), entry, CollectionEntry.class);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

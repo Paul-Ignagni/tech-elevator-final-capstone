@@ -13,6 +13,7 @@ import javax.validation.Valid;
 public class ComicController {
 
     private final ComicDao comicDao;
+
     @Autowired
     public ComicController(ComicDao comicDao) {
         this.comicDao = comicDao;

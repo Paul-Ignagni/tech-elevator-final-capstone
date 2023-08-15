@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Collection;
+import com.techelevator.model.CollectionEntry;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -38,11 +39,11 @@ public class JdbcCollectionDao implements CollectionDao {
     }
 
     @Override
-    public Collection getCollectionById(int userId, int collectionId) {
+    public Collection getCollectionById(int collectionId) {
         Collection collection = null;
-        String sql = "SELECT collection_id, collection_name, isPublic FROM collection WHERE user_id = ? AND collection_id = ?";
+        String sql = "SELECT collection_id, user_id, collection_name, isPublic FROM collection WHERE collection_id = ?";
         try {
-            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId, collectionId);
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, collectionId);
             if (result.next()) {
                 collection = mapRowToCollection(result);
             }
@@ -70,11 +71,11 @@ public class JdbcCollectionDao implements CollectionDao {
     @Override
     public Collection createCollection(Collection collection) {
         Collection newCollection = null;
-        String sql = "INSERT INTO collection (user_id, collection_name, isPublic) RETURNING collection_id;";
+        String sql = "INSERT INTO collection (user_id, collection_name, isPublic) VALUES (?, ?, ?) RETURNING collection_id;";
         try {
             int newCollectionId = jdbcTemplate.queryForObject(sql, int.class, collection.getUserId(),
                     collection.getName(), collection.isPublic());
-            newCollection = getCollectionById(collection.getUserId(), newCollectionId);
+            newCollection = getCollectionById(newCollectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -84,17 +85,33 @@ public class JdbcCollectionDao implements CollectionDao {
     }
 
     @Override
-    public int addComicToCollection(int collectionId, int comicId) {
-        int rowsAffected = 0;
-        String addComicToCollectionSql = "INSERT INTO collection_comic_book (collection_id, comic_id) VALUES (?, ?)";
+    public CollectionEntry getEntryById(int entryId) {
+        CollectionEntry entry = null;
+        String sql = "SELECT entry_id, collection_id, comic_id FROM collection_comic_book WHERE entry_id = ?";
         try {
-            rowsAffected = jdbcTemplate.update(addComicToCollectionSql, collectionId, comicId);
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, entryId);
+            if (result.next()) {
+                entry = mapRowToEntry(result);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return entry;
+    }
+
+    @Override
+    public CollectionEntry addComicToCollection(int collectionId, CollectionEntry entry) {
+        CollectionEntry newEntry = null;
+        String addComicToCollectionSql = "INSERT INTO collection_comic_book (collection_id, comic_id) VALUES (?, ?) RETURNING entry_id";
+        try {
+            int newEntryId = jdbcTemplate.queryForObject(addComicToCollectionSql, int.class, entry.getCollectionId(), entry.getComicId());
+            newEntry = getEntryById(newEntryId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
-        return rowsAffected;
+        return newEntry;
     }
 
     @Override
@@ -146,6 +163,13 @@ public class JdbcCollectionDao implements CollectionDao {
         collection.setName(rs.getString("collection_name"));
         collection.setPublic(rs.getBoolean("isPublic"));
         return collection;
+    }
+
+    private CollectionEntry mapRowToEntry(SqlRowSet rs) {
+        CollectionEntry entry = new CollectionEntry();
+        entry.setCollectionId(rs.getInt("collection_id"));
+        entry.setComicId(rs.getInt("comic_id"));
+        return entry;
     }
 
 }
