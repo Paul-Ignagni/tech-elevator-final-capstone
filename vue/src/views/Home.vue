@@ -8,7 +8,7 @@
     <div class="search-results">
       <div v-for="comic in comics" :key="comic.id" class="comic-card"  @click="handleCardClick(comic)" >
         <div class="comic-cover">
-          <img v-if="comic.images && comic.images.length > 0" :src="`${comic.images}.jpg`" alt="Comic Cover" />
+          <img v-if="comic.images && comic.images.length > 0" :src="comic.images" alt="Comic Cover" />
          <div v-else class="blank-comic-card">
             <p class="image-not-available">Image not available</p>
           </div>

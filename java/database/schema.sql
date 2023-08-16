@@ -70,13 +70,11 @@ CREATE TABLE collection (
 	CONSTRAINT FK_user FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE collection_comic_book (
-	entry_id SERIAL,
+CREATE TABLE collection_comic_info (
 	collection_id INT NOT NULL,
 	comic_id INT NOT NULL,
-	CONSTRAINT PK_collection_comic_book PRIMARY KEY (entry_id),
 	CONSTRAINT FK_collection FOREIGN KEY (collection_id) REFERENCES collection(collection_id),
-	CONSTRAINT FK_comic FOREIGN KEY (comic_id) REFERENCES comic_book(comic_id)
+	CONSTRAINT FK_comic FOREIGN KEY (comic_id) REFERENCES comic_info(serial_number)
 );
 
 CREATE TABLE users_comic_info (

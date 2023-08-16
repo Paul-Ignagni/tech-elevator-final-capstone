@@ -61,8 +61,8 @@ public class CollectionController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/collections/{collectionId}")
-    public CollectionEntry addComicToCollection(@PathVariable int collectionId, @Valid @RequestBody CollectionEntry entry) {
-        return collectionDao.addComicToCollection(entry.getCollectionId(), entry);
+    public void addComicToCollection(@PathVariable int collectionId, int comicId) {
+        collectionDao.addComicToCollection(collectionId, comicId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

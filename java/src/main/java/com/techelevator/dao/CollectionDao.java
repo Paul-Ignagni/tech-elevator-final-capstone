@@ -19,9 +19,9 @@ public interface CollectionDao {
 
     int deleteCollection(int collectionId);
 
-    CollectionEntry getEntryById(int entryId);
+//    CollectionEntry getEntryById(int entryId);
 
-    CollectionEntry addComicToCollection(int collectionId, CollectionEntry entry);
+    void addComicToCollection(int collectionId, int comicId);
 
     int deleteComicFromCollection(int collectionId, int comicId);
 }

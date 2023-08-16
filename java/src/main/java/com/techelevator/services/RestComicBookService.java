@@ -67,7 +67,9 @@ public class RestComicBookService {
                 JsonNode series = jsonNode.get(i).at("/series/name");
                 newComic.setSeries(series.asText());
                 JsonNode images = jsonNode.get(i).at("/thumbnail/path");
-                newComic.setImages(images.asText());
+                JsonNode type = jsonNode.get(i).at("/thumbnail/extension");
+                String path = images.asText() + "." + type.asText();
+                newComic.setImages(path);
                 restTemplate.postForObject("http://localhost:9000/comics", newComic, Comic.class);
             }
 
@@ -84,12 +86,12 @@ public class RestComicBookService {
         }
     }
 
-    public void addToCollection(CollectionEntry entry) {
-        try {
-            restTemplate.postForObject("http://localhost:9000/collections/" + entry.getCollectionId(), entry, CollectionEntry.class);
-        } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void addToCollection(CollectionEntry entry) {
+//        try {
+//            restTemplate.postForObject("http://localhost:9000/collections/" + entry.getCollectionId(), entry, CollectionEntry.class);
+//        } catch (DataIntegrityViolationException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

@@ -2,13 +2,17 @@ package com.techelevator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.techelevator.controller.CollectionController;
 import com.techelevator.dao.CollectionDao;
+import com.techelevator.dao.ComicDao;
 import com.techelevator.dao.JdbcCollectionDao;
+import com.techelevator.dao.JdbcComicDao;
 import com.techelevator.model.Collection;
 import com.techelevator.model.CollectionEntry;
 import com.techelevator.model.Comic;
 import com.techelevator.model.ComicData;
 import com.techelevator.services.RestComicBookService;
+import org.openqa.selenium.json.CollectionCoercer;
 import org.openqa.selenium.json.Json;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,9 +26,12 @@ import java.util.Map;
 public class Application {
 
     private CollectionDao collectionDao;
+    private ComicDao comicDao;
 
     public Application(JdbcTemplate jdbcTemplate) {
         collectionDao = new JdbcCollectionDao(jdbcTemplate);
+        comicDao = new JdbcComicDao(jdbcTemplate);
+
     }
 
     public static void main(String[] args) {
@@ -52,12 +59,10 @@ public class Application {
         privateCollection.setPublic(true);
         rest.createCollection(privateCollection);
 
-//        CollectionEntry entry1 = new CollectionEntry(1, 3);
-//        rest.addToCollection(entry1);
-//        CollectionEntry entry2 = new CollectionEntry(1,9);
-//        rest.addToCollection(entry2);
-//        CollectionEntry entry3 = new CollectionEntry(1,20);
-//        rest.addToCollection(entry3);
-//        System.out.println("done");
+        CollectionController controller = new CollectionController(collectionDao, comicDao);
+        controller.addComicToCollection(1, 4);
+        controller.addComicToCollection(1, 8);
+        controller.addComicToCollection(1, 20);
+        System.out.println("done");
     }
 }

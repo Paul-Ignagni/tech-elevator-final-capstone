@@ -56,7 +56,7 @@ public class JdbcCollectionDao implements CollectionDao {
     @Override
     public List<Integer> getComicsInCollection(int collectionId) {
         List<Integer> comicIds = new ArrayList<>();
-        String sql = "SELECT comic_id FROM collection_comic_book WHERE collection_id = ?";
+        String sql = "SELECT comic_id FROM collection_comic_info WHERE collection_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionId);
             while (results.next()) {
@@ -84,39 +84,36 @@ public class JdbcCollectionDao implements CollectionDao {
         return newCollection;
     }
 
-    @Override
-    public CollectionEntry getEntryById(int entryId) {
-        CollectionEntry entry = null;
-        String sql = "SELECT entry_id, collection_id, comic_id FROM collection_comic_book WHERE entry_id = ?";
-        try {
-            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, entryId);
-            if (result.next()) {
-                entry = mapRowToEntry(result);
-            }
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-        return entry;
-    }
+//    @Override
+//    public CollectionEntry getEntryById(int entryId) {
+//        CollectionEntry entry = null;
+//        String sql = "SELECT entry_id, collection_id, comic_id FROM collection_comic_book WHERE entry_id = ?";
+//        try {
+//            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, entryId);
+//            if (result.next()) {
+//                entry = mapRowToEntry(result);
+//            }
+//        } catch (CannotGetJdbcConnectionException e) {
+//            throw new DaoException("Unable to connect to server or database", e);
+//        }
+//        return entry;
+//    }
 
     @Override
-    public CollectionEntry addComicToCollection(int collectionId, CollectionEntry entry) {
-        CollectionEntry newEntry = null;
-        String addComicToCollectionSql = "INSERT INTO collection_comic_book (collection_id, comic_id) VALUES (?, ?) RETURNING entry_id";
+    public void addComicToCollection(int collectionId, int comicId) {
+        String sql = "INSERT INTO collection_comic_info (collection_id, comic_id) VALUES (?, ?);";
         try {
-            int newEntryId = jdbcTemplate.queryForObject(addComicToCollectionSql, int.class, entry.getCollectionId(), entry.getComicId());
-            newEntry = getEntryById(newEntryId);
+            jdbcTemplate.update(sql, collectionId, comicId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
-        return newEntry;
     }
 
     @Override
     public int deleteAllComicsFromCollection(int collectionId) {
-        String deleteCollectionComicSql = "DELETE FROM collection_comic_book WHERE collection_id = ?";
+        String deleteCollectionComicSql = "DELETE FROM collection_comic_info WHERE collection_id = ?";
         int numberOfDeletedComics = 0;
         try {
             numberOfDeletedComics = jdbcTemplate.update(deleteCollectionComicSql, collectionId);
@@ -165,11 +162,11 @@ public class JdbcCollectionDao implements CollectionDao {
         return collection;
     }
 
-    private CollectionEntry mapRowToEntry(SqlRowSet rs) {
-        CollectionEntry entry = new CollectionEntry();
-        entry.setCollectionId(rs.getInt("collection_id"));
-        entry.setComicId(rs.getInt("comic_id"));
-        return entry;
-    }
+//    private CollectionEntry mapRowToEntry(SqlRowSet rs) {
+//        CollectionEntry entry = new CollectionEntry();
+//        entry.setCollectionId(rs.getInt("collection_id"));
+//        entry.setComicId(rs.getInt("comic_id"));
+//        return entry;
+//    }
 
 }
