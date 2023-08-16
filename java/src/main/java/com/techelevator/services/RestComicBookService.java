@@ -131,4 +131,10 @@ public class RestComicBookService {
         }
     }
 
+    public ComicResponse searchComicsByKeyword(String keyword) {
+        String searchString = API_BASE_URL + "&titleStartsWith=" + keyword;
+        ComicResponse responseEntity = restTemplate.getForObject(searchString, ComicResponse.class);
+        return responseEntity;
+    }
+
 }

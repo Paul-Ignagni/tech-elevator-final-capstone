@@ -2,15 +2,20 @@
   <div class="collection">
     <h2>Public Collections</h2>
 
-    <!-- Search bar -->
+    <!-- Search bars for character and creator -->
     <div class="search-bar">
-      <input v-model="searchKeyword" placeholder="Search comics by keyword">
-      <button @click="searchComicsWithKeyword">Search</button>
-      <p v-if="keywordComicCount !== null">
-        Total comics with keyword "{{ searchKeyword }}": {{ keywordComicCount }}
+      <label for="characterSearch">Search by Character:</label>
+      <input v-model="characterSearchKeyword" id="characterSearch" placeholder="Enter character name">
+      <button @click="searchComicsByCharacter">Search</button>
+      <p v-if="characterKeywordComicCount !== null">
+        Total comics with character "{{ characterSearchKeyword }}": {{ characterKeywordComicCount }}
       </p>
-      <p v-else-if="searchKeyword">
-        Sorry, no comics found with keyword "{{ searchKeyword }}". Maybe you should write one?
+
+      <label for="creatorSearch">Search by Creator:</label>
+      <input v-model="creatorSearchKeyword" id="creatorSearch" placeholder="Enter creator name">
+      <button @click="searchComicsByCreator">Search</button>
+      <p v-if="creatorKeywordComicCount !== null">
+        Total comics with creator "{{ creatorSearchKeyword }}": {{ creatorKeywordComicCount }}
       </p>
     </div>
 
@@ -40,8 +45,10 @@ export default {
   data() {
     return {
       collections: [],
-      searchKeyword: "",
-      keywordComicCount: null,
+      characterSearchKeyword: "",
+      characterKeywordComicCount: null,
+      creatorSearchKeyword: "",
+      creatorKeywordComicCount: null,
       totalAllComics: null
     };
   },
@@ -58,13 +65,26 @@ export default {
       });
     },
 
-    searchComicsWithKeyword() {
-      ComicService.searchComicsByKeyword(this.searchKeyword).then(response => {
+    searchComicsByCharacter() {
+      ComicService.searchComicsByCharacter(this.characterSearchKeyword).then(response => {
         const comicData = response.data.data;
         if (comicData && comicData.results.length > 0) {
-          this.keywordComicCount = comicData.results.length;
+          this.characterKeywordComicCount = comicData.results.length;
         } else {
-          this.keywordComicCount = 0;
+          this.characterKeywordComicCount = 0;
+        }
+      }).catch(error => {
+        console.error("Error searching for comics:", error);
+      });
+    },
+
+    searchComicsByCreator() {
+      ComicService.searchComicsByCreator(this.creatorSearchKeyword).then(response => {
+        const comicData = response.data.data;
+        if (comicData && comicData.results.length > 0) {
+          this.creatorKeywordComicCount = comicData.results.length;
+        } else {
+          this.creatorKeywordComicCount = 0;
         }
       }).catch(error => {
         console.error("Error searching for comics:", error);
