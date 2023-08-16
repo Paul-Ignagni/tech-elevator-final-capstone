@@ -56,17 +56,21 @@ public class Application {
 
             rest.readComicAPI();
 
-            Collection publicCollection = new Collection();
-            publicCollection.setUserId(2);
-            publicCollection.setName("Admin Collection");
-            publicCollection.setPublic(false);
-            rest.createCollection(publicCollection);
-
             Collection privateCollection = new Collection();
             privateCollection.setUserId(1);
             privateCollection.setName("User Collection");
-            privateCollection.setPublic(true);
+            privateCollection.setPublic(false);
             rest.createCollection(privateCollection);
+            Collection publicCollection = new Collection();
+            publicCollection.setUserId(2);
+            publicCollection.setName("Admin Collection");
+            publicCollection.setPublic(true);
+            rest.createCollection(publicCollection);
+            Collection publicCollection2 = new Collection();
+            publicCollection2.setUserId(1);
+            publicCollection2.setName("User Public Collection");
+            publicCollection2.setPublic(true);
+            rest.createCollection(publicCollection2);
 
             CollectionEntry entry1 = new CollectionEntry(1, 4);
             rest.addToCollection(entry1);
@@ -74,7 +78,6 @@ public class Application {
             rest.addToCollection(entry2);
             CollectionEntry entry3 = new CollectionEntry(1, 20);
             rest.addToCollection(entry3);
-
             CollectionEntry entry4 = new CollectionEntry(2, 3);
             rest.addToCollection(entry4);
             CollectionEntry entry5 = new CollectionEntry(2, 9);

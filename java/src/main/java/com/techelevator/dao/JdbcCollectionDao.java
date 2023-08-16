@@ -26,7 +26,7 @@ public class JdbcCollectionDao implements CollectionDao {
     @Override
     public List<Collection> getCollections() {
         List<Collection> collections = new ArrayList<>();
-        String sql = "SELECT * FROM collection WHERE isPublic = false";
+        String sql = "SELECT * FROM collection WHERE isPublic = true";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
