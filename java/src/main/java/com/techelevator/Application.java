@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +28,15 @@ public class Application {
 
     private CollectionDao collectionDao;
     private ComicDao comicDao;
+    private final RestComicBookService rest = new RestComicBookService();
+    private final CollectionController controller;
+
+
 
     public Application(JdbcTemplate jdbcTemplate) {
         collectionDao = new JdbcCollectionDao(jdbcTemplate);
         comicDao = new JdbcComicDao(jdbcTemplate);
+        controller = new CollectionController(collectionDao, comicDao);
 
     }
 
@@ -44,7 +50,6 @@ public class Application {
     }
 
     private void run() {
-        RestComicBookService rest = new RestComicBookService();
         rest.readComicAPI();
 
         Collection publicCollection = new Collection();
@@ -59,10 +64,43 @@ public class Application {
         privateCollection.setPublic(true);
         rest.createCollection(privateCollection);
 
-        CollectionController controller = new CollectionController(collectionDao, comicDao);
-        controller.addComicToCollection(1, 4);
-        controller.addComicToCollection(1, 8);
-        controller.addComicToCollection(1, 20);
-        System.out.println("done");
+        CollectionEntry entry1 = new CollectionEntry(1, 4);
+        rest.addToCollection(entry1);
+        CollectionEntry entry2 = new CollectionEntry(1, 8);
+        rest.addToCollection(entry2);
+        CollectionEntry entry3 = new CollectionEntry(1, 20);
+        rest.addToCollection(entry3);
+
+        CollectionEntry entry4 = new CollectionEntry(2, 3);
+        rest.addToCollection(entry4);
+        CollectionEntry entry5 = new CollectionEntry(2, 9);
+        rest.addToCollection(entry5);
+        CollectionEntry entry6 = new CollectionEntry(2, 11);
+        rest.addToCollection(entry6);
+
+
+        //Search comic title
+//        List<Comic> comics = rest.searchComics("hulk");
+//        for (Comic c : comics) {
+//            System.out.println(c.getTitle());
+//        }
+
+
+        //Get public collections
+//        List<Collection> collections = rest.getAllCollections();
+//        for (Collection c : collections) {
+//            System.out.println(c.getName());
+//        }
+
+        //Get comics in collection
+//        List<Comic> comics2 = rest.getComicsInCollection(1);
+//        for (Comic c : comics2) {
+//            System.out.println(c.getId());
+//        }
+
+
+
+
+        System.out.println("Done");
     }
 }

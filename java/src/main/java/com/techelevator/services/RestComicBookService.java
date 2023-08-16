@@ -33,15 +33,34 @@ public class RestComicBookService {
 //    private final JdbcTemplate jdbcTemplate = new JdbcTemplate();
 //    JdbcComicDao jdbcComicDao = new JdbcComicDao(jdbcTemplate);
     private static final String API_BASE_URL = "http://gateway.marvel.com/v1/public/comics?ts=1&apikey=c30470c10899a5edb018d295b1cfa611&hash=bc4a36e9d13462b9323713e1aaec0750";
+    private static final String SERVER_BASE_URL = "http://localhost:9000";
 
-    public ComicData getComics(String title){
-        ComicData result = restTemplate.getForObject(API_BASE_URL + "&titleStartsWith=" + title, ComicData.class);
-        return result;
+//    public ComicData getComics(String title){
+//        ComicData result = restTemplate.getForObject(API_BASE_URL + "&titleStartsWith=" + title, ComicData.class);
+//        return result;
+//    }
+//
+//    public List<ComicResult> getAllComics() {
+//        ComicResult[] responseEntity = restTemplate.getForObject(API_BASE_URL, ComicResult[].class);
+//        List<ComicResult> comics = Arrays.asList(responseEntity);
+//        return comics;
+//    }
+
+    public List<Comic> searchComics(String title) {
+        Comic[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/search/" + title, Comic[].class);
+        List<Comic> comics = Arrays.asList(responseEntity);
+        return comics;
     }
 
-    public List<ComicResult> getAllComics() {
-        ComicResult[] responseEntity = restTemplate.getForObject(API_BASE_URL, ComicResult[].class);
-        List<ComicResult> comics = Arrays.asList(responseEntity);
+    public List<Collection> getAllCollections() {
+        Collection[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/collections", Collection[].class);
+        List<Collection> collections = Arrays.asList(responseEntity);
+        return collections;
+    }
+
+    public List<Comic> getComicsInCollection(int collectionId) {
+        Comic[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/collections/" + collectionId, Comic[].class);
+        List<Comic> comics = Arrays.asList(responseEntity);
         return comics;
     }
 
@@ -58,19 +77,18 @@ public class RestComicBookService {
                 newComic.setTitle(title.asText());
                 JsonNode description = jsonNode.get(i).at("/description");
                 newComic.setDescription(description.asText());
+                JsonNode pageCount = jsonNode.get(i).at("/pageCount");
+                newComic.setPageCount(Integer.parseInt(pageCount.asText()));
                 JsonNode issueNumber = jsonNode.get(i).at("/issueNumber");
                 newComic.setIssueNumber(Integer.parseInt(issueNumber.asText()));
                 newComic.setDates("To be added");
-//                JsonNode dates = jsonNode.get(i).at("/dates/type");
-//                System.out.println(dates);
-                //TODO: dates
                 JsonNode series = jsonNode.get(i).at("/series/name");
                 newComic.setSeries(series.asText());
                 JsonNode images = jsonNode.get(i).at("/thumbnail/path");
                 JsonNode type = jsonNode.get(i).at("/thumbnail/extension");
                 String path = images.asText() + "." + type.asText();
                 newComic.setImages(path);
-                restTemplate.postForObject("http://localhost:9000/comics", newComic, Comic.class);
+                restTemplate.postForObject(SERVER_BASE_URL + "/comics", newComic, Comic.class);
             }
 
         } catch (IOException e) {
@@ -80,18 +98,18 @@ public class RestComicBookService {
 
     public void createCollection(Collection newCollection) {
         try {
-            restTemplate.postForObject("http://localhost:9000/collections", newCollection, Collection.class);
+            restTemplate.postForObject(SERVER_BASE_URL + "/collections", newCollection, Collection.class);
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
         }
     }
 
-//    public void addToCollection(CollectionEntry entry) {
-//        try {
-//            restTemplate.postForObject("http://localhost:9000/collections/" + entry.getCollectionId(), entry, CollectionEntry.class);
-//        } catch (DataIntegrityViolationException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void addToCollection(CollectionEntry entry) {
+        try {
+            restTemplate.postForEntity( SERVER_BASE_URL + "/collections/" + entry.getCollectionId(), entry, CollectionEntry.class);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

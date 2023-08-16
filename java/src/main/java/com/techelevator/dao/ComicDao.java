@@ -9,5 +9,10 @@ public interface ComicDao {
 
     List<Comic> getAllComics();
 
+    List<Comic> getComicsBySearch(String search);
+
     Comic getComicById(int comicId);
+
+    List<Comic> getComicsInCollection(int collectionId);
+
 }

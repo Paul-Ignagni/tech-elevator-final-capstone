@@ -4,13 +4,23 @@ import java.util.Date;
 import java.util.Map;
 
 public class Comic {
+    private int serial;
     private int id;
     private String title;
     private String description;
     public int issueNumber;
     public String series;
     public String dates;
+    public int pageCount;
     private String images;
+
+    public int getSerial() {
+        return serial;
+    }
+
+    public void setSerial(int serial) {
+        this.serial = serial;
+    }
 
     public int getId() {
         return id;
@@ -58,6 +68,14 @@ public class Comic {
 
     public void setDates(String dates) {
         this.dates = dates;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
     }
 
     public String getImages() {

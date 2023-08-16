@@ -6,6 +6,7 @@ import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index'
 import Collection from '../views/Collection.vue'
+import Collections from '../views/Collections.vue'
 
 Vue.use(Router)
 
@@ -22,11 +23,19 @@ const router = new Router({
       }
     },
     {
-      path: '/collection',
+      path: '/collections',
+      name: 'collections',
+      component: Collections,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/collections/:id',
       name: 'collection',
       component: Collection,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {

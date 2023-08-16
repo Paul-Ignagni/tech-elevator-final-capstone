@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Collection;
 import com.techelevator.model.CollectionEntry;
+import com.techelevator.model.Comic;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -23,11 +24,11 @@ public class JdbcCollectionDao implements CollectionDao {
     }
 
     @Override
-    public List<Collection> getCollections(int userId) {
+    public List<Collection> getCollections() {
         List<Collection> collections = new ArrayList<>();
-        String sql = "SELECT collection_id, collection_name, isPublic FROM collection WHERE user_id = ?";
+        String sql = "SELECT * FROM collection WHERE isPublic = false";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
                 Collection collection = mapRowToCollection(results);
                 collections.add(collection);
@@ -41,7 +42,7 @@ public class JdbcCollectionDao implements CollectionDao {
     @Override
     public Collection getCollectionById(int collectionId) {
         Collection collection = null;
-        String sql = "SELECT collection_id, user_id, collection_name, isPublic FROM collection WHERE collection_id = ?";
+        String sql = "SELECT * FROM collection WHERE collection_id = ?";
         try {
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql, collectionId);
             if (result.next()) {
@@ -51,21 +52,6 @@ public class JdbcCollectionDao implements CollectionDao {
             throw new DaoException("Unable to connect to server or database", e);
         }
         return collection;
-    }
-
-    @Override
-    public List<Integer> getComicsInCollection(int collectionId) {
-        List<Integer> comicIds = new ArrayList<>();
-        String sql = "SELECT comic_id FROM collection_comic_info WHERE collection_id = ?";
-        try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionId);
-            while (results.next()) {
-                comicIds.add(results.getInt("comic_id"));
-            }
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-        return comicIds;
     }
 
     @Override
@@ -84,26 +70,11 @@ public class JdbcCollectionDao implements CollectionDao {
         return newCollection;
     }
 
-//    @Override
-//    public CollectionEntry getEntryById(int entryId) {
-//        CollectionEntry entry = null;
-//        String sql = "SELECT entry_id, collection_id, comic_id FROM collection_comic_book WHERE entry_id = ?";
-//        try {
-//            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, entryId);
-//            if (result.next()) {
-//                entry = mapRowToEntry(result);
-//            }
-//        } catch (CannotGetJdbcConnectionException e) {
-//            throw new DaoException("Unable to connect to server or database", e);
-//        }
-//        return entry;
-//    }
-
     @Override
-    public void addComicToCollection(int collectionId, int comicId) {
-        String sql = "INSERT INTO collection_comic_info (collection_id, comic_id) VALUES (?, ?);";
+    public void addComicToCollection(CollectionEntry entry) {
+        String sql = "INSERT INTO collection_comic_info (collection_id, serial_number) VALUES (?, ?);";
         try {
-            jdbcTemplate.update(sql, collectionId, comicId);
+            jdbcTemplate.update(sql, entry.getCollectionId(), entry.getComicId());
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {

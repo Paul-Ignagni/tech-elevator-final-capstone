@@ -27,9 +27,9 @@ public class CollectionController {
     }
 
 
-    @GetMapping("/search/{title}")
-    public ComicData search(@PathVariable String title){
-        return service.getComics(title);
+    @RequestMapping(path = "/search/{title}", method = RequestMethod.GET)
+    public List<Comic> search(@PathVariable String title){
+        return comicDao.getComicsBySearch(title);
     }
 
 
@@ -39,18 +39,14 @@ public class CollectionController {
     }
 
     @RequestMapping(path = "/collections", method = RequestMethod.GET)
-    public List<Collection> getCollections(@RequestParam int userId) {
-        return collectionDao.getCollections(userId);
+    public List<Collection> getCollections() {
+        return collectionDao.getCollections();
     }
 
     @RequestMapping(path = "/collections/{collectionId}", method = RequestMethod.GET)
-    public List<Integer> getComicsInCollection(@PathVariable int collectionId) {
-        List<Integer> comicIds = collectionDao.getComicsInCollection(collectionId);
-        if (comicIds == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
-        } else {
-            return comicIds;
-        }
+    public List<Comic> getComicsInCollection(@PathVariable int collectionId) {
+        List<Comic> comics = comicDao.getComicsInCollection(collectionId);
+        return comics;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -61,8 +57,8 @@ public class CollectionController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/collections/{collectionId}")
-    public void addComicToCollection(@PathVariable int collectionId, int comicId) {
-        collectionDao.addComicToCollection(collectionId, comicId);
+    public void addComicToCollection(@PathVariable int collectionId, @RequestBody CollectionEntry entry) {
+        collectionDao.addComicToCollection(entry);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -73,6 +69,5 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
         }
     }
-
 
 }

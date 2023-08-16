@@ -11,4 +11,14 @@ export default {
     return axios.get('/search/' + title)
   },
 
+  getPublicCollections() {
+    console.log('Retrieving public collections')
+    return axios.get('/collections')
+  },
+
+  getComicsInCollections(collectionId) {
+    console.log('Retrieving comics in collection')
+    return axios.get('/collections/' + collectionId)
+  }
+
 }

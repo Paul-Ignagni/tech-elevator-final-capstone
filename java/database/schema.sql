@@ -18,6 +18,7 @@ CREATE TABLE comic_info (
 	issueNumber INT,
 	series varchar(250),
 	release_date varchar(20),
+	pageCount INT,
 	imageUrl varchar(200),
 	CONSTRAINT PK_serial PRIMARY KEY (serial_number)
 );
@@ -72,9 +73,9 @@ CREATE TABLE collection (
 
 CREATE TABLE collection_comic_info (
 	collection_id INT NOT NULL,
-	comic_id INT NOT NULL,
+	serial_number INT NOT NULL,
 	CONSTRAINT FK_collection FOREIGN KEY (collection_id) REFERENCES collection(collection_id),
-	CONSTRAINT FK_comic FOREIGN KEY (comic_id) REFERENCES comic_info(serial_number)
+	CONSTRAINT FK_comic FOREIGN KEY (serial_number) REFERENCES comic_info(serial_number)
 );
 
 CREATE TABLE users_comic_info (
