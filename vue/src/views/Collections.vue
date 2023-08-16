@@ -65,27 +65,17 @@ export default {
       });
     },
 
-    searchComicsByCharacter() {
-      ComicService.searchComicsByCharacter(this.characterSearchKeyword).then(response => {
-        const comicData = response.data.data;
-        if (comicData && comicData.results.length > 0) {
-          this.characterKeywordComicCount = comicData.results.length;
-        } else {
-          this.characterKeywordComicCount = 0;
-        }
+     searchComicsByCharacter() {
+      ComicService.getTotalComicsByCharacter(this.characterSearchKeyword).then(response => {
+        this.characterKeywordComicCount = response.data;
       }).catch(error => {
         console.error("Error searching for comics:", error);
       });
     },
 
     searchComicsByCreator() {
-      ComicService.searchComicsByCreator(this.creatorSearchKeyword).then(response => {
-        const comicData = response.data.data;
-        if (comicData && comicData.results.length > 0) {
-          this.creatorKeywordComicCount = comicData.results.length;
-        } else {
-          this.creatorKeywordComicCount = 0;
-        }
+      ComicService.getTotalComicsByCreator(this.creatorSearchKeyword).then(response => {
+        this.creatorKeywordComicCount = response.data;
       }).catch(error => {
         console.error("Error searching for comics:", error);
       });

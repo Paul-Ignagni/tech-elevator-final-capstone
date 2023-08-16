@@ -1,6 +1,21 @@
 import axios from 'axios';
 
 export default {
+  getTotalComicsByCharacter(characterName) {
+    return axios.get(`${API_BASE_URL}/comics/totalByCharacter`, {
+      params: {
+        characterName: characterName
+      }
+    });
+  },
+
+  getTotalComicsByCreator(creatorName) {
+    return axios.get(`${API_BASE_URL}/comics/totalByCreator`, {
+      params: {
+        creatorName: creatorName
+      }
+    });
+  },
     getAllComics() {
         console.log("Fetching all comics");
         return axios.get('/all'); // Adjust the endpoint URL based on your backend configuration
