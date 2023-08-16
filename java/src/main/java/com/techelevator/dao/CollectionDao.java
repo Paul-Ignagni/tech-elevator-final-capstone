@@ -12,6 +12,8 @@ public interface CollectionDao {
 
     Collection getCollectionById(int collectionId);
 
+    List<Collection> getCollectionsForUser(int userId);
+
     Collection createCollection(Collection collection);
 
     int deleteAllComicsFromCollection(int collectionId);

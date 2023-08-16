@@ -50,56 +50,66 @@ public class Application {
     }
 
     private void run() {
-        rest.readComicAPI();
+        List<Comic> database = rest.getAllComics();
+        if (database.size() == 0) {
+            System.out.println("Creating database");
 
-        Collection publicCollection = new Collection();
-        publicCollection.setUserId(2);
-        publicCollection.setName("Admin Collection");
-        publicCollection.setPublic(false);
-        rest.createCollection(publicCollection);
+            rest.readComicAPI();
 
-        Collection privateCollection = new Collection();
-        privateCollection.setUserId(1);
-        privateCollection.setName("User Collection");
-        privateCollection.setPublic(true);
-        rest.createCollection(privateCollection);
+            Collection publicCollection = new Collection();
+            publicCollection.setUserId(2);
+            publicCollection.setName("Admin Collection");
+            publicCollection.setPublic(false);
+            rest.createCollection(publicCollection);
 
-        CollectionEntry entry1 = new CollectionEntry(1, 4);
-        rest.addToCollection(entry1);
-        CollectionEntry entry2 = new CollectionEntry(1, 8);
-        rest.addToCollection(entry2);
-        CollectionEntry entry3 = new CollectionEntry(1, 20);
-        rest.addToCollection(entry3);
+            Collection privateCollection = new Collection();
+            privateCollection.setUserId(1);
+            privateCollection.setName("User Collection");
+            privateCollection.setPublic(true);
+            rest.createCollection(privateCollection);
 
-        CollectionEntry entry4 = new CollectionEntry(2, 3);
-        rest.addToCollection(entry4);
-        CollectionEntry entry5 = new CollectionEntry(2, 9);
-        rest.addToCollection(entry5);
-        CollectionEntry entry6 = new CollectionEntry(2, 11);
-        rest.addToCollection(entry6);
+            CollectionEntry entry1 = new CollectionEntry(1, 4);
+            rest.addToCollection(entry1);
+            CollectionEntry entry2 = new CollectionEntry(1, 8);
+            rest.addToCollection(entry2);
+            CollectionEntry entry3 = new CollectionEntry(1, 20);
+            rest.addToCollection(entry3);
 
+            CollectionEntry entry4 = new CollectionEntry(2, 3);
+            rest.addToCollection(entry4);
+            CollectionEntry entry5 = new CollectionEntry(2, 9);
+            rest.addToCollection(entry5);
+            CollectionEntry entry6 = new CollectionEntry(2, 11);
+            rest.addToCollection(entry6);
+        }
 
-        //Search comic title
+            //Search comic title
 //        List<Comic> comics = rest.searchComics("hulk");
 //        for (Comic c : comics) {
 //            System.out.println(c.getTitle());
 //        }
 
-
-        //Get public collections
+            //Get public collections
 //        List<Collection> collections = rest.getAllCollections();
 //        for (Collection c : collections) {
 //            System.out.println(c.getName());
 //        }
 
-        //Get comics in collection
+            //Get comics in collection
 //        List<Comic> comics2 = rest.getComicsInCollection(1);
 //        for (Comic c : comics2) {
 //            System.out.println(c.getId());
 //        }
 
+        //Get user's collections
+//        List<Collection> collections = rest.getCollectionsForUser(1);
+//        for (Collection c: collections) {
+//            System.out.println(c.getName());
+//        }
 
-
+        //Get comic by id
+//        Comic comic = rest.getComicById(1);
+//        System.out.println(comic.getTitle());
 
         System.out.println("Done");
     }

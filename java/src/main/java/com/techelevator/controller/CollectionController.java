@@ -27,20 +27,14 @@ public class CollectionController {
     }
 
 
-    @RequestMapping(path = "/search/{title}", method = RequestMethod.GET)
-    public List<Comic> search(@PathVariable String title){
-        return comicDao.getComicsBySearch(title);
-    }
-
-
-    @RequestMapping(path = "/all", method = RequestMethod.GET)
-    public List<Comic> all(){
-        return comicDao.getAllComics();
-    }
-
     @RequestMapping(path = "/collections", method = RequestMethod.GET)
     public List<Collection> getCollections() {
         return collectionDao.getCollections();
+    }
+
+    @RequestMapping(path = "/collections/myCollection/{userId}", method = RequestMethod.GET)
+    public List<Collection> getMyCollections(@PathVariable int userId) {
+        return collectionDao.getCollectionsForUser(userId);
     }
 
     @RequestMapping(path = "/collections/{collectionId}", method = RequestMethod.GET)

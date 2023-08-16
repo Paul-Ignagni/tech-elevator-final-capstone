@@ -1,6 +1,6 @@
 <template>
   <div class="collection">
-    <h2>Public Collections</h2>
+    <h2>My Collections</h2>
     <div
       v-for="collection in collections"
       :key="collection.id"
@@ -11,13 +11,6 @@
       <button type="button">View this collection</button>
     </div>
     <!-- Button to route to /collections/create -->
-    <!-- <button @click="saveCollection" class="save-collection-button">Save Collection</button>
-    <button @click="createNewCollection" class="create-collection-button">Create New Collection</button>  
-    <div v-if="createdCollection">
-      <h3>New Collection Created:</h3>
-      <p>Collection ID: {{ createdCollection.id }}</p>
-      <p>Name: {{ createdCollection.name }}</p>
-    </div> -->
   </div>
 </template>
 
@@ -37,12 +30,12 @@ export default {
     createdCollection: Object,
   },
   created() {
-    // Fetch and display all available collections initially
-    this.fetchAllCollections();
+    this.fetchMyCollections(1);
+    //The 1 is a temporary placeholder for the active user's id, need to add dynamic variable for different collections
   },
   methods: {
-    fetchAllCollections() {
-      ComicService.getPublicCollections().then((response) => {
+    fetchMyCollections(userId) {
+      ComicService.getUserCollections(userId).then((response) => {
         this.collections = response.data;
       });
     },

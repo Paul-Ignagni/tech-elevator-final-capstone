@@ -46,14 +46,31 @@ public class RestComicBookService {
 //        return comics;
 //    }
 
+    public List<Comic> getAllComics() {
+        Comic[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/all", Comic[].class);
+        List<Comic> comics = Arrays.asList(responseEntity);
+        return comics;
+    }
+
     public List<Comic> searchComics(String title) {
         Comic[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/search/" + title, Comic[].class);
         List<Comic> comics = Arrays.asList(responseEntity);
         return comics;
     }
 
+    public Comic getComicById(int comicId) {
+        Comic comic = restTemplate.getForObject(SERVER_BASE_URL + "/comic/" + comicId, Comic.class);
+        return comic;
+    }
+
     public List<Collection> getAllCollections() {
         Collection[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/collections", Collection[].class);
+        List<Collection> collections = Arrays.asList(responseEntity);
+        return collections;
+    }
+
+    public List<Collection> getCollectionsForUser(int userId) {
+        Collection[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/collections/myCollection/" + userId, Collection[].class);
         List<Collection> collections = Arrays.asList(responseEntity);
         return collections;
     }

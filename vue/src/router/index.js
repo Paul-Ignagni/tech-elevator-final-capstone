@@ -7,6 +7,9 @@ import Register from '../views/Register.vue'
 import store from '../store/index'
 import Collection from '../views/Collection.vue'
 import Collections from '../views/Collections.vue'
+import CreateCollection from '../views/CreateCollection.vue'
+import MyCollection from '../views/MyCollection.vue'
+import Comic from '../views/Comic.vue'
 
 Vue.use(Router)
 
@@ -23,6 +26,14 @@ const router = new Router({
       }
     },
     {
+      path: '/comic/:comicId',
+      name: 'Comic',
+      component: Comic,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
       path: '/collections',
       name: 'collections',
       component: Collections,
@@ -36,6 +47,22 @@ const router = new Router({
       component: Collection,
       meta: {
         requiresAuth: false
+      }
+    },
+    {
+      path: '/collections/myCollection/:userId',
+      name: 'myCollection',
+      component: MyCollection,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/collections/create',
+      name: 'createCollection',
+      component: CreateCollection,
+      meta: {
+        requiresAuth: true
       }
     },
     {

@@ -19,6 +19,16 @@ export default {
   getComicsInCollections(collectionId) {
     console.log('Retrieving comics in collection')
     return axios.get('/collections/' + collectionId)
+  },
+
+  getUserCollections(userId) {
+    console.log('Retrieving user collections')
+    return axios.get('/collections/myCollection/' + userId)
+  },
+
+  getComicInfo(serial) {
+    console.log('Retrieving comic info')
+    return axios.get('/comic/' + serial)
   }
 
 }
