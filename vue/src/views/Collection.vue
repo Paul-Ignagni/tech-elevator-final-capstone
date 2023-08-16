@@ -15,7 +15,7 @@
       </div>
       <div class="comic-details">
         <h2>{{ comic.title }}</h2>
-        <p v-if="comic.description">{{ comic.description }}</p>
+        <p v-if="comic.description">Description: {{ comic.description }}</p>
         <p>Issue Number: {{ comic.issueNumber }}</p>
         <p>Page Count: {{ comic.pageCount }}</p>
       </div>
@@ -23,7 +23,9 @@
     <div>
       <h1>Collection Stats</h1>
       <p> Number of comics in collection: {{totalComics}} </p>
-      <p> More stats coming soon </p>
+      <p> Series in this collection: To be added </p>
+      <p> Characters that appear in this collection: To be added</p>
+      <p> Authors in this collection: To be added</p>
     </div>
   </div>
 

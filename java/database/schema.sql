@@ -37,16 +37,19 @@ CREATE TABLE comic_info_creator (
 );
 
 CREATE TABLE character (
-	character_id SERIAL,
-	name varchar(100) NOT NULL,
-	CONSTRAINT PK_character PRIMARY KEY (character_id)
+	character_serial SERIAL,
+	character_id INT,
+	name varchar(250) NOT NULL,
+	description varchar(1200),
+	character_image_url varchar(200),
+	CONSTRAINT PK_character PRIMARY KEY (character_serial)
 );
 
 CREATE TABLE character_comic_info (
 	serial_number INT NOT NULL UNIQUE,
-	character_id INT NOT NULL UNIQUE,
+	character_serial INT NOT NULL UNIQUE,
 	CONSTRAINT FK_serial FOREIGN KEY (serial_number) REFERENCES comic_info(serial_number),
-	CONSTRAINT FK_character FOREIGN KEY (character_id) REFERENCES character(character_id)
+	CONSTRAINT FK_character FOREIGN KEY (character_serial) REFERENCES character(character_serial)
 );
 
 CREATE TABLE comic_book (

@@ -149,11 +149,5 @@ public class JdbcCollectionDao implements CollectionDao {
         return collection;
     }
 
-//    private CollectionEntry mapRowToEntry(SqlRowSet rs) {
-//        CollectionEntry entry = new CollectionEntry();
-//        entry.setCollectionId(rs.getInt("collection_id"));
-//        entry.setComicId(rs.getInt("comic_id"));
-//        return entry;
-//    }
 
 }

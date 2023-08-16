@@ -56,6 +56,9 @@ public class Application {
 
             rest.readComicAPI();
 
+            //get array of comic ids
+            rest.readCharacterAPI(183);
+
             Collection privateCollection = new Collection();
             privateCollection.setUserId(1);
             privateCollection.setName("User Collection");
