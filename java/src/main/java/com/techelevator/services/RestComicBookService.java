@@ -6,6 +6,7 @@ import com.techelevator.model.*;
 import com.techelevator.model.Collection;
 import org.openqa.selenium.json.Json;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -36,6 +37,11 @@ public class RestComicBookService {
 
     public Comic getComicById(int comicId) {
         Comic comic = restTemplate.getForObject(SERVER_BASE_URL + "/comic/" + comicId, Comic.class);
+        return comic;
+    }
+
+    public Comic getComicByComicId(int realComicId) {
+        Comic comic = restTemplate.getForObject(SERVER_BASE_URL + "/comic/comicId/" + realComicId, Comic.class);
         return comic;
     }
 
@@ -86,8 +92,15 @@ public class RestComicBookService {
         return creators;
     }
 
-    public void readComicAPI() {
+    public Creator getCreatorByNameDB(String name) {
+        Creator creator = restTemplate.getForObject(SERVER_BASE_URL + "/creators/database/" + name, Creator.class);
+        return creator;
+    }
+
+    public List<ComicCreator> readComicAPI() {
         String jsonString = restTemplate.getForObject(API_BASE_URL, String.class);
+        List<ComicCreator> comicCreators = new ArrayList<>();
+//        List<ComicCharacter> comicCharacters = new ArrayList<>();
         try {
             JsonNode tree = mapper.readTree(jsonString);
             JsonNode jsonNode = tree.at("/data/results");
@@ -112,11 +125,54 @@ public class RestComicBookService {
                 newComic.setImages(path);
                 restTemplate.postForObject(SERVER_BASE_URL + "/comics", newComic, Comic.class);
 
-            }
+                JsonNode authorNumber = jsonNode.get(i).at("/creators/available");
+                if (authorNumber.asInt() > 0) {
+                    JsonNode array = jsonNode.get(i).at("/creators/items");
+                    for (int n = 0; n < authorNumber.asInt(); n++) {
+                        JsonNode author = array.get(n).at("/name");
+                        ComicCreator comicCreator = new ComicCreator(id.asInt(), author.asText());
+                        comicCreators.add(comicCreator);
+                    }
+                }
 
+//                JsonNode characterNumber = jsonNode.get(i).at("/characters/available");
+//                if (characterNumber.asInt() > 0) {
+//                    JsonNode array2 = jsonNode.get(i).at("/characters/items");
+//                    for (int k = 0; k < characterNumber.asInt(); k++) {
+//                        JsonNode character = array2.get(k).at("/name");
+//                        ComicCharacter comicCharacter = new ComicCharacter(id.asInt(), character.asText());
+//                        comicCharacters.add(comicCharacter);
+//                    }
+//                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return comicCreators;
+    }
+
+    public List<ComicCharacter> readComicAPI2() {
+        String jsonString = restTemplate.getForObject(API_BASE_URL, String.class);
+        List<ComicCharacter> comicCharacters = new ArrayList<>();
+        try {
+            JsonNode tree = mapper.readTree(jsonString);
+            JsonNode jsonNode = tree.at("/data/results");
+            for (int i = 0; i < jsonNode.size(); i++) {
+                JsonNode id = jsonNode.get(i).at("/id");
+                JsonNode characterNumber = jsonNode.get(i).at("/characters/available");
+                if (characterNumber.asInt() > 0) {
+                    JsonNode array2 = jsonNode.get(i).at("/characters/items");
+                    for (int k = 0; k < characterNumber.asInt(); k++) {
+                        JsonNode character = array2.get(k).at("/name");
+                        ComicCharacter comicCharacter = new ComicCharacter(id.asInt(), character.asText());
+                        comicCharacters.add(comicCharacter);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return comicCharacters;
     }
 
     public void readCharacterAPI(int comicId) {
@@ -180,6 +236,14 @@ public class RestComicBookService {
     public void addToCollection(CollectionEntry entry) {
         try {
             restTemplate.postForEntity( SERVER_BASE_URL + "/collections/" + entry.getCollectionId(), entry, CollectionEntry.class);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCreatorToComic(int serialNumber, ComicCreatorData comicCreatorData) {
+        try {
+            restTemplate.postForEntity(SERVER_BASE_URL + "/comics/" + serialNumber, comicCreatorData, ComicCreatorData.class);
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
         }

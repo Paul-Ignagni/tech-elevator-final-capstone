@@ -7,10 +7,7 @@ import com.techelevator.dao.CollectionDao;
 import com.techelevator.dao.ComicDao;
 import com.techelevator.dao.JdbcCollectionDao;
 import com.techelevator.dao.JdbcComicDao;
-import com.techelevator.model.Collection;
-import com.techelevator.model.CollectionEntry;
-import com.techelevator.model.Comic;
-import com.techelevator.model.ComicData;
+import com.techelevator.model.*;
 import com.techelevator.services.RestComicBookService;
 import org.openqa.selenium.json.CollectionCoercer;
 import org.openqa.selenium.json.Json;
@@ -51,10 +48,10 @@ public class Application {
 
     private void run() {
         List<Comic> database = rest.getAllComics();
-        if (database.size() == 0) {
+//        if (database.size() == 0) {
             System.out.println("Creating database");
 
-            rest.readComicAPI();
+            List<ComicCreator> comicCreators = rest.readComicAPI();
             List<Comic> comicsFromAPI = rest.getAllComics();
 
             for (Comic c: comicsFromAPI) {
@@ -91,7 +88,17 @@ public class Application {
             rest.addToCollection(entry5);
             CollectionEntry entry6 = new CollectionEntry(2, 11);
             rest.addToCollection(entry6);
-        }
+
+            for (ComicCreator c: comicCreators) {
+                Creator creator = rest.getCreatorByNameDB(c.getCreatorName());
+                Comic comic = rest.getComicByComicId(c.getComicId());
+                ComicCreatorData data = new ComicCreatorData(comic.getSerial(), creator.getCreatorSerial());
+                rest.addCreatorToComic(data.getComicSerial(), data);
+
+            }
+
+
+//        }
 
         System.out.println("Done");
     }

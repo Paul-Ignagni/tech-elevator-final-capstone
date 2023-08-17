@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.CreatorDao;
 import com.techelevator.model.Char;
+import com.techelevator.model.CollectionEntry;
 import com.techelevator.model.Creator;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.parameters.P;
@@ -28,6 +29,11 @@ public class CreatorController {
     @RequestMapping(path = "/creators/search/{name}", method = RequestMethod.GET)
     public List<Creator> searchCreators(@PathVariable String name){
         return creatorDao.getCreatorsBySearch(name);
+    }
+
+    @RequestMapping(path = "/creators/database/{name}", method = RequestMethod.GET)
+    public Creator getCreatorByName(@PathVariable String name){
+        return creatorDao.getCreatorByName(name);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

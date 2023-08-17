@@ -1,8 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
-import com.techelevator.model.Collection;
-import com.techelevator.model.Comic;
+import com.techelevator.model.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -55,6 +54,21 @@ public class JdbcComicDao implements ComicDao{
     }
 
     @Override
+    public Comic getComicByComicId(int realComicId) {
+        Comic comic = null;
+        String sql = "SELECT * FROM comic_info WHERE comic_id = ?";
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, realComicId);
+            if (result.next()) {
+                comic = mapRowToComic(result);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return comic;
+    }
+
+    @Override
     public List<Comic> getAllComics() {
         List<Comic> output = new ArrayList<>();
         String sql = "SELECT * FROM comic_info";
@@ -92,6 +106,33 @@ public class JdbcComicDao implements ComicDao{
             throw new DaoException("Unable to connect to server or database", e);
         }
         return comics;
+    }
+
+    @Override
+    public List<String> getCreatorsForComic(int serial) {
+        List<String> authors = new ArrayList<>();
+        String sql = "SELECT name FROM creator " +
+                "JOIN comic_info_creator ON (creator.creator_serial = comic_info_creator.creator_serial) " +
+                "JOIN comic_info ON (comic_info.serial_number = comic_info_creator.serial_number) " +
+                "WHERE comic_info.serial_number = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, serial);
+        while (results.next()) {
+            String text = results.getString("name");
+            authors.add(text);
+        }
+        return authors;
+    }
+
+    @Override
+    public void addCreatorToComic(int serialNumber, ComicCreatorData comicCreatorData) {
+        String sql = "INSERT INTO comic_info_creator (serial_number, creator_serial) VALUES (?, ?);";
+        try {
+            jdbcTemplate.update(sql, serialNumber, comicCreatorData.getCreatorSerial());
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
     }
 
     private Comic mapRowToComic(SqlRowSet rs) {

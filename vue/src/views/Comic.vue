@@ -16,6 +16,10 @@
       <p>Issue Number: {{ comic.issueNumber }}</p>
       <p>Series: {{comic.series}}</p>
       <p>Page Count: {{ comic.pageCount }}</p>
+      <p>Authors:</p>
+      <div v-for="author in authors" :key="author">
+        {{author}}
+        </div>
 
     </div>
   </div>
@@ -28,16 +32,23 @@ export default {
   data() {
     return {
       comic: [],
+      authors: [],
     };
   },
   created() {
     this.fetchComicInfo(1);
     //The 1 is a temporary placeholder for the comic's id, need to add dynamic variable for different comics
+    this.fetchAuthors(1);
   },
   methods: {
     fetchComicInfo(serial) {
       ComicService.getComicInfo(serial).then((response) => {
         this.comic = response.data;
+      });
+    },
+    fetchAuthors(serial) {
+      ComicService.getAuthorsForComic(serial).then((response) => {
+        this.authors = response.data;
       });
     },
   },

@@ -68,6 +68,10 @@ export default {
 
   getCreatorInfo(serial) {
     return axios.get('/creators/' + serial)
+  },
+
+  getAuthorsForComic(serial) {
+    return axios.get('/comic/' + serial + '/authors')
   }
 
 }

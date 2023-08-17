@@ -10,6 +10,8 @@ public interface CreatorDao {
 
     List<Creator> getCreatorsBySearch(String name);
 
+    Creator getCreatorByName(String name);
+
     Creator addCreator(Creator creator);
 
     Creator getCreatorBySerial(int serial);

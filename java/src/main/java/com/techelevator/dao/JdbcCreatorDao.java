@@ -50,6 +50,21 @@ public class JdbcCreatorDao implements CreatorDao{
     }
 
     @Override
+    public Creator getCreatorByName(String name) {
+        Creator creator = null;
+        String sql = "SELECT * FROM creator WHERE name = ?";
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, name);
+            if (result.next()) {
+                creator = mapRowToCreator(result);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return creator;
+    }
+
+    @Override
     public Creator addCreator(Creator creator) {
         Creator newCreator = null;
         String sql = "INSERT INTO creator (creator_id, name) VALUES (?, ?) RETURNING creator_serial;";
