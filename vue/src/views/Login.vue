@@ -49,7 +49,7 @@
           class="input-field"
         />
       </div>
-      <button type="submit" class="login-button">Sign in</button>
+      <button type="submit" class="login-button">Start Collecting!</button>
       <p class="signup-link">
         <router-link :to="{ name: 'register' }"
           >Need an account? Sign up.</router-link
@@ -112,7 +112,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(45deg, pink 45%, lightblue 55%);
+  background: url(@/components/PurpleBackground.jpg);
 }
 
 .login-form {
@@ -124,13 +124,24 @@ export default {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
+  background: url(@/components/GrayBackground.jpg);
+  background-size: cover;
+  background-position: center;
 }
 
 .login-title {
-  color: #e53935;
+  color: #9616ff;
+  background-color: #ffffff;
+  text-align: center;
+  text-shadow: 2px 2px #000000;
   font-size: 24px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #000000;
+  padding: 0.5rem;
   margin-bottom: 1.5rem;
   font-family: "Comic Sans MS", cursive;
+  width: 95%;
 }
 
 .error-message {
@@ -149,47 +160,67 @@ export default {
 
 .input-label {
   margin-right: 0.5rem;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+  font-weight: bolder;
+  font-family: "Comic Sans MS", cursive;
 }
 
 .input-field {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 100%;
+  border-style: solid;
+  border-color: #000000;
+  width: 95%;
 }
 
 .login-button {
-  background-color: #2962ff;
+  background-color: #9616ff;
   color: #ffffff;
   border: none;
   border-radius: 5px;
+  border-style: solid;
+  border-color: #000000;
+  margin-top: 1rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
   width: 100%;
+  color: #ffffff;
+  font-size: 30px;
+  text-shadow: 2px 2px #000000;
+  font-weight: bolder;
+  font-family: "Comic Sans MS", cursive;
 }
 
 .login-button:hover {
-  background-color: #0039cb;
+  background-color: #7411c5;
 }
 
 .signup-link {
   margin-top: 1rem;
   text-align: center;
   color: #2962ff;
+  background: #ffffff;
+  border-style: solid;
+  border-color: #000000;
+  border-radius: 2px;
 }
 
 .sidebar {
   position: fixed;
+  background: url(@/components/GrayBackground.jpg);
+  background-size: cover;
+  background-position: center;
   border-radius: 0px 25px 25px 0px;
   border-style: solid;
-  border-color: black;
+  border-color: #000000;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  top: 20%;
   left: 0;
-  left: -250px; /* Position the sidebar off the screen initially */
+  left: -250px;
   width: 250px;
   height: 250px;
-  background-color: white;
-  color: white;
   transition: left 0.3s ease-in-out;
   z-index: 1000; /* Ensure the sidebar is above other content */
 }
@@ -202,11 +233,13 @@ export default {
   text-align: center;
   padding: 0px;
   margin: 10px;
-  color: black;
-  background: linear-gradient(45deg, pink 45%, lightblue 55%);
+  color: #9616ff;
+  text-shadow: 2px 2px #000000;
+  background: #ffffff;
   font-family: "Comic Sans MS", cursive;
   font-weight: bold;
   border-style: outset;
+  border-radius: 5px;
 }
 
 .sidebar-nav {
@@ -225,10 +258,11 @@ export default {
 
 .sidebar-nav a {
   font-family: "Comic Sans MS", cursive;
-  color: red;
+  color: #ffffff;
   text-decoration: none;
+  text-shadow: 2px 2px #000000;
   font-weight: 300;
-  font-size: 18px;
+  font-size: 24px;
   transition: font-size 0.3s, margin-bottom 0.3s;
 }
 

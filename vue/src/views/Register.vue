@@ -108,80 +108,119 @@ data() {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(45deg, pink 50%, lightblue 50%);
+  background: url(@/components/PurpleBackground.jpg);
 }
 
 .registration-form {
-  background-color: #ffffff;
-  border-radius: 10px;
+  background: url(@/components/GrayBackground.jpg);
+  background-size: cover;
+  background-position: center;
+  border-radius: 0px 20px 20px 0px;
   padding: 2rem;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  width: 450px;
+  height: 50%;
   max-width: 400px;
+  border-style: solid;
+  border-color: #000000;
 }
 
 .registration-title {
-  color: #e53935;
-  font-size: 24px;
+  background: #ffffff;
+  border-radius: 2px;
+  border-style: dashed;
+  border-color: #000000;
+  color: #9616ff;
+  font-size: 32px;
+  text-shadow: 2px 2px #000000;
+  text-align: center;
+  font-weight: bolder;
   margin-bottom: 1.5rem;
   font-family: 'Comic Sans MS', cursive;
 }
 
 .error-message {
   color: #e53935;
+  text-shadow: 2px 2px #000000;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 2px 2px #000000;
   margin-bottom: 1rem;
 }
 
 .success-message {
   color: #43a047;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 2px 2px #000000;
   margin-bottom: 1rem;
 }
 
 .form-input-group {
   margin-bottom: 1rem;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+  font-family: "Comic Sans MS", cursive;
 }
 
 .input-label {
   margin-right: 0.5rem;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+  font-family: "Comic Sans MS", cursive;
 }
 
 .input-field {
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 5px;
   width: 100%;
 }
 
 .registration-button {
-  background-color: #2962ff;
+  background-color: #9616ff;
   color: #ffffff;
-  border: none;
-  border-radius: 5px;
+  border-style: solid;
+  border-radius: 2px;
   padding: 0.5rem 1rem;
   cursor: pointer;
   width: 100%;
+  font-family: "Comic Sans MS", cursive;
+  font-weight: bolder;
+  text-shadow: 2px 2px #000000;
 }
 
 .registration-button:hover {
-  background-color: #0039cb;
+  background-color: #7d13d3;
 }
 
 .login-link {
   margin-top: 1rem;
   text-align: center;
-  color: #2962ff;
+  color: #000000;
+  background: #ffffff;
+  border-radius: 2px;
+  border-style: solid;
+  font-weight: bold;
 }
 
 .additional-info-box {
-  background-color: #ffffff;
-  border-radius: 10px;
+  background: url(@/components/GrayBackground.jpg);
+  background-size: cover;
+  background-position: center;
+  border-style: solid;
+  border-color: #000000;
+  border-radius: 20px 0px 0px 20px;
   padding: 1.5rem;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 2rem;
+  width: 450px;
+  height: 52%;
 }
 
 .additional-info-header {
-  color: #e53935;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+  text-align: center;
   font-size: 20px;
   margin-bottom: 1rem;
   font-family: 'Comic Sans MS', cursive;
@@ -191,6 +230,10 @@ data() {
   list-style: none;
   padding-left: 0;
   margin-top: 1rem;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+  font-family: "Commic Sans MS", cursive;
+  font-weight: bold;
 }
 
 .additional-info-box ul li {
@@ -204,5 +247,9 @@ data() {
 
 .additional-info-box p {
   margin-top: 1.5rem;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+  font-family: "Commic Sans MS", cursive;
+  font-weight: bold;
 }
 </style>
