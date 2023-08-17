@@ -97,6 +97,21 @@ public class JdbcCharacterDao implements CharacterDao {
         return character;
     }
 
+    @Override
+    public Char getCharacterByName(String name) {
+        Char character = null;
+        String sql = "SELECT * FROM character WHERE name = ?";
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, name);
+            if (result.next()) {
+                character = mapRowToCharacter(result);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return character;
+    }
+
     private Char mapRowToCharacter(SqlRowSet rs) {
         Char aChar = new Char();
         aChar.setCharacterSerial(rs.getInt("character_serial"));

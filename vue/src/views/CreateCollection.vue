@@ -1,6 +1,8 @@
 <template>
   <div>
-      
+    <h1>Create a Collection</h1>
+      <form>
+        </form>
     </div>
 </template>
 

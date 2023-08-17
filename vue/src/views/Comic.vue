@@ -14,13 +14,16 @@
       <h2>{{ comic.title }}</h2>
       <p v-if="comic.description">{{ comic.description }}</p>
       <p>Issue Number: {{ comic.issueNumber }}</p>
-      <p>Series: {{comic.series}}</p>
-      <p>Page Count: {{ comic.pageCount }}</p>
+      <p v-if="comic.series">Series: {{comic.series}}</p>
+      <p v-if="comic.pageCount">Page Count: {{ comic.pageCount }}</p>
       <p>Authors:</p>
       <div v-for="author in authors" :key="author">
         {{author}}
         </div>
-
+        <p>Characters:</p>
+      <div v-for="character in characters" :key="character">
+        {{character}}
+        </div>
     </div>
   </div>
 </template>
@@ -33,12 +36,14 @@ export default {
     return {
       comic: [],
       authors: [],
+      characters: [],
     };
   },
   created() {
-    this.fetchComicInfo(1);
-    //The 1 is a temporary placeholder for the comic's id, need to add dynamic variable for different comics
-    this.fetchAuthors(1);
+    this.fetchComicInfo(12);
+    //The 12 is a temporary placeholder for the comic's id, need to add dynamic variable for different comics
+    this.fetchAuthors(12);
+    this.fetchCharacters(12);
   },
   methods: {
     fetchComicInfo(serial) {
@@ -51,6 +56,11 @@ export default {
         this.authors = response.data;
       });
     },
+    fetchCharacters(serial) {
+      ComicService.getCharactersForComic(serial).then((response) => {
+        this.characters = response.data;
+      })
+    }
   },
 };
 </script>

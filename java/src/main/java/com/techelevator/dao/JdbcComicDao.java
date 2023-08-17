@@ -124,10 +124,37 @@ public class JdbcComicDao implements ComicDao{
     }
 
     @Override
+    public List<String> getCharactersForComic(int serial) {
+        List<String> characters = new ArrayList<>();
+        String sql = "SELECT name FROM character " +
+                "JOIN character_comic_info ON (character.character_serial = character_comic_info.character_serial) " +
+                "JOIN comic_info ON (comic_info.serial_number = character_comic_info.serial_number) " +
+                "WHERE comic_info.serial_number =?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, serial);
+        while (results.next()) {
+            String text = results.getString("name");
+            characters.add(text);
+        }
+        return characters;
+    }
+
+    @Override
     public void addCreatorToComic(int serialNumber, ComicCreatorData comicCreatorData) {
         String sql = "INSERT INTO comic_info_creator (serial_number, creator_serial) VALUES (?, ?);";
         try {
             jdbcTemplate.update(sql, serialNumber, comicCreatorData.getCreatorSerial());
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+    }
+
+    @Override
+    public void addCharacterToComic(int serialNumber, ComicCharacterData comicCharacterData) {
+        String sql = "INSERT INTO character_comic_info (serial_number, character_serial) VALUES (?, ?);";
+        try {
+            jdbcTemplate.update(sql, serialNumber, comicCharacterData.getCharacterSerial());
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {

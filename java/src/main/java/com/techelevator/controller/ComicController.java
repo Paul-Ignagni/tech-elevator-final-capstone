@@ -44,6 +44,11 @@ public class ComicController {
         return comicDao.getCreatorsForComic(serialNumber);
     }
 
+    @RequestMapping(path = "/comic/{serialNumber}/characters", method = RequestMethod.GET)
+    public List<String> getCharactersForComic(@PathVariable int serialNumber) {
+        return comicDao.getCharactersForComic(serialNumber);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/comics")
     public Comic addComic(@Valid @RequestBody Comic comic) {
@@ -51,9 +56,15 @@ public class ComicController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/comics/{serialNumber}")
+    @PostMapping(path = "/creator/database/{serialNumber}")
     public void addCreatorComic(@PathVariable int serialNumber, @RequestBody ComicCreatorData comicCreatorData) {
         comicDao.addCreatorToComic(serialNumber, comicCreatorData);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(path = "/character/database/{serialNumber}")
+    public void addCharacterComic(@PathVariable int serialNumber, @RequestBody ComicCharacterData comicCharacterData) {
+        comicDao.addCharacterToComic(serialNumber, comicCharacterData);
     }
 
 }

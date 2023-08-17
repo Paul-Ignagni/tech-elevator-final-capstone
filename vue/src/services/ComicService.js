@@ -72,6 +72,10 @@ export default {
 
   getAuthorsForComic(serial) {
     return axios.get('/comic/' + serial + '/authors')
+  },
+
+  getCharactersForComic(serial) {
+    return axios.get('/comic/' + serial + '/characters')
   }
 
 }

@@ -47,8 +47,8 @@ CREATE TABLE character (
 );
 
 CREATE TABLE character_comic_info (
-	serial_number INT NOT NULL UNIQUE,
-	character_serial INT NOT NULL UNIQUE,
+	serial_number INT NOT NULL,
+	character_serial INT NOT NULL,
 	CONSTRAINT FK_serial FOREIGN KEY (serial_number) REFERENCES comic_info(serial_number),
 	CONSTRAINT FK_character FOREIGN KEY (character_serial) REFERENCES character(character_serial)
 );

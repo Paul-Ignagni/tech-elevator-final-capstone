@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Comic;
+import com.techelevator.model.ComicCharacterData;
 import com.techelevator.model.ComicCreator;
 import com.techelevator.model.ComicCreatorData;
 
@@ -21,6 +22,12 @@ public interface ComicDao {
 
     List<String> getCreatorsForComic(int serial);
 
+    List<String> getCharactersForComic(int serial);
+
     void addCreatorToComic(int serialNumber, ComicCreatorData comicCreatorData);
+
+
+    void addCharacterToComic(int serialNumber, ComicCharacterData comicCharacterData);
+
 
 }
