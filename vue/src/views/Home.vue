@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    
     <h1 class="comic-heading">Comic Book Search</h1>
     <div class="search-container">
       <input v-model="searchQuery" placeholder="Enter comic name" class="search-input" @keydown.enter="searchComics" />
@@ -20,7 +21,7 @@
         </div>
       </div>
       <div class="sidebar" :class="{ 'open': isSidebarOpen }" @mouseenter="openSidebar" @mouseleave="closeSidebar">
-        <!--Add additional stuff here once figure out what is needed (and if the damn thing works)-->
+        <Sidebar />
         </div>
     </div>
     
@@ -31,11 +32,12 @@
 <script>
 import comicService from "../services/ComicService.js";
 
-
+import Sidebar from "../views/Sidebar.vue"
 import axios from "axios"; // Import axios once
 
 export default {
   name: "home",
+  components: {Sidebar},
   data() {
     return {
       searchQuery: "",
@@ -185,19 +187,5 @@ export default {
   transition: background-color 0.3s ease-in-out;
   animation: breathing 4s infinite;
 }
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -300px; /* Position when off-screen. Because, yeah, we don't wanna see them unless they're wanted lol*/
-  width: 300px;
-  height: 100%;
-  background-color: lightblue;
-  color: white;
-  transition: left 0.3s ease-in-out;
-  z-index: 1000; /* This is will bring it to the front so that no other elements on the webpage show in front of the sidebar.*/
-}
-.sidebar.open {
-  left: 0; /* No idea what I wanna add here until I view it working in full (aka when I can actually view the damn page properly)*/
-}
-</style>
 
+</style>
