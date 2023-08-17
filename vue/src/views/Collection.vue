@@ -3,22 +3,19 @@
     <h1>Collection Name</h1>
     <h2>Comics:</h2>
     <div v-for="comic in comicsArr" :key="comic.serial" class="collection-comic">
+      <h3>{{ comic.title }}</h3>
       <div class="comic-cover">
-        <!-- <img
+        <img
           v-if="comic.images && comic.images.length > 0"
-          :src="comic.images[0].path + '.' + comic.images[0].extension"
-          alt="Comic Cover"
-        /> -->
-        <h5>({{comic.images}}) </h5>
-        <!-- <div v-else class="blank-comic-card">
+          :src="comic.images" alt="ComicCover"/>
+        <div v-else class="blank-comic-card">
           <p class="image-not-available">Image not available</p>
-        </div> -->
+        </div>
       </div>
       <div class="comic-details">
-        <h3>{{ comic.title }}</h3>
         <p v-if="comic.description">Description: {{ comic.description }}</p>
         <p>Issue Number: {{ comic.issueNumber }}</p>
-        <p>Page Count: {{ comic.pageCount }}</p>
+        <p v-if="comic.pageCount">Page Count: {{ comic.pageCount }}</p>
       </div>
     </div>
     <div>
@@ -38,10 +35,11 @@
 import comicService from "../services/ComicService.js";
 
 export default {
+      totalComics: 0,
   data() {
     return {
       comicsArr: [],
-      totalComics: 0,
+      creators:[],
     };
   },
   props: {
@@ -56,6 +54,8 @@ export default {
     //
     //
     //
+  },
+  mounted() {
     this.getTotalComics(this.comicsArr);
   },
   methods: {
@@ -66,6 +66,7 @@ export default {
     },
     getTotalComics(comicsArr) {
       this.totalComics = comicsArr.length
+      console.log(comicsArr)
     },
   },
 };

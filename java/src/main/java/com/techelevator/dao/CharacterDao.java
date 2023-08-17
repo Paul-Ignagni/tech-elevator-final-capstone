@@ -15,4 +15,7 @@ public interface CharacterDao {
     Char getCharacterBySerial(int serial);
 
     Char getCharacterByCharacterId(int characterId);
+
+    Char getCharacterByName(String name);
+
 }

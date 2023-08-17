@@ -48,17 +48,17 @@ public class Application {
 
     private void run() {
         List<Comic> database = rest.getAllComics();
-//        if (database.size() == 0) {
+        if (database.size() == 0) {
             System.out.println("Creating database");
 
             List<ComicCreator> comicCreators = rest.readComicAPI();
+            List<ComicCharacter> comicCharacters = rest.readComicAPI2();
             List<Comic> comicsFromAPI = rest.getAllComics();
 
             for (Comic c: comicsFromAPI) {
                 rest.readCharacterAPI(c.getId());
                 rest.readCreatorAPI(c.getId());
             }
-            //add manual comics here
 
             Collection privateCollection = new Collection();
             privateCollection.setUserId(1);
@@ -75,6 +75,11 @@ public class Application {
             publicCollection2.setName("User Public Collection");
             publicCollection2.setPublic(true);
             rest.createCollection(publicCollection2);
+            Collection publicCollection3 = new Collection();
+            publicCollection3.setUserId(2);
+            publicCollection3.setName("My Marvel Comics");
+            publicCollection3.setPublic(true);
+            rest.createCollection(publicCollection3);
 
             CollectionEntry entry1 = new CollectionEntry(1, 4);
             rest.addToCollection(entry1);
@@ -88,17 +93,51 @@ public class Application {
             rest.addToCollection(entry5);
             CollectionEntry entry6 = new CollectionEntry(2, 11);
             rest.addToCollection(entry6);
+            CollectionEntry entry7 = new CollectionEntry(4, 1);
+            rest.addToCollection(entry7);
 
             for (ComicCreator c: comicCreators) {
                 Creator creator = rest.getCreatorByNameDB(c.getCreatorName());
                 Comic comic = rest.getComicByComicId(c.getComicId());
                 ComicCreatorData data = new ComicCreatorData(comic.getSerial(), creator.getCreatorSerial());
                 rest.addCreatorToComic(data.getComicSerial(), data);
-
             }
 
+            for (ComicCharacter cc: comicCharacters) {
+                Comic comic = rest.getComicByComicId(cc.getComicId());
+                Char character = rest.getCharacterByNameDB(cc.getCharacterName());
+                ComicCharacterData data = new ComicCharacterData(comic.getSerial(), character.getCharacterSerial());
+                rest.addCharacterToComic(data.getComicSerial(), data);
+            }
 
-//        }
+        }
+
+
+        //ADD TO DAOs
+
+        //series in collection
+        //SELECT series FROM comic_info
+        //JOIN collection_comic_info ON (comic_info.serial_number = collection_comic_info.serial_number)
+        //WHERE collection_id = 1;
+
+        //characters in collection
+//        SELECT DISTINCT name FROM character
+//        JOIN character_comic_info ON (character.character_serial = character_comic_info.character_serial)
+//        JOIN comic_info ON (comic_info.serial_number = character_comic_info.serial_number)
+//        JOIN collection_comic_info ON (comic_info.serial_number = collection_comic_info.serial_number)
+//        WHERE collection_id = 1;
+
+        //creators in collection
+//        SELECT DISTINCT name FROM creator
+//        JOIN comic_info_creator ON (creator.creator_serial = comic_info_creator.creator_serial)
+//        JOIN comic_info ON (comic_info.serial_number = comic_info_creator.serial_number)
+//        JOIN collection_comic_info ON (comic_info.serial_number = collection_comic_info.serial_number)
+//        WHERE collection_id = 1;
+
+        //comics by one author
+//        SELECT title FROM comic_info
+//        JOIN comic_info_creator ON (comic_info.serial_number = comic_info_creator.serial_number)
+//        WHERE creator_serial = 1;
 
         System.out.println("Done");
     }

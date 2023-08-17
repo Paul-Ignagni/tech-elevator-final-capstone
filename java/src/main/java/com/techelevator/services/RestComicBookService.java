@@ -63,11 +63,6 @@ public class RestComicBookService {
         return comics;
     }
 
-//    public Char getCharacterBySerial(int serial) {
-//        Char character = restTemplate.getForObject(SERVER_BASE_URL + "/characters/" + serial, Char.class);
-//        return character;
-//    }
-
     public List<Char> getAllCharacters() {
         Char[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/characters", Char[].class);
         List<Char> characters = Arrays.asList(responseEntity);
@@ -97,10 +92,14 @@ public class RestComicBookService {
         return creator;
     }
 
+    public Char getCharacterByNameDB(String name) {
+        Char character = restTemplate.getForObject(SERVER_BASE_URL + "/characters/database/" + name, Char.class);
+        return character;
+    }
+
     public List<ComicCreator> readComicAPI() {
         String jsonString = restTemplate.getForObject(API_BASE_URL, String.class);
         List<ComicCreator> comicCreators = new ArrayList<>();
-//        List<ComicCharacter> comicCharacters = new ArrayList<>();
         try {
             JsonNode tree = mapper.readTree(jsonString);
             JsonNode jsonNode = tree.at("/data/results");
@@ -135,15 +134,6 @@ public class RestComicBookService {
                     }
                 }
 
-//                JsonNode characterNumber = jsonNode.get(i).at("/characters/available");
-//                if (characterNumber.asInt() > 0) {
-//                    JsonNode array2 = jsonNode.get(i).at("/characters/items");
-//                    for (int k = 0; k < characterNumber.asInt(); k++) {
-//                        JsonNode character = array2.get(k).at("/name");
-//                        ComicCharacter comicCharacter = new ComicCharacter(id.asInt(), character.asText());
-//                        comicCharacters.add(comicCharacter);
-//                    }
-//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -243,7 +233,15 @@ public class RestComicBookService {
 
     public void addCreatorToComic(int serialNumber, ComicCreatorData comicCreatorData) {
         try {
-            restTemplate.postForEntity(SERVER_BASE_URL + "/comics/" + serialNumber, comicCreatorData, ComicCreatorData.class);
+            restTemplate.postForEntity(SERVER_BASE_URL + "/creator/database/" + serialNumber, comicCreatorData, ComicCreatorData.class);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCharacterToComic(int serialNumber, ComicCharacterData comicCharacterData) {
+        try {
+            restTemplate.postForEntity(SERVER_BASE_URL + "/character/database/" + serialNumber, comicCharacterData, ComicCharacterData.class);
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
         }

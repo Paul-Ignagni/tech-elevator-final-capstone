@@ -48,4 +48,9 @@ public class CharacterController {
         return characterDao.getCharacterByCharacterId(characterId);
     }
 
+    @RequestMapping(path = "/characters/database/{name}", method = RequestMethod.GET)
+    public Char getCharacterByNameDB(@PathVariable String name) {
+        return characterDao.getCharacterByName(name);
+    }
+
 }
