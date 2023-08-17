@@ -57,11 +57,11 @@ public class CollectionController {
                                                        @AuthenticationPrincipal User user) {
         Collection collection = collectionDao.getCollectionById(collectionId);
         if (collection != null) {
-
             String userGrade = ((User) user).getGrade();
 
+            List<Comic> comicsInCollection = comicDao.getComicsInCollection(collectionId);
 
-            if ("standard".equals(userGrade) && collection.getComics().size() >= 100) {
+            if ("standard".equals(userGrade) && comicsInCollection.size() >= 100) {
                 return ResponseEntity
                         .badRequest()
                         .body("Oops! Standard users can only add up to 100 comics to their collection - maybe you should go premium!");
