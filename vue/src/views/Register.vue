@@ -45,7 +45,7 @@
           </ul>
         </li>
       </ul>
-      <p>Not ready to register? No problem! <router-link :to="{ name: 'home' }">View our home page</router-link> to browse public collections!</p>
+      <p>Not ready to register? No problem! <router-link :to="{ name: 'collections' }">View our home page</router-link> to browse public collections!</p>
     </div>
   </div>
 </template>

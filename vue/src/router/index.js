@@ -24,10 +24,18 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: Home, // Redirect authenticated users to the Home page
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: false,
+      },
+    },
+    {
+      path: '/collections',
+      name: 'collections',
+      component: Collections, // Unauthenticated users' home page
+      meta: {
+        requiresAuth: false,
+      },
     },
     {
       path: '/comic/:comicId',
@@ -132,9 +140,8 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
 
   if (requiresAuth && !store.state.token) {
-    next("/login");
-  } else if (!requiresAuth && store.state.token && (to.name === 'login' || to.name === 'register')) {
-    next("/collection");
+    // Redirect unauthenticated users to the Collections page
+    next("/collections");
   } else {
     next();
   }
