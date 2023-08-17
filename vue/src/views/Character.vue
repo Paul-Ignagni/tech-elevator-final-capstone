@@ -27,7 +27,7 @@ export default {
     };
   },
   created() {
-    this.fetchCharacterInfo(10);
+    this.fetchCharacterInfo(1);
     //The 10 is a temporary placeholder for the character's id, need to add dynamic variable for different characters
   },
   methods: {

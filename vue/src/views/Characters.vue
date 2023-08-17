@@ -15,7 +15,6 @@
         </div>
         <div class="character-details">
           <h2>{{ character.characterName }}</h2>
-          <p v-if="character.characterDescription">{{ character.characterDescription }}</p>
         </div>
       </div>
       <div class="sidebar" :class="{ 'open': isSidebarOpen }" @mouseenter="openSidebar" @mouseleave="closeSidebar">
@@ -36,7 +35,7 @@ export default {
   data() {
     return {
       searchQuery: "",
-      characters: [], // This array will hold all comics fetched initially and after searching
+      characters: [],
       userId: 0, // Define the userId
       isSidebarOpen: false,
     };

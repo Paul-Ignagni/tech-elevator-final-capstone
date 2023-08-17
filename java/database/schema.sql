@@ -24,16 +24,17 @@ CREATE TABLE comic_info (
 );
 
 CREATE TABLE creator (
-	creator_id SERIAL,
+	creator_serial SERIAL,
+	creator_id INT,
 	name varchar(150) NOT NULL,
-	CONSTRAINT PK_creator PRIMARY KEY (creator_id)
+	CONSTRAINT PK_creator PRIMARY KEY (creator_serial)
 );
 
 CREATE TABLE comic_info_creator (
 	serial_number INT NOT NULL,
-	creator_id INT NOT NULL,
+	creator_serial INT NOT NULL,
 	CONSTRAINT FK_serial FOREIGN KEY (serial_number) REFERENCES comic_info(serial_number),
-	CONSTRAINT FK_creator FOREIGN KEY (creator_id) REFERENCES creator(creator_id)
+	CONSTRAINT FK_creator FOREIGN KEY (creator_serial) REFERENCES creator(creator_serial)
 );
 
 CREATE TABLE character (

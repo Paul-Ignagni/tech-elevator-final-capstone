@@ -1,6 +1,7 @@
 <template>
   <div class="collection">
-    <h2>Collection Name Here</h2>
+    <h1>Collection Name</h1>
+    <h2>Comics:</h2>
     <div v-for="comic in comicsArr" :key="comic.serial" class="collection-comic">
       <div class="comic-cover">
         <!-- <img
@@ -8,20 +9,20 @@
           :src="comic.images[0].path + '.' + comic.images[0].extension"
           alt="Comic Cover"
         /> -->
-        <h5> To add: ({{comic.images}}) </h5>
+        <h5>({{comic.images}}) </h5>
         <!-- <div v-else class="blank-comic-card">
           <p class="image-not-available">Image not available</p>
         </div> -->
       </div>
       <div class="comic-details">
-        <h2>{{ comic.title }}</h2>
+        <h3>{{ comic.title }}</h3>
         <p v-if="comic.description">Description: {{ comic.description }}</p>
         <p>Issue Number: {{ comic.issueNumber }}</p>
         <p>Page Count: {{ comic.pageCount }}</p>
       </div>
     </div>
     <div>
-      <h1>Collection Stats</h1>
+      <h2>Collection Stats</h2>
       <p> Number of comics in collection: {{totalComics}} </p>
       <p> Series in this collection: To be added </p>
       <p> Characters that appear in this collection: To be added</p>

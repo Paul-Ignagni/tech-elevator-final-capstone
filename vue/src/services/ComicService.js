@@ -30,6 +30,10 @@ export default {
     return axios.get('/characters/search/' + name)
   },
 
+  searchCreator(name) {
+    return axios.get('/creators/search/' + name)
+  },
+
   getPublicCollections() {
     console.log('Retrieving public collections')
     return axios.get('/collections')
@@ -56,6 +60,14 @@ export default {
 
   getCharacterInfo(serial) {
     return axios.get('/characters/' + serial)
+  },
+
+  getAllCreators() {
+    return axios.get('/creators')
+  },
+
+  getCreatorInfo(serial) {
+    return axios.get('/creators/' + serial)
   }
 
 }

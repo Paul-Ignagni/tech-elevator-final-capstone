@@ -42,4 +42,10 @@ public class CharacterController {
     public Char getCharacterBySerial(@PathVariable int serial) {
         return characterDao.getCharacterBySerial(serial);
     }
+
+    @RequestMapping(path = "/characters/characterId/{characterId}", method = RequestMethod.GET)
+    public Char getCharacterById(@PathVariable int characterId) {
+        return characterDao.getCharacterByCharacterId(characterId);
+    }
+
 }

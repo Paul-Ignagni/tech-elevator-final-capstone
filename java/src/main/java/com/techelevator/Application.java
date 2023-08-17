@@ -59,6 +59,7 @@ public class Application {
 
             for (Comic c: comicsFromAPI) {
                 rest.readCharacterAPI(c.getId());
+                rest.readCreatorAPI(c.getId());
             }
             //add manual comics here
 
@@ -91,34 +92,6 @@ public class Application {
             CollectionEntry entry6 = new CollectionEntry(2, 11);
             rest.addToCollection(entry6);
         }
-
-            //Search comic title
-//        List<Comic> comics = rest.searchComics("hulk");
-//        for (Comic c : comics) {
-//            System.out.println(c.getTitle());
-//        }
-
-            //Get public collections
-//        List<Collection> collections = rest.getAllCollections();
-//        for (Collection c : collections) {
-//            System.out.println(c.getName());
-//        }
-
-            //Get comics in collection
-//        List<Comic> comics2 = rest.getComicsInCollection(1);
-//        for (Comic c : comics2) {
-//            System.out.println(c.getId());
-//        }
-
-        //Get user's collections
-//        List<Collection> collections = rest.getCollectionsForUser(1);
-//        for (Collection c: collections) {
-//            System.out.println(c.getName());
-//        }
-
-        //Get comic by id
-//        Comic comic = rest.getComicById(1);
-//        System.out.println(comic.getTitle());
 
         System.out.println("Done");
     }

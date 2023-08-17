@@ -1,27 +1,19 @@
 <template>
-  <div class="home">
-    <h1 class="comic-heading">Comic Book Search</h1>
+  <div class="creators">
+    <h1 class="creator-heading">Creator Search</h1>
     <div class="search-container">
-      <input v-model="searchQuery" placeholder="Enter comic name" class="search-input" @keydown.enter="searchComics" />
-      <button @click="searchComics" class="search-button">Search</button>
+      <input v-model="searchQuery" placeholder="Enter creator name" class="search-input" @keydown.enter="searchCreator" />
+      <button @click="searchCreator" class="search-button">Search</button>
     </div>
     <div class="search-results">
-      <div v-for="comic in comics" :key="comic.id" class="comic-card"  @click="handleCardClick(comic)" >
-        <div class="comic-cover">
-          <img v-if="comic.images && comic.images.length > 0" :src="comic.images" alt="Comic Cover" />
-         <div v-else class="blank-comic-card">
-            <p class="image-not-available">Image not available</p>
-          </div>
-        </div>
-        <div class="comic-details">
-          <h2>{{ comic.title }}</h2>
-          <button @click="addToCollectionAndNavigate(comic)" class="add-to-collection-button">Add to Collection</button>
-    
+      <div v-for="creator in creators" :key="creator.creatorSerial" class="creator-card"  @click="handleCardClick(comic)" >
+        <div class="creator-details">
+          <p>{{ creator.creatorName }}</p>
         </div>
       </div>
       <div class="sidebar" :class="{ 'open': isSidebarOpen }" @mouseenter="openSidebar" @mouseleave="closeSidebar">
         <!--Add additional stuff here once figure out what is needed (and if the damn thing works)-->
-        </div>
+    </div>
     </div>
     
   </div>
@@ -32,48 +24,30 @@
 import comicService from "../services/ComicService.js";
 
 
-import axios from "axios"; // Import axios once
-
 export default {
   name: "home",
   data() {
     return {
       searchQuery: "",
-      comics: [], // This array will hold all comics fetched initially and after searching
-      collection: [],
+      creators: [], 
       userId: 0, // Define the userId
-      initialCollectionId: 0, // Define the initialCollectionId
       isSidebarOpen: false,
     };
   },
 
-  
   created() {
-    // Fetch and display all available comics initially
-    this.fetchAllComics();
+    this.fetchAllCreators();
   },
   methods: {
-    fetchAllComics() {
-      comicService.getAllComics().then((response) => {
-        this.comics = response.data;
+    fetchAllCreators() {
+      comicService.getAllCreators().then((response) => {
+        this.creators = response.data;
       });
     },
-    searchComics() {
-      comicService.searchComic(this.searchQuery).then((response) => {
-        this.comics = response.data;
+    searchCreator() {
+      comicService.searchCreator(this.searchQuery).then((response) => {
+        this.creators = response.data;
       });
-    },
-    async addToCollectionAndNavigate(comic) {
-      try {
-        const response = await axios.post(`/collections/${this.initialCollectionId}/addComic/${comic.id}`);
-        if (response.status === 200) {
-          this.$store.commit('addToCollection', comic);
-          console.log('Comic added to collection successfully');
-          this.$router.push({name: "collection"});
-        }
-      } catch (error) {
-        console.error('Failed to add comic to collection:', error);
-      }
     },
     openSidebar() {
       this.isSidebarOpen = true;
@@ -88,11 +62,12 @@ export default {
 
 <style>
 
-.home {
+.creators {
   text-align: center;
 }
 
-.comic-heading {
+.creator-heading {
+    text-align: center;
   font-family: 'Comic Sans MS', cursive; /* Use a comic book font here */
   font-size: 28px;
   margin-bottom: 20px;
@@ -128,7 +103,7 @@ export default {
   background-color: #990000; 
 }
 
-.comic-card {
+.creator-card {
   position: relative;
   border: 1px solid #ccc;
   padding: 10px;
@@ -139,11 +114,11 @@ export default {
   overflow: hidden; /* Ensure content doesn't overflow */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
 }
-.comic-card:hover {
+.creator-card:hover {
   transform: translateY(-10px) scale(1.05);
   animation: rainbow-border 2s infinite linear;
 }
-.comic-card.clicked {
+.creator-card.clicked {
   transform: translateY(-5px) scale(0.9);
   opacity: 0;
   box-shadow: none; /* Remove box shadow during the disappearing animation */
@@ -159,11 +134,11 @@ export default {
   }
 }
 
-.comic-card img {
+.creator-card img {
   max-width: 100%;
   height: auto;
 }
-.home {
+.creators {
   /* Set the background gradient */
   background: linear-gradient(45deg, pink 50%, lightblue 50%);
   padding: 20px;

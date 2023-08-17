@@ -18,8 +18,8 @@ public class RestComicBookService {
     private static final String SERVER_BASE_URL = "http://localhost:9000";
     private static final String API_BASE_URL = "http://gateway.marvel.com/v1/public/comics?ts=1&apikey=c30470c10899a5edb018d295b1cfa611&hash=bc4a36e9d13462b9323713e1aaec0750";
     private static final String CHARACTER_BASE_URL1 = "https://gateway.marvel.com/v1/public/comics/";
-    // + comicId +
     private static final String CHARACTER_BASE_URL2 = "/characters?ts=1&apikey=c30470c10899a5edb018d295b1cfa611&hash=bc4a36e9d13462b9323713e1aaec0750";
+    private static final String CHARACTER_BASE_URL3 = "/creators?ts=1&apikey=c30470c10899a5edb018d295b1cfa611&hash=bc4a36e9d13462b9323713e1aaec0750";
 
 
     public List<Comic> getAllComics() {
@@ -74,6 +74,18 @@ public class RestComicBookService {
         return characters;
     }
 
+    public List<Creator> getAllCreators() {
+        Creator[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/creators", Creator[].class);
+        List<Creator> creators = Arrays.asList(responseEntity);
+        return creators;
+    }
+
+    public List<Creator> searchCreators(String name) {
+        Creator[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/creators/search/" + name, Creator[].class);
+        List<Creator> creators = Arrays.asList(responseEntity);
+        return creators;
+    }
+
     public void readComicAPI() {
         String jsonString = restTemplate.getForObject(API_BASE_URL, String.class);
         try {
@@ -99,6 +111,7 @@ public class RestComicBookService {
                 String path = images.asText() + "." + type.asText();
                 newComic.setImages(path);
                 restTemplate.postForObject(SERVER_BASE_URL + "/comics", newComic, Comic.class);
+
             }
 
         } catch (IOException e) {
@@ -112,21 +125,43 @@ public class RestComicBookService {
             JsonNode tree = mapper.readTree(jsonString);
             JsonNode jsonNode = tree.at("/data/results");
             for(int i = 0; i < jsonNode.size(); i++) {
-                Char checkCharacter = restTemplate.getForObject(SERVER_BASE_URL + "/characters/" + i, Char.class);
+                JsonNode id = jsonNode.get(i).at("/id");
+                int idInt = Integer.parseInt(id.asText());
+                Char checkCharacter = restTemplate.getForObject(SERVER_BASE_URL + "/characters/characterId/" + idInt, Char.class);
                 if (checkCharacter == null) {
                     Char character = new Char();
-                    Char checkCharacter2 = restTemplate.getForObject(SERVER_BASE_URL + "/characters/" + character.getCharacterId(), Char.class);
-                        JsonNode id = jsonNode.get(i).at("/id");
-                        character.setCharacterId(Integer.parseInt(id.asText()));
-                        JsonNode name = jsonNode.get(i).at("/name");
-                        character.setCharacterName(name.asText());
-                        JsonNode description = jsonNode.get(i).at("/description");
-                        character.setCharacterDescription(description.asText());
-                        JsonNode image = jsonNode.get(i).at("/thumbnail/path");
-                        JsonNode type = jsonNode.get(i).at("/thumbnail/extension");
-                        String path = image.asText() + "." + type.asText();
-                        character.setCharacterImage(path);
-                        restTemplate.postForObject(SERVER_BASE_URL + "/characters", character, Char.class);
+                    character.setCharacterId(idInt);
+                    JsonNode name = jsonNode.get(i).at("/name");
+                    character.setCharacterName(name.asText());
+                    JsonNode description = jsonNode.get(i).at("/description");
+                    character.setCharacterDescription(description.asText());
+                    JsonNode image = jsonNode.get(i).at("/thumbnail/path");
+                    JsonNode type = jsonNode.get(i).at("/thumbnail/extension");
+                    String path = image.asText() + "." + type.asText();
+                    character.setCharacterImage(path);
+                    restTemplate.postForObject(SERVER_BASE_URL + "/characters", character, Char.class);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readCreatorAPI(int comicId) {
+        String jsonString = restTemplate.getForObject(CHARACTER_BASE_URL1 + comicId + CHARACTER_BASE_URL3, String.class);
+        try {
+            JsonNode tree = mapper.readTree(jsonString);
+            JsonNode jsonNode = tree.at("/data/results");
+            for(int i = 0; i < jsonNode.size(); i++) {
+                JsonNode id = jsonNode.get(i).at("/id");
+                int idInt = Integer.parseInt(id.asText());
+                Creator checkCreator = restTemplate.getForObject(SERVER_BASE_URL + "/creators/creatorId/" + idInt, Creator.class);
+                if (checkCreator == null) {
+                    Creator creator = new Creator();
+                    creator.setCreatorId(idInt);
+                    JsonNode name = jsonNode.get(i).at("/fullName");
+                    creator.setCreatorName(name.asText());
+                    restTemplate.postForObject(SERVER_BASE_URL + "/creators", creator, Creator.class);
                 }
             }
         } catch (IOException e) {

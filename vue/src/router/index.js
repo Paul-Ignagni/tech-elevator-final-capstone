@@ -12,6 +12,8 @@ import MyCollection from '../views/MyCollection.vue'
 import Comic from '../views/Comic.vue'
 import Characters from '../views/Characters.vue'
 import Character from '../views/Character.vue'
+import Creators from '../views/Creators.vue'
+import Creator from '../views/Creator.vue'
 
 Vue.use(Router)
 
@@ -47,6 +49,22 @@ const router = new Router({
       path: '/characters/:serial',
       name: 'Character',
       component: Character,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/creators',
+      name: 'Creators',
+      component: Creators,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/creators/:creatorSerial',
+      name: 'Creator',
+      component: Creator,
       meta: {
         requiresAuth: false
       }
