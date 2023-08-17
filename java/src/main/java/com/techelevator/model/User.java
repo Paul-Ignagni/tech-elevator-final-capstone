@@ -10,6 +10,7 @@ public class User {
 
    private int id;
    private String username;
+   private String grade;
    @JsonIgnore
    private String password;
    @JsonIgnore
@@ -18,10 +19,11 @@ public class User {
 
    public User() { }
 
-   public User(int id, String username, String password, String authorities) {
+   public User(int id, String username, String password, String grade, String authorities) {
       this.id = id;
       this.username = username;
       this.password = password;
+      this.grade = grade;
       if (authorities != null) this.setAuthorities(authorities);
       this.activated = true;
    }
@@ -48,6 +50,13 @@ public class User {
 
    public void setPassword(String password) {
       this.password = password;
+   }
+   public String getGrade() {
+      return grade;
+   }
+
+   public void setGrade(String grade) {
+      this.grade = grade;
    }
 
    public boolean isActivated() {

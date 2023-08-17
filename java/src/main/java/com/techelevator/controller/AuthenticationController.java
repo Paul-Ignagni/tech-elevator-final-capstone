@@ -57,14 +57,23 @@ public class AuthenticationController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public void register(@Valid @RequestBody RegisterUserDto newUser) {
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterUserDto newUser) {
         try {
             User user = userDao.createUser(newUser);
             if (user == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User registration failed.");
+                return ResponseEntity.badRequest().body("User registration failed.");
             }
+
+            // Set the grade based on the registerType
+            if (newUser.getRegisterType().equals("standard")) {
+                user.setGrade("standard");
+            } else if (newUser.getRegisterType().equals("premium")) {
+                user.setGrade("premium");
+            }
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully.");
         } catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User registration failed.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User registration failed.");
         }
     }
 

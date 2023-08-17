@@ -7,6 +7,7 @@ import com.techelevator.services.RestComicBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -51,9 +52,35 @@ public class CollectionController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/collections/{collectionId}")
-    public void addComicToCollection(@PathVariable int collectionId, @RequestBody CollectionEntry entry) {
-        collectionDao.addComicToCollection(entry);
+    public ResponseEntity<String> addComicToCollection(@PathVariable int collectionId,
+                                                       @RequestBody CollectionEntry entry,
+                                                       @AuthenticationPrincipal User user) {
+        Collection collection = collectionDao.getCollectionById(collectionId);
+        if (collection != null) {
+
+            String userGrade = ((User) user).getGrade();
+
+
+            if ("standard".equals(userGrade) && collection.getComics().size() >= 100) {
+                return ResponseEntity
+                        .badRequest()
+                        .body("Oops! Standard users can only add up to 100 comics to their collection - maybe you should go premium!");
+            }
+
+            collectionDao.addComicToCollection(entry);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
+        }
     }
+
+
+
+
+
+
+
+
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(path = "/collections/{collectionId}", method = RequestMethod.DELETE)

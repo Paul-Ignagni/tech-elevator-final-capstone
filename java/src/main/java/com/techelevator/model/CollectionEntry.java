@@ -27,4 +27,5 @@ public class CollectionEntry {
     public void setComicId(int comicId) {
         this.comicId = comicId;
     }
+
 }

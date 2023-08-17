@@ -55,30 +55,28 @@ import authService from '../services/AuthService';
 
 export default {
   name: 'register',
-data() {
-  return {
-    user: {
-      username: '',
-      password: '',
-      confirmPassword: '',
-      role: 'user',
-      registerStandardUser: false,
-      registerPremiumUser: false,
-    },
+  data() {
+    return {
+      user: {
+        username: '',
+        password: '',
+        confirmPassword: '',
+        grade: 'standard', // Initialize with a default grade
+      },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
     };
   },
   methods: {
     register() {
-      if (this.user.password != this.user.confirmPassword) {
+      if (this.user.password !== this.user.confirmPassword) {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Password & Confirm Password do not match.';
       } else {
         authService
           .register(this.user)
           .then((response) => {
-            if (response.status == 201) {
+            if (response.status === 201) {
               this.$router.push({
                 path: '/login',
                 query: { registration: 'success' },
