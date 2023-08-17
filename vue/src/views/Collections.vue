@@ -1,5 +1,5 @@
 <template>
-  <div class="collection">
+  <div class="collections">
     <h2>Public Collections</h2>
 
     <!-- Search bars for character and creator -->
@@ -92,5 +92,7 @@ export default {
 </script>
 
 <style>
-/* Your styles here */
+.collections {
+  text-align: center;
+}
 </style>

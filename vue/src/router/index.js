@@ -10,6 +10,8 @@ import Collections from '../views/Collections.vue'
 import CreateCollection from '../views/CreateCollection.vue'
 import MyCollection from '../views/MyCollection.vue'
 import Comic from '../views/Comic.vue'
+import Characters from '../views/Characters.vue'
+import Character from '../views/Character.vue'
 
 Vue.use(Router)
 
@@ -29,6 +31,22 @@ const router = new Router({
       path: '/comic/:comicId',
       name: 'Comic',
       component: Comic,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/characters',
+      name: 'Characters',
+      component: Characters,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/characters/:serial',
+      name: 'Character',
+      component: Character,
       meta: {
         requiresAuth: false
       }

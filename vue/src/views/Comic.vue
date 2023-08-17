@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class = "comic">
     <div :key="comic.serial" class="comic-cover">
       <img
         v-if="comic.images && comic.images.length > 0"
@@ -45,4 +45,7 @@ export default {
 </script>
 
 <style>
+.comic {
+  text-align: center;
+}
 </style>

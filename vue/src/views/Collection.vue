@@ -71,5 +71,7 @@ export default {
 </script>
 
 <style>
-/* Your styles here */
+.collection {
+  text-align: center;
+}
 </style>

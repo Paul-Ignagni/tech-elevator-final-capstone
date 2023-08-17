@@ -54,6 +54,7 @@ public class JdbcComicDao implements ComicDao{
         return comic;
     }
 
+    @Override
     public List<Comic> getAllComics() {
         List<Comic> output = new ArrayList<>();
         String sql = "SELECT * FROM comic_info";
@@ -64,6 +65,7 @@ public class JdbcComicDao implements ComicDao{
         return output;
     }
 
+    @Override
     public List<Comic> getComicsBySearch(String title) {
         List<Comic> comics = new ArrayList<>();
         String sql = "SELECT * FROM comic_info WHERE title ILIKE ?;";

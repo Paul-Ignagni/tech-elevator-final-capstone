@@ -55,9 +55,12 @@ public class Application {
             System.out.println("Creating database");
 
             rest.readComicAPI();
+            List<Comic> comicsFromAPI = rest.getAllComics();
 
-            //get array of comic ids
-            rest.readCharacterAPI(183);
+            for (Comic c: comicsFromAPI) {
+                rest.readCharacterAPI(c.getId());
+            }
+            //add manual comics here
 
             Collection privateCollection = new Collection();
             privateCollection.setUserId(1);

@@ -57,6 +57,23 @@ public class RestComicBookService {
         return comics;
     }
 
+//    public Char getCharacterBySerial(int serial) {
+//        Char character = restTemplate.getForObject(SERVER_BASE_URL + "/characters/" + serial, Char.class);
+//        return character;
+//    }
+
+    public List<Char> getAllCharacters() {
+        Char[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/characters", Char[].class);
+        List<Char> characters = Arrays.asList(responseEntity);
+        return characters;
+    }
+
+    public List<Char> searchCharacters(String name) {
+        Char[] responseEntity = restTemplate.getForObject(SERVER_BASE_URL + "/characters/search/" + name, Char[].class);
+        List<Char> characters = Arrays.asList(responseEntity);
+        return characters;
+    }
+
     public void readComicAPI() {
         String jsonString = restTemplate.getForObject(API_BASE_URL, String.class);
         try {
@@ -95,20 +112,22 @@ public class RestComicBookService {
             JsonNode tree = mapper.readTree(jsonString);
             JsonNode jsonNode = tree.at("/data/results");
             for(int i = 0; i < jsonNode.size(); i++) {
-                Char character = new Char();
-                JsonNode id = jsonNode.get(i).at("/id");
-                // if check for existing id
-                character.setCharacterId(Integer.parseInt(id.asText()));
-                JsonNode name = jsonNode.get(i).at("/name");
-                character.setCharacterName(name.asText());
-                JsonNode description = jsonNode.get(i).at("/description");
-                character.setCharacterDescription(description.asText());
-                JsonNode image = jsonNode.get(i).at("/thumbnail/path");
-                JsonNode type = jsonNode.get(i).at("/thumbnail/extension");
-                String path = image.asText() + "." + type.asText();
-                character.setCharacterImage(path);
-                restTemplate.postForObject(SERVER_BASE_URL + "/characters", character, Char.class);
-
+                Char checkCharacter = restTemplate.getForObject(SERVER_BASE_URL + "/characters/" + i, Char.class);
+                if (checkCharacter == null) {
+                    Char character = new Char();
+                    Char checkCharacter2 = restTemplate.getForObject(SERVER_BASE_URL + "/characters/" + character.getCharacterId(), Char.class);
+                        JsonNode id = jsonNode.get(i).at("/id");
+                        character.setCharacterId(Integer.parseInt(id.asText()));
+                        JsonNode name = jsonNode.get(i).at("/name");
+                        character.setCharacterName(name.asText());
+                        JsonNode description = jsonNode.get(i).at("/description");
+                        character.setCharacterDescription(description.asText());
+                        JsonNode image = jsonNode.get(i).at("/thumbnail/path");
+                        JsonNode type = jsonNode.get(i).at("/thumbnail/extension");
+                        String path = image.asText() + "." + type.asText();
+                        character.setCharacterImage(path);
+                        restTemplate.postForObject(SERVER_BASE_URL + "/characters", character, Char.class);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

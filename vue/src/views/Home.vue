@@ -62,7 +62,7 @@ export default {
       });
     },
     searchComics() {
-      comicService.search(this.searchQuery).then((response) => {
+      comicService.searchComic(this.searchQuery).then((response) => {
         this.comics = response.data;
       });
     },
