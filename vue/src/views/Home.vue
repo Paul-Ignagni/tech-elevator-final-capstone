@@ -30,6 +30,7 @@
           <li><router-link to="/login">Login</router-link></li>
           <li><router-link to="/">Home</router-link></li>
           <li><router-link to="/collections">Collections</router-link></li>
+          <li><router-link to="/collections/collection/create">Create a Collection</router-link></li>
           <li><router-link to="/characters">Characters</router-link></li>
           <li><router-link to="/creators">Creators</router-link></li>
           <li><router-link to="/logout">Logout</router-link></li>

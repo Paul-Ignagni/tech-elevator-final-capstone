@@ -22,7 +22,7 @@
     <div>
     <h1>Public Collections</h1>
     <!-- Search bars for character and creator -->
-    <div class="search-bar">
+    <!-- <div class="search-bar">
       <label for="characterSearch">Search by Character:</label>
       <input v-model="characterSearchKeyword" id="characterSearch" placeholder="Enter character name">
       <button @click="searchComicsByCharacter">Search</button>
@@ -36,7 +36,7 @@
       <p v-if="creatorKeywordComicCount !== null">
         Total comics with creator "{{ creatorSearchKeyword }}": {{ creatorKeywordComicCount }}
       </p>
-    </div>
+    </div> -->
 
     <!-- Button to calculate total comics -->
     
@@ -55,6 +55,9 @@
       <p> Total comics in all collections: {{ totalAllComics }}
     </p>
     </div>
+    <!-- <div>
+    <button @click="goToCreate()" id="collection-redirect" class="collection-redirect">Create a collection </button>
+    </div> -->
     </div>
   </div>
 </template>
@@ -110,6 +113,10 @@ export default {
 
     viewCollection(collectionId) {
       this.$router.push({ name: 'collection', params: { id: collectionId } })
+    },
+
+    goToCreate() {
+      this.$router.go({ name: '/collections/collection/create'})
     }
   }
 };
