@@ -40,10 +40,10 @@ export default {
     };
   },
   created() {
-    this.fetchComicInfo(12);
-    //The 12 is a temporary placeholder for the comic's id, need to add dynamic variable for different comics
-    this.fetchAuthors(12);
-    this.fetchCharacters(12);
+    this.fetchComicInfo(1);
+    //The 1 is a temporary placeholder for the comic's id, need to add dynamic variable for different comics
+    this.fetchAuthors(1);
+    this.fetchCharacters(1);
   },
   methods: {
     fetchComicInfo(serial) {

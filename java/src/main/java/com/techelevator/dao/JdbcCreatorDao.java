@@ -110,6 +110,20 @@ public class JdbcCreatorDao implements CreatorDao{
         return creator;
     }
 
+    @Override
+    public List<String> getComicsForCreator(int serial) {
+        List<String> comics = new ArrayList<>();
+        String sql = "SELECT title FROM comic_info " +
+                "JOIN comic_info_creator ON (comic_info.serial_number = comic_info_creator.serial_number) " +
+                "WHERE creator_serial = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, serial);
+        while (results.next()) {
+            String text = results.getString("title");
+            comics.add(text);
+        }
+        return comics;
+    }
+
     private Creator mapRowToCreator(SqlRowSet rs) {
         Creator creator = new Creator();
         creator.setCreatorSerial(rs.getInt("creator_serial"));

@@ -52,4 +52,9 @@ public class CreatorController {
         return creatorDao.getCreatorByCreatorId(creatorId);
     }
 
+    @RequestMapping(path = "/creators/{serialNumber}/comics", method = RequestMethod.GET)
+    public List<String> getComicsForCreator(@PathVariable int serialNumber) {
+        return creatorDao.getComicsForCreator(serialNumber);
+    }
+
 }

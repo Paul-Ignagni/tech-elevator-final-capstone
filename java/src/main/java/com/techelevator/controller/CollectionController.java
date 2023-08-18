@@ -44,6 +44,30 @@ public class CollectionController {
         return comics;
     }
 
+    @RequestMapping(path = "/collections/{collectionId}/series", method = RequestMethod.GET)
+    public List<String> getSeriesInCollection(@PathVariable int collectionId) {
+        List<String> series = collectionDao.getSeriesInCollection(collectionId);
+        return series;
+    }
+
+    @RequestMapping(path = "/collections/{collectionId}/characters", method = RequestMethod.GET)
+    public List<String> getCharactersInCollection(@PathVariable int collectionId) {
+        List<String> characters = collectionDao.getCharactersInCollection(collectionId);
+        return characters;
+    }
+
+    @RequestMapping(path = "/collections/{collectionId}/creators", method = RequestMethod.GET)
+    public List<String> getCreatorsInCollection(@PathVariable int collectionId) {
+        List<String> creators = collectionDao.getCreatorsInCollection(collectionId);
+        return creators;
+    }
+
+    @RequestMapping(path = "/collections/totalcomics", method = RequestMethod.GET)
+    public int countTotalComics() {
+        int totalComics = collectionDao.countTotalComics();
+        return totalComics;
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/collections")
     public Collection create(@Valid @RequestBody Collection collection) {

@@ -19,11 +19,28 @@
       </div>
     </div>
     <div>
-      <h2>Collection Stats</h2>
-      <p> Number of comics in collection: {{totalComics}} </p>
-      <p> Series in this collection: To be added </p>
-      <p> Characters that appear in this collection: To be added</p>
-      <p> Authors in this collection: To be added</p>
+      <div>
+      <h2>Collection Statistics</h2>
+      <h4>Number of comics in collection: {{totalComics}} </h4>
+      </div>
+      <div>
+      <h4>Series in this collection:</h4>
+      <p v-for="s in series" :key="s" class="series">
+        {{s}}
+        </p>
+      </div>
+      <div>
+      <h4>Characters that appear in this collection:</h4>
+      <p v-for="c in characters" :key="c" class="character">
+        {{c}}
+        </p>
+      </div>
+      <div>
+      <h4>Authors in this collection:</h4>
+      <p v-for="cr in creators" :key="cr" class="creator">
+        {{cr}}
+        </p>
+      </div>
     </div>
   </div>
 
@@ -36,9 +53,13 @@ import comicService from "../services/ComicService.js";
 
 export default {
       totalComics: 0,
+      collectionId: 1,
   data() {
     return {
+      
       comicsArr: [],
+      series: [],
+      characters: [],
       creators:[],
     };
   },
@@ -49,11 +70,9 @@ export default {
   created() {
     this.getCollectionComics(1);
     //THE COLLECTION ID IS JUST A PLACEHOLDER. ADD VARIABLE FOR DIFFERENT COLLECTION ID NUMBERS ON BUTTON CLICK LATER
-    //
-    //
-    //
-    //
-    //
+    this.getSeries(1);
+    this.getCharacters(1);
+    this.getCreators(1);
   },
   mounted() {
     this.getTotalComics(this.comicsArr);
@@ -68,6 +87,21 @@ export default {
       this.totalComics = comicsArr.length
       console.log(comicsArr)
     },
+    getSeries(collectionId) {
+      comicService.getSeriesInCollection(collectionId).then((response) => {
+        this.series = response.data;
+      })
+    },
+    getCharacters(collectionId) {
+      comicService.getCharactersInCollection(collectionId).then((response) => {
+        this.characters = response.data;
+      })
+    },
+    getCreators(collectionId) {
+      comicService.getCreatorsInCollection(collectionId).then((response) => {
+        this.creators = response.data;
+      })
+    }
   },
 };
 </script>

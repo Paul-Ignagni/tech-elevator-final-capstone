@@ -112,34 +112,6 @@ public class Application {
             }
 
         }
-
-
-        //ADD TO DAOs
-
-        //series in collection
-        //SELECT series FROM comic_info
-        //JOIN collection_comic_info ON (comic_info.serial_number = collection_comic_info.serial_number)
-        //WHERE collection_id = 1;
-
-        //characters in collection
-//        SELECT DISTINCT name FROM character
-//        JOIN character_comic_info ON (character.character_serial = character_comic_info.character_serial)
-//        JOIN comic_info ON (comic_info.serial_number = character_comic_info.serial_number)
-//        JOIN collection_comic_info ON (comic_info.serial_number = collection_comic_info.serial_number)
-//        WHERE collection_id = 1;
-
-        //creators in collection
-//        SELECT DISTINCT name FROM creator
-//        JOIN comic_info_creator ON (creator.creator_serial = comic_info_creator.creator_serial)
-//        JOIN comic_info ON (comic_info.serial_number = comic_info_creator.serial_number)
-//        JOIN collection_comic_info ON (comic_info.serial_number = collection_comic_info.serial_number)
-//        WHERE collection_id = 1;
-
-        //comics by one author
-//        SELECT title FROM comic_info
-//        JOIN comic_info_creator ON (comic_info.serial_number = comic_info_creator.serial_number)
-//        WHERE creator_serial = 1;
-
         System.out.println("Done");
     }
 

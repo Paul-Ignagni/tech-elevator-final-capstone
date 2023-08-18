@@ -36,16 +36,18 @@
     </div>
 
     <!-- Button to calculate total comics -->
+    <div>
     <button @click="calculateTotalAllComics">How many comics are there in all the collections?</button>
     <p v-if="totalAllComics !== null">
       Total comics in all collections: {{ totalAllComics }}
     </p>
+    </div>
 
     <!-- Display collections -->
     <div
       v-for="collection in collections"
       :key="collection.id"
-      class="collection-comic"
+      class="collection"
     >
       <h3>{{ collection.name }}</h3>
       <h5>User ID: {{ collection.userId }}</h5>
@@ -65,7 +67,7 @@ export default {
       characterKeywordComicCount: null,
       creatorSearchKeyword: "",
       creatorKeywordComicCount: null,
-      totalAllComics: null
+      totalAllComics: null,
     };
   },
 
@@ -98,10 +100,9 @@ export default {
     },
 
     calculateTotalAllComics() {
-      const total = this.collections.reduce((total, collection) => {
-        return total + collection.comicCount;
-      }, 0);
-      this.totalAllComics = total;
+      ComicService.getTotalComicsInCollections().then((response) => {
+        this.totalAllComics = response.data;
+      })
     }
   }
 };

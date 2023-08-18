@@ -17,4 +17,6 @@ public interface CreatorDao {
     Creator getCreatorBySerial(int serial);
 
     Creator getCreatorByCreatorId(int creatorId);
+
+    List<String> getComicsForCreator(int serial);
 }

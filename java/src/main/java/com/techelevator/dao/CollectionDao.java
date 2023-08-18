@@ -14,17 +14,21 @@ public interface CollectionDao {
 
     List<Collection> getCollectionsForUser(int userId);
 
+    List<String> getSeriesInCollection(int collectionId);
+
+    List<String> getCharactersInCollection(int collectionId);
+
+    List<String> getCreatorsInCollection(int collectionId);
+
+    int countTotalComics();
+
     Collection createCollection(Collection collection);
 
     int deleteAllComicsFromCollection(int collectionId);
 
     int deleteCollection(int collectionId);
 
-//    CollectionEntry getEntryById(int entryId);
-
-//    void addComicToCollection(int collectionId, int comicId);
     void addComicToCollection(CollectionEntry entry);
-
 
     int deleteComicFromCollection(int collectionId, int comicId);
 }

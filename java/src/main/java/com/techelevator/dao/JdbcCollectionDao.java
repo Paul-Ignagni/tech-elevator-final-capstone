@@ -71,6 +71,79 @@ public class JdbcCollectionDao implements CollectionDao {
     }
 
     @Override
+    public List<String> getSeriesInCollection(int collectionId) {
+        List<String> series = new ArrayList<>();
+        String sql = "SELECT series FROM comic_info " +
+                "JOIN collection_comic_info ON (comic_info.serial_number = collection_comic_info.serial_number) " +
+                "WHERE collection_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionId);
+            while (results.next()) {
+                String string = results.getString("series");
+                series.add(string);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return series;
+    }
+
+    @Override
+    public List<String> getCharactersInCollection(int collectionId) {
+        List<String> characters = new ArrayList<>();
+        String sql = "SELECT DISTINCT name FROM character " +
+                "JOIN character_comic_info ON (character.character_serial = character_comic_info.character_serial) " +
+                "JOIN comic_info ON (comic_info.serial_number = character_comic_info.serial_number) " +
+                "JOIN collection_comic_info ON (comic_info.serial_number = collection_comic_info.serial_number) " +
+                "WHERE collection_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionId);
+            while (results.next()) {
+                String string = results.getString("name");
+                characters.add(string);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return characters;
+    }
+
+    @Override
+    public List<String> getCreatorsInCollection(int collectionId) {
+        List<String> creators = new ArrayList<>();
+        String sql = "SELECT DISTINCT name FROM creator " +
+                "JOIN comic_info_creator ON (creator.creator_serial = comic_info_creator.creator_serial) " +
+                "JOIN comic_info ON (comic_info.serial_number = comic_info_creator.serial_number) " +
+                "JOIN collection_comic_info ON (comic_info.serial_number = collection_comic_info.serial_number) " +
+                "WHERE collection_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionId);
+            while (results.next()) {
+                String string = results.getString("name");
+                creators.add(string);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return creators;
+    }
+
+    @Override
+    public int countTotalComics() {
+        int totalComics = 0;
+        String sql = "SELECT COUNT(serial_number) FROM collection_comic_info;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+           if (results.next()) {
+                totalComics = results.getInt("count");
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return totalComics;
+    }
+
+    @Override
     public Collection createCollection(Collection collection) {
         Collection newCollection = null;
         String sql = "INSERT INTO collection (user_id, collection_name, isPublic) VALUES (?, ?, ?) RETURNING collection_id;";
