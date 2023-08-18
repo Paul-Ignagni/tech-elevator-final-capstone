@@ -6,7 +6,7 @@
       <button @click="searchCharacter" class="search-button">Search</button>
     </div>
     <div class="search-results">
-      <div v-for="character in characters" :key="character.serial" class="character-card"  @click="handleCardClick(comic)" >
+      <div v-for="character in characters" :key="character.characterSerial" class="character-card"  @click="handleCardClick(character.characterSerial)" >
         <div class="character-image">
           <img v-if="character.characterImage && character.characterImage.length > 0" :src="character.characterImage" alt="Character Image" />
          <div v-else class="blank-character-card">
@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="character-details">
-          <h2>{{ character.characterName }}</h2>
+          <p>{{ character.characterName }}</p>
         </div>
       </div>
       <div class="sidebar" :class="{ 'open': isSidebarOpen }" @mouseenter="openSidebar" @mouseleave="closeSidebar">
@@ -56,6 +56,9 @@ export default {
         this.characters = response.data;
       });
     },
+    handleCardClick(id) {
+      this.$router.push({ name: 'Character', params: { serial: id} })
+    },
     openSidebar() {
       this.isSidebarOpen = true;
     },
@@ -68,6 +71,7 @@ export default {
 </script>
 
 <style>
+
 
 .home {
   text-align: center;

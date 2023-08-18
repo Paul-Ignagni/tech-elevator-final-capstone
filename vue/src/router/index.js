@@ -94,7 +94,7 @@ const router = new Router({
       }
     },
     {
-      path: '/collections/myCollection/:userId',
+      path: '/collections/myCollection',
       name: 'myCollection',
       component: MyCollection,
       meta: {
@@ -102,7 +102,7 @@ const router = new Router({
       }
     },
     {
-      path: '/collections/create',
+      path: '/collections/collection/create',
       name: 'createCollection',
       component: CreateCollection,
       meta: {

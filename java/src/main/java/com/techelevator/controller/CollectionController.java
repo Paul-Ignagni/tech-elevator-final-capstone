@@ -44,6 +44,12 @@ public class CollectionController {
         return comics;
     }
 
+    @RequestMapping(path = "/collections/{collectionId}/collection", method = RequestMethod.GET)
+    public Collection getCollectionById(@PathVariable int collectionId) {
+        Collection collection = collectionDao.getCollectionById(collectionId);
+        return collection;
+    }
+
     @RequestMapping(path = "/collections/{collectionId}/series", method = RequestMethod.GET)
     public List<String> getSeriesInCollection(@PathVariable int collectionId) {
         List<String> series = collectionDao.getSeriesInCollection(collectionId);
@@ -68,43 +74,47 @@ public class CollectionController {
         return totalComics;
     }
 
+    @RequestMapping(path = "/collections/totalcomics/{collectionId}", method = RequestMethod.GET)
+    public int countTotalComicsInCollection(@PathVariable int collectionId) {
+        int totalComics = collectionDao.countTotalComicsInCollection(collectionId);
+        return totalComics;
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/collections")
+    @PostMapping(path = "/collections/create")
     public Collection create(@Valid @RequestBody Collection collection) {
         return collectionDao.createCollection(collection);
     }
 
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @PostMapping(path = "/collections/{collectionId}")
+//    public ResponseEntity<String> addComicToCollection(@PathVariable int collectionId,
+//                                                       @RequestBody CollectionEntry entry,
+//                                                       @AuthenticationPrincipal User user) {
+//        Collection collection = collectionDao.getCollectionById(collectionId);
+//        if (collection != null) {
+//            String userGrade = ((User) user).getGrade();
+//
+//            List<Comic> comicsInCollection = comicDao.getComicsInCollection(collectionId);
+//
+//            if ("standard".equals(userGrade) && comicsInCollection.size() >= 100) {
+//                return ResponseEntity
+//                        .badRequest()
+//                        .body("Oops! Standard users can only add up to 100 comics to their collection - maybe you should go premium!");
+//            }
+//
+//            collectionDao.addComicToCollection(entry);
+//            return ResponseEntity.status(HttpStatus.CREATED).build();
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
+//        }
+//    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/collections/{collectionId}")
-    public ResponseEntity<String> addComicToCollection(@PathVariable int collectionId,
-                                                       @RequestBody CollectionEntry entry,
-                                                       @AuthenticationPrincipal User user) {
-        Collection collection = collectionDao.getCollectionById(collectionId);
-        if (collection != null) {
-            String userGrade = ((User) user).getGrade();
-
-            List<Comic> comicsInCollection = comicDao.getComicsInCollection(collectionId);
-
-            if ("standard".equals(userGrade) && comicsInCollection.size() >= 100) {
-                return ResponseEntity
-                        .badRequest()
-                        .body("Oops! Standard users can only add up to 100 comics to their collection - maybe you should go premium!");
-            }
-
-            collectionDao.addComicToCollection(entry);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
-        }
-    }
-
-
-
-
-
-
-
-
+    public void addComicToCollection(@PathVariable int collectionId, @RequestBody CollectionEntry entry) {
+        collectionDao.addComicToCollection(entry);
+     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(path = "/collections/{collectionId}", method = RequestMethod.DELETE)
@@ -113,6 +123,12 @@ public class CollectionController {
         if (rowsAffected == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
         }
+    }
+
+    @RequestMapping(path = "/{collectionId}/user", method = RequestMethod.GET)
+    public String getUsernameFromCollectionId(@PathVariable int collectionId) {
+        String name = collectionDao.getUsername(collectionId);
+        return name;
     }
 
 }

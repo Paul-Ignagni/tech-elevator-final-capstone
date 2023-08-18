@@ -22,6 +22,8 @@ public interface CollectionDao {
 
     int countTotalComics();
 
+    int countTotalComicsInCollection(int collectionId);
+
     Collection createCollection(Collection collection);
 
     int deleteAllComicsFromCollection(int collectionId);
@@ -31,6 +33,8 @@ public interface CollectionDao {
     void addComicToCollection(CollectionEntry entry);
 
     int deleteComicFromCollection(int collectionId, int comicId);
+
+    String getUsername(int collectionId);
 }
 
 

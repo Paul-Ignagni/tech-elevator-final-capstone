@@ -13,17 +13,27 @@
     <div class="comic-details">
       <h2>{{ comic.title }}</h2>
       <p v-if="comic.description">{{ comic.description }}</p>
-      <p>Issue Number: {{ comic.issueNumber }}</p>
       <p v-if="comic.series">Series: {{comic.series}}</p>
+      <p>Issue Number: {{ comic.issueNumber }}</p>
       <p v-if="comic.pageCount">Page Count: {{ comic.pageCount }}</p>
-      <p>Authors:</p>
+      <h3 v-if="authors.length > 0">Authors:</h3>
       <div v-for="author in authors" :key="author">
         {{author}}
         </div>
-        <p>Characters:</p>
+        <h3 v-if="characters.length > 0">Characters:</h3>
       <div v-for="character in characters" :key="character">
         {{character}}
         </div>
+    <div v-if="collections.length > 0" class="button-add">
+      <h3>Add to a collection: </h3>
+      <label for="collection">Select a collection: </label>
+      <select id="collection" class="collection-tags" v-model="collectionId">
+        <option v-for="collection in collections" :key="collection.id" :value="collection.id">
+          {{collection.name}}
+          </option>
+        </select>
+      <button @click="addToCollectionAndNavigate()" class="add-to-collection-button">Add to Collection</button>
+    </div>
     </div>
   </div>
 </template>
@@ -37,13 +47,21 @@ export default {
       comic: [],
       authors: [],
       characters: [],
+      collections: [],
+      userId: 1,
+      comicId: this.$route.params.comicId,
+      collectionId: 0,
+      // comicEntry: {
+      //   collectionId: 0,
+      //   comicId: this.comicId
+      // },
     };
   },
   created() {
-    this.fetchComicInfo(1);
-    //The 1 is a temporary placeholder for the comic's id, need to add dynamic variable for different comics
-    this.fetchAuthors(1);
-    this.fetchCharacters(1);
+    this.fetchComicInfo(this.comicId);
+    this.fetchAuthors(this.comicId);
+    this.fetchCharacters(this.comicId);
+    this.fetchCollections(this.userId);
   },
   methods: {
     fetchComicInfo(serial) {
@@ -60,6 +78,28 @@ export default {
       ComicService.getCharactersForComic(serial).then((response) => {
         this.characters = response.data;
       })
+    },
+    fetchCollections(userId) {
+      ComicService.getUserCollections(userId).then((response) => {
+        this.collections = response.data;
+      })
+    },
+    addToCollectionAndNavigate() {
+      if (this.collectionId !== 0) {
+      const newEntry = {
+        collectionId: this.collectionId,
+        comicId: parseInt(this.comicId),
+      };
+      console.log(newEntry);
+      ComicService.addComicToCollection(newEntry).then(response => {
+          if (response.status === 201) {
+            alert("Successfully created new collection")
+          }
+        })
+        .catch(error => {
+          alert(error)
+        });
+      }
     }
   },
 };
@@ -68,5 +108,7 @@ export default {
 <style>
 .comic {
   text-align: center;
+  font-size: 24px;
 }
+
 </style>

@@ -7,7 +7,7 @@
       <button @click="searchComics" class="search-button">Search</button>
     </div>
     <div class="search-results">
-      <div v-for="comic in comics" :key="comic.id" class="comic-card"  @click="handleCardClick(comic)" >
+      <div v-for="comic in comics" :key="comic.id" class="comic-card"  @click="handleCardClick(comic.serial)" >
         <div class="comic-cover">
           <img v-if="comic.images && comic.images.length > 0" :src="comic.images" alt="Comic Cover" />
          <div v-else class="blank-comic-card">
@@ -15,9 +15,7 @@
           </div>
         </div>
         <div class="comic-details">
-          <h2>{{ comic.title }}</h2>
-          <button @click="addToCollectionAndNavigate(comic)" class="add-to-collection-button">Add to Collection</button>
-    
+          <p>{{ comic.title }}</p>
         </div>
       </div>
     <div
@@ -30,7 +28,10 @@
         <h2>Navigation Menu</h2>
         <ul>
           <li><router-link to="/login">Login</router-link></li>
+          <li><router-link to="/">Home</router-link></li>
           <li><router-link to="/collections">Collections</router-link></li>
+          <li><router-link to="/characters">Characters</router-link></li>
+          <li><router-link to="/creators">Creators</router-link></li>
           <li><router-link to="/profile">Profile</router-link></li>
           <li><router-link to="/logout">Logout</router-link></li>
         </ul>
@@ -56,6 +57,7 @@ export default {
       userId: 0, // Define the userId
       initialCollectionId: 0, // Define the initialCollectionId
       isSidebarOpen: false,
+      comicId: 0,
     };
   },
 
@@ -74,6 +76,9 @@ export default {
       comicService.searchComic(this.searchQuery).then((response) => {
         this.comics = response.data;
       });
+    },
+    handleCardClick(id) {
+      this.$router.push({ name: 'Comic', params: { comicId: id} })
     },
     async addToCollectionAndNavigate(comic) {
       try {
@@ -99,6 +104,10 @@ export default {
 </script>
 
 <style>
+
+.comic-details {
+  font-size: 24px;
+}
 
 .comic-heading {
   font-family: 'Comic Sans MS', cursive;
@@ -214,7 +223,7 @@ div.sidebar {
   left: 0;
   left: -250px;
   width: 250px;
-  height: 300px;
+  height: 500px;
   transition: left 0.3s ease-in-out;
   z-index: 1000; 
 }

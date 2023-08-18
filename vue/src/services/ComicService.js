@@ -39,6 +39,14 @@ export default {
     return axios.get('/collections')
   },
 
+  getCollection(collectionId) {
+    return axios.get('/collections/' + collectionId + '/collection')
+  },
+
+  getUsernameFromCollectionId(collectionId) {
+    return axios.get('/' + collectionId + '/user')
+  },
+
   getComicsInCollections(collectionId) {
     console.log('Retrieving comics in collection')
     return axios.get('/collections/' + collectionId)
@@ -58,6 +66,10 @@ export default {
 
   getTotalComicsInCollections() {
     return axios.get('/collections/totalcomics')
+  },
+
+  getTotalComicsInOneCollection(collectionId) {
+    return axios.get('/collections/totalcomics/' + collectionId)
   },
 
   getUserCollections(userId) {
@@ -97,5 +109,13 @@ export default {
   getCreatorComics(serial) {
     return axios.get('/creators/' + serial + '/comics')
   },
+
+  createCollection(newCollection) {
+    return axios.post('/collections/create', newCollection)
+  },
+
+  addComicToCollection(newEntry) {
+    return axios.post('/collections/' + newEntry.collectionId, newEntry)
+  }
 
 }

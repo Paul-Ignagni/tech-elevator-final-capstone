@@ -18,12 +18,12 @@ export default {
     return {
       creator: [],
       comics: [],
+      creatorId: this.$route.params.creatorSerial,
     };
   },
   created() {
-    this.fetchCreatorInfo(1);
-    //The 1 is a temporary placeholder for the character's id, need to add dynamic variable for different characters
-    this.fetchCreatorComics(1);
+    this.fetchCreatorInfo(this.creatorId);
+    this.fetchCreatorComics(this.creatorId);
   },
   methods: {
     fetchCreatorInfo(serial) {
@@ -43,5 +43,8 @@ export default {
 <style>
 .creator {
     text-align: center;
+}
+.creator-details {
+    font-size: 32px;
 }
 </style>

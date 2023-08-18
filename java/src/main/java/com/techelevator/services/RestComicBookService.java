@@ -217,7 +217,7 @@ public class RestComicBookService {
 
     public void createCollection(Collection newCollection) {
         try {
-            restTemplate.postForObject(SERVER_BASE_URL + "/collections", newCollection, Collection.class);
+            restTemplate.postForObject(SERVER_BASE_URL + "/collections/create", newCollection, Collection.class);
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
         }

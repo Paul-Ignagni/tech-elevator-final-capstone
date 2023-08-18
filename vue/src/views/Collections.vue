@@ -1,20 +1,26 @@
 <template>
   <div class="collections">
-    <div class="sidebar" :class="{ open: isSidebarOpen }"
+    <!-- <div
+      class="sidebar"
+      :class="{ open: isSidebarOpen }"
       @mouseenter="openSidebar"
       @mouseleave="closeSidebar"
     >
       <nav class="sidebar-nav">
         <h2>Navigation Menu</h2>
         <ul>
-          <li><router-link to="/">Home</router-link></li>
           <li><router-link to="/login">Login</router-link></li>
+          <li><router-link to="/">Home</router-link></li>
+          <li><router-link to="/collections">Collections</router-link></li>
+          <li><router-link to="/characters">Characters</router-link></li>
+          <li><router-link to="/creators">Creators</router-link></li>
           <li><router-link to="/profile">Profile</router-link></li>
+          <li><router-link to="/logout">Logout</router-link></li>
         </ul>
       </nav>
-    </div>
-    <h2>Public Collections</h2>
-
+    </div> -->
+    <div>
+    <h1>Public Collections</h1>
     <!-- Search bars for character and creator -->
     <div class="search-bar">
       <label for="characterSearch">Search by Character:</label>
@@ -33,18 +39,20 @@
     </div>
 
     <!-- Button to calculate total comics -->
-    <div>
+    
+    <div
+      v-for="collection in collections" :key="collection.id" class="col">
+      <h2>{{ collection.name }}</h2>
+      <h3>User ID: {{ collection.userId }}</h3>
+      <button @click="viewCollection(collection.id)" class="collection-button">View this collection</button>
+    </div>
+    
+    <div class="calc">
     <button @click="calculateTotalAllComics">How many comics are there in all the collections?</button>
     <p v-if="totalAllComics !== null">
       Total comics in all collections: {{ totalAllComics }}
     </p>
     </div>
-
-    <div
-      v-for="collection in collections" :key="collection.id" class="collection-comic">
-      <h3>{{ collection.name }}</h3>
-      <h5>User ID: {{ collection.userId }}</h5>
-      <button type="button">View this collection</button>
     </div>
   </div>
 </template>
@@ -65,13 +73,12 @@ export default {
   },
 
   created() {
-    // Fetch and display all available collections initially
     this.fetchAllCollections();
   },
 
   methods: {
     fetchAllCollections() {
-      ComicService.getPublicCollections().then(response => {
+      ComicService.getPublicCollections().then((response) => {
         this.collections = response.data;
       });
     },
@@ -96,6 +103,10 @@ export default {
       ComicService.getTotalComicsInCollections().then((response) => {
         this.totalAllComics = response.data;
       })
+    },
+
+    viewCollection(collectionId) {
+      this.$router.push({ name: 'collection', params: { id: collectionId } })
     }
   }
 };
@@ -209,5 +220,16 @@ button:hover {
   font-weight: 500;
   font-size: 36px;
   margin-bottom: 20px;
+}
+
+.col {
+  margin: 15px;
+}
+.calc {
+  margin: 20px;
+}
+
+.collections {
+  color:white
 }
 </style>

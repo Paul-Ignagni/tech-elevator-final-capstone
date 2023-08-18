@@ -24,11 +24,11 @@ export default {
   data() {
     return {
       character: [],
+      characterId: this.$route.params.serial,
     };
   },
   created() {
-    this.fetchCharacterInfo(1);
-    //The 10 is a temporary placeholder for the character's id, need to add dynamic variable for different characters
+    this.fetchCharacterInfo(this.characterId);
   },
   methods: {
     fetchCharacterInfo(serial) {
@@ -43,5 +43,8 @@ export default {
 <style>
 .character {
     text-align: center;
+}
+.character-details {
+  font-size: 32px
 }
 </style>

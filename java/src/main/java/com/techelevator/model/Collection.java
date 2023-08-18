@@ -1,12 +1,15 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Collection {
     public int id;
     public int userId;
-    
+
     public String name;
+    @JsonProperty
     private boolean isPublic;
 
 

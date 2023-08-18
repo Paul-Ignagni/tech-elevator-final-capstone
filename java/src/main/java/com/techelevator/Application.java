@@ -42,9 +42,7 @@ public class Application {
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         Application application = new Application(jdbcTemplate);
-//        application.run();
-        System.out.println("Done");
-
+        application.run();
     }
 
     private void run() {

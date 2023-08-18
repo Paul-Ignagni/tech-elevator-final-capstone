@@ -6,7 +6,7 @@
       <button @click="searchCreator" class="search-button">Search</button>
     </div>
     <div class="search-results">
-      <div v-for="creator in creators" :key="creator.creatorSerial" class="creator-card"  @click="handleCardClick(comic)" >
+      <div v-for="creator in creators" :key="creator.creatorSerial" class="creator-card"  @click="handleCardClick(creator.creatorSerial)" >
         <div class="creator-details">
           <p>{{ creator.creatorName }}</p>
         </div>
@@ -48,6 +48,9 @@ export default {
       comicService.searchCreator(this.searchQuery).then((response) => {
         this.creators = response.data;
       });
+    },
+    handleCardClick(serial) {
+      this.$router.push({ name: 'Creator', params: { creatorSerial: serial} })
     },
     openSidebar() {
       this.isSidebarOpen = true;

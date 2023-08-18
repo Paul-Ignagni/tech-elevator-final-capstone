@@ -144,6 +144,21 @@ public class JdbcCollectionDao implements CollectionDao {
     }
 
     @Override
+    public int countTotalComicsInCollection(int collectionId) {
+        int totalComics = 0;
+        String sql = "SELECT COUNT(serial_number) FROM collection_comic_info WHERE collection_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionId);
+            if (results.next()) {
+                totalComics = results.getInt("count");
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return totalComics;
+    }
+
+    @Override
     public Collection createCollection(Collection collection) {
         Collection newCollection = null;
         String sql = "INSERT INTO collection (user_id, collection_name, isPublic) VALUES (?, ?, ?) RETURNING collection_id;";
@@ -212,6 +227,24 @@ public class JdbcCollectionDao implements CollectionDao {
         }
         return rowsAffected;
     }
+
+    @Override
+    public String getUsername(int collectionId) {
+        String name = "";
+        String sql = "SELECT username FROM users " +
+                "JOIN collection ON (collection.user_id = users.user_id) " +
+                "WHERE collection_id = ?;";
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, collectionId);
+            if (result.next()) {
+                name = result.getString("username");
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return name;
+    }
+
 
     private Collection mapRowToCollection(SqlRowSet rs) {
         Collection collection = new Collection();
