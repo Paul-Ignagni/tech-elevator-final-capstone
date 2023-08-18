@@ -1,18 +1,6 @@
 <template>
   <div class="home">
-    <div class="sidebar" :class="{ open: isSidebarOpen }"
-      @mouseenter="openSidebar"
-      @mouseleave="closeSidebar"
-    >
-      <nav class="sidebar-nav">
-        <h2>Navigation Menu</h2>
-        <ul>
-          <li><router-link to="/login">Login</router-link></li>
-          <li><router-link to="/collections">Collections</router-link></li>
-          <li><router-link to="/profile">Profile</router-link></li>
-        </ul>
-      </nav>
-    </div>
+    
     <h1 class="comic-heading">Comic Book Search</h1>
     <div class="search-container">
       <input v-model="searchQuery" placeholder="Enter comic search" class="search-input" @keydown.enter="searchComics" />
@@ -32,6 +20,22 @@
     
         </div>
       </div>
+    <div
+      class="sidebar"
+      :class="{ open: isSidebarOpen }"
+      @mouseenter="openSidebar"
+      @mouseleave="closeSidebar"
+    >
+      <nav class="sidebar-nav">
+        <h2>Navigation Menu</h2>
+        <ul>
+          <li><router-link to="/login">Login</router-link></li>
+          <li><router-link to="/collections">Collections</router-link></li>
+          <li><router-link to="/profile">Profile</router-link></li>
+          <li><router-link to="/logout">Logout</router-link></li>
+        </ul>
+      </nav>
+        </div>
     </div>
     
   </div>
@@ -40,8 +44,6 @@
 
 <script>
 import comicService from "../services/ComicService.js";
-
-
 import axios from "axios"; // Import axios once
 
 export default {
@@ -212,16 +214,16 @@ div.sidebar {
   left: 0;
   left: -250px;
   width: 250px;
-  height: 250px;
+  height: 300px;
   transition: left 0.3s ease-in-out;
-  z-index: 1000; /* Ensure the sidebar is above other content */
+  z-index: 1000; 
 }
 
 .sidebar.open {
-  left: 0; /* Slide the sidebar into view */
+  left: 0; 
 }
 
-div.sidebar h2 {
+.sidebar h2 {
   text-align: center;
   padding: 0px;
   margin: 10px;
@@ -238,17 +240,17 @@ div.sidebar h2 {
   padding: 0px;
 }
 
-div.sidebar-nav ul {
+.sidebar-nav ul {
   list-style: none;
   padding: 20;
   margin: 20;
 }
 
-div.sidebar-nav li {
+.sidebar-nav li {
   margin-bottom: 10px;
 }
 
-div.sidebar-nav a {
+.sidebar-nav a {
   font-family: "Comic Sans MS", cursive;
   color: #ffffff;
   text-decoration: none;
@@ -263,5 +265,5 @@ div.sidebar-nav a {
   font-size: 36px;
   margin-bottom: 20px;
 }
-</style>
 
+</style>

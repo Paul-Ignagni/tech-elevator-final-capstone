@@ -247,6 +247,13 @@ public class RestComicBookService {
         }
     }
 
+    public void addComic(Comic comic) {
+        try {restTemplate.postForEntity(SERVER_BASE_URL + "/comics", comic, Comic.class);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ComicResponse searchComicsByKeyword(String keyword) {
         String searchString = API_BASE_URL + "&titleStartsWith=" + keyword;
         ComicResponse responseEntity = restTemplate.getForObject(searchString, ComicResponse.class);

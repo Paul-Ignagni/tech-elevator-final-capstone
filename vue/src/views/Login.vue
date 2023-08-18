@@ -8,6 +8,7 @@
         <h2>Navigation Menu</h2>
         <ul>
           <li><router-link to="/">Home</router-link></li>
+          <li><router-link to="/logout">Logout</router-link></li>
           <li><router-link to="/collections">Collections</router-link></li>
           <li><router-link to="/profile">Profile</router-link></li>
         </ul>
@@ -219,13 +220,13 @@ export default {
   left: 0;
   left: -250px;
   width: 250px;
-  height: 250px;
+  height: 300px;
   transition: left 0.3s ease-in-out;
-  z-index: 1000; /* Ensure the sidebar is above other content */
+  z-index: 1000; 
 }
 
 .sidebar.open {
-  left: 0; /* Slide the sidebar into view */
+  left: 0; 
 }
 
 .sidebar h2 {

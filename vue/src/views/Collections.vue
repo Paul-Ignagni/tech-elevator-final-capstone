@@ -1,5 +1,6 @@
 <template>
-<div class="sidebar" :class="{ open: isSidebarOpen }"
+  <div class="collections">
+    <div class="sidebar" :class="{ open: isSidebarOpen }"
       @mouseenter="openSidebar"
       @mouseleave="closeSidebar"
     >
@@ -11,8 +12,7 @@
           <li><router-link to="/profile">Profile</router-link></li>
         </ul>
       </nav>
-  <div class="collections">
-    
+    </div>
     <h2>Public Collections</h2>
 
     <!-- Search bars for character and creator -->
@@ -43,7 +43,6 @@
       <h5>User ID: {{ collection.userId }}</h5>
       <button type="button">View this collection</button>
     </div>
-  </div>
   </div>
 </template>
 

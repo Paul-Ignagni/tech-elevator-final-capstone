@@ -7,7 +7,7 @@ public class Collection {
     public int userId;
     public String name;
     private boolean isPublic;
-    private List<Comic> comics;
+
 
     public int getId() {
         return id;
@@ -31,13 +31,6 @@ public class Collection {
 
     public void setName(String name) {
         this.name = name;
-    }
-    public List<Comic> getComics() {
-        return comics;
-    }
-
-    public void setComics(List<Comic> comics) {
-        this.comics = comics;
     }
 
     public boolean isPublic() {
