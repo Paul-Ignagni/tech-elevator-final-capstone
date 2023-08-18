@@ -17,8 +17,23 @@
           <p>{{ character.characterName }}</p>
         </div>
       </div>
-      <div class="sidebar" :class="{ 'open': isSidebarOpen }" @mouseenter="openSidebar" @mouseleave="closeSidebar">
-        <!--Add additional stuff here once figure out what is needed (and if the damn thing works)-->
+       <div
+      class="sidebar"
+      :class="{ open: isSidebarOpen }"
+      @mouseenter="openSidebar"
+      @mouseleave="closeSidebar"
+    >
+      <nav class="sidebar-nav">
+        <h2>Navigation Menu</h2>
+        <ul>
+          <li><router-link to="/login">Login</router-link></li>
+          <li><router-link to="/">Home</router-link></li>
+          <li><router-link to="/collections">Collections</router-link></li>
+          <li><router-link to="/characters">Characters</router-link></li>
+          <li><router-link to="/creators">Creators</router-link></li>
+          <li><router-link to="/logout">Logout</router-link></li>
+        </ul>
+      </nav>
         </div>
     </div>
     
@@ -136,12 +151,12 @@ export default {
 }
 @keyframes rainbow-border {
   0% {
-    box-shadow: 0 0 10px #00eeff, 0 0 20px #f700fffa, 0 0 30px #c8ff00, 0 0 40px #ffbf00, 0 0 50px #ffbb00,
-      0 0 60px #ffd000, 0 0 70px #00f7ff, 0 0 80px #40ff00, 0 0 90px #00ff00;
+    box-shadow: 0 0 10px #00eeff, 0 0 20px #0084ff, 0 0 30px #001aff, 0 0 40px #00ff95, 0 0 50px #6f00ff,
+      0 0 60px #6200ff, 0 0 70px #00f7ff, 0 0 80px #00ccff, 0 0 90px #00ffff;
   }
   100% {
-    box-shadow: 0 0 10px #ff0000, 0 0 20px #ff4000, 0 0 30px #ff8000, 0 0 40px #ffbf00, 0 0 50px #ffff00,
-      0 0 60px #bfff00, 0 0 70px #ea00ff63, 0 0 80px #f302f3, 0 0 90px #00ff00;
+    box-shadow: 0 0 10px #00eeff, 0 0 20px #0084ff, 0 0 30px #001aff, 0 0 40px #00ff95, 0 0 50px #6f00ff,
+      0 0 60px #6200ff, 0 0 70px #00f7ff, 0 0 80px #00ccff, 0 0 90px #00ffff;
   }
 }
 
@@ -151,7 +166,7 @@ export default {
 }
 .characters {
   /* Set the background gradient */
-  background: linear-gradient(45deg, pink 50%, lightblue 50%);
+  background: url(@/components/PurpleBackground.jpg);
   padding: 20px;
   color: white;
   position: relative;
