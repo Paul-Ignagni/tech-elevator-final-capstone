@@ -156,6 +156,19 @@ export default {
   max-width: 100%;
   height: auto;
 }
+
+h1 {
+  font-family: "Comic Sans MS", cursive;
+  color: #ffffff;
+}
+h3 {
+  font-family: "Comic Sans MS", cursive;
+  color: #ffffff;
+}
+p {
+  font-family: "Comic Sans MS", cursive;
+  color: #ffffff;
+}
 .creators {
   /* Set the background gradient */
   background: url(@/components/PurpleBackground.jpg);
@@ -163,6 +176,7 @@ export default {
   color: white;
   position: relative;
 }
+
 .add-to-collection-button {
   position: absolute; /* Position the button absolutely within the comic card */
   bottom: 10px; /* Adjust the distance from the bottom as needed */
@@ -178,6 +192,7 @@ export default {
   transition: background-color 0.3s ease-in-out;
   animation: breathing 4s infinite;
 }
+
 .sidebar {
   position: fixed;
   top: 0;
