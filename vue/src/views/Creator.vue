@@ -50,5 +50,6 @@ export default {
     background: url(@/components/GrayBackground.jpg);
     text-shadow: 2px 2px #000000;
     font-family: "Comic Sans MS", cursive;
+    
 }
 </style>

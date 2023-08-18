@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-link to="/" class="logo-link">
-      <img src="@/components/splash page logo.png" alt="Logo" class="logo-img" />
+      <img src="@/components/Marvel Comics logo.png" alt="Logo" class="logo-img" />
     </router-link>
     <router-view :collection="collection" />
   </div>
