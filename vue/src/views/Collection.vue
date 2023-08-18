@@ -25,19 +25,19 @@
       <h4>Number of comics in collection: {{totalComics}} </h4>
       </div>
       <div>
-      <h4>Series in this collection:</h4>
+      <h4 v-if="series.length > 0">Series in this collection:</h4>
       <p v-for="s in series" :key="s" class="series">
         {{s}}
         </p>
       </div>
       <div>
-      <h4>Characters that appear in this collection:</h4>
+      <h4 v-if="characters.length > 0">Characters that appear in this collection:</h4>
       <p v-for="c in characters" :key="c" class="character">
         {{c}}
         </p>
       </div>
       <div>
-      <h4>Authors in this collection:</h4>
+      <h4 v-if="creators.length > 0" >Authors in this collection:</h4>
       <p v-for="cr in creators" :key="cr" class="creator">
         {{cr}}
         </p>

@@ -194,7 +194,7 @@ button.search-button:hover {
   background-position: centered;
 }
 
-.add-to-collection-button {
+/* .add-to-collection-button {
   position: absolute; 
   bottom: 10px; 
   left: 50%; 
@@ -208,7 +208,7 @@ button.search-button:hover {
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
   animation: breathing 4s infinite;
-}
+} */
 
 div.sidebar {
   position: fixed;
