@@ -43,8 +43,13 @@ export default {
 <style>
 .creator {
     text-align: center;
+    text-shadow: 2px 2px #000000;
 }
 .creator-details {
     font-size: 32px;
+    background: url(@/components/GrayBackground.jpg);
+    text-shadow: 2px 2px #000000;
+    font-family: "Comic Sans MS", cursive;
+    
 }
 </style>
