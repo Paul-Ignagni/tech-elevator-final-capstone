@@ -48,9 +48,11 @@
     </div>
     
     <div class="calc">
-    <button @click="calculateTotalAllComics">How many comics are there in all the collections?</button>
-    <p v-if="totalAllComics !== null">
-      Total comics in all collections: {{ totalAllComics }}
+    <!-- <button @click="calculateTotalAllComics">
+      How many comics are there in all the collections?
+      </button>
+    <p v-if="totalAllComics !== null"> -->
+      <p> Total comics in all collections: {{ totalAllComics }}
     </p>
     </div>
     </div>
@@ -74,6 +76,7 @@ export default {
 
   created() {
     this.fetchAllCollections();
+    this.calculateTotalAllComics();
   },
 
   methods: {
