@@ -1,8 +1,6 @@
 <template>
   <div id="login" class="login-page">
-    <div
-      class="sidebar"
-      :class="{ open: isSidebarOpen }"
+    <div class="sidebar" :class="{ open: isSidebarOpen }"
       @mouseenter="openSidebar"
       @mouseleave="closeSidebar"
     >
@@ -10,7 +8,6 @@
         <h2>Navigation Menu</h2>
         <ul>
           <li><router-link to="/">Home</router-link></li>
-          <li><router-link to="/login">Login</router-link></li>
           <li><router-link to="/collections">Collections</router-link></li>
           <li><router-link to="/profile">Profile</router-link></li>
         </ul>
@@ -191,10 +188,12 @@ export default {
   text-shadow: 2px 2px #000000;
   font-weight: bolder;
   font-family: "Comic Sans MS", cursive;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .login-button:hover {
   background-color: #7411c5;
+
 }
 
 .signup-link {

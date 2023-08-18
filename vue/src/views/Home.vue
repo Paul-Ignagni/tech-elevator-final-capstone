@@ -1,8 +1,21 @@
 <template>
   <div class="home">
+    <div class="sidebar" :class="{ open: isSidebarOpen }"
+      @mouseenter="openSidebar"
+      @mouseleave="closeSidebar"
+    >
+      <nav class="sidebar-nav">
+        <h2>Navigation Menu</h2>
+        <ul>
+          <li><router-link to="/login">Login</router-link></li>
+          <li><router-link to="/collections">Collections</router-link></li>
+          <li><router-link to="/profile">Profile</router-link></li>
+        </ul>
+      </nav>
+    </div>
     <h1 class="comic-heading">Comic Book Search</h1>
     <div class="search-container">
-      <input v-model="searchQuery" placeholder="Enter comic name" class="search-input" @keydown.enter="searchComics" />
+      <input v-model="searchQuery" placeholder="Enter comic search" class="search-input" @keydown.enter="searchComics" />
       <button @click="searchComics" class="search-button">Search</button>
     </div>
     <div class="search-results">
@@ -19,9 +32,6 @@
     
         </div>
       </div>
-      <div class="sidebar" :class="{ 'open': isSidebarOpen }" @mouseenter="openSidebar" @mouseleave="closeSidebar">
-        <!--Add additional stuff here once figure out what is needed (and if the damn thing works)-->
-        </div>
     </div>
     
   </div>
@@ -88,15 +98,12 @@ export default {
 
 <style>
 
-.home {
-  text-align: center;
-}
-
 .comic-heading {
-  font-family: 'Comic Sans MS', cursive; /* Use a comic book font here */
+  font-family: 'Comic Sans MS', cursive;
   font-size: 28px;
   margin-bottom: 20px;
-  color: darkcyan;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
 }
 
 .search-container {
@@ -109,23 +116,25 @@ export default {
 .search-input {
   padding: 8px;
   font-size: 16px;
-  border: 2px solid #000; 
+  border: 2px solid #000000; 
   border-radius: 10px;
 }
 
-.search-button {
+button.search-button {
   padding: 8px 16px;
-  font-size: 16px;
-  background-color: crimson; 
-  color: #FFF; 
+  font-size: 20px;
+  font-family: "Comic Sans MS", cursive;
+  text-shadow: 2px 2px #000000;
+  background-color: #9616ff; 
+  color: #ffffff; 
   border: none;
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
 
-.search-button:hover {
-  background-color: #990000; 
+button.search-button:hover {
+  background-color: #7d11d4; 
 }
 
 .comic-card {
@@ -135,9 +144,9 @@ export default {
   margin: 10px;
   display: inline-block;
   max-width: 200px;
-  max-height: 300px; /* Adjust the max-height to your preference */
-  overflow: hidden; /* Ensure content doesn't overflow */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
+  max-height: 300px; 
+  overflow: hidden; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 .comic-card:hover {
   transform: translateY(-10px) scale(1.05);
@@ -146,7 +155,7 @@ export default {
 .comic-card.clicked {
   transform: translateY(-5px) scale(0.9);
   opacity: 0;
-  box-shadow: none; /* Remove box shadow during the disappearing animation */
+  box-shadow: none;
 }
 @keyframes rainbow-border {
   0% {
@@ -163,18 +172,22 @@ export default {
   max-width: 100%;
   height: auto;
 }
+
 .home {
-  /* Set the background gradient */
-  background: linear-gradient(45deg, pink 50%, lightblue 50%);
+  text-align: center; 
+  background: url(@/components/PurpleBackground.jpg);
   padding: 20px;
   color: white;
   position: relative;
+  background-size: cover;
+  background-position: centered;
 }
+
 .add-to-collection-button {
-  position: absolute; /* Position the button absolutely within the comic card */
-  bottom: 10px; /* Adjust the distance from the bottom as needed */
-  left: 50%; /* Position the button horizontally centered */
-  transform: translateX(-50%); /* Center the button horizontally */
+  position: absolute; 
+  bottom: 10px; 
+  left: 50%; 
+  transform: translateX(-50%);
   padding: 8px 16px;
   font-size: 14px;
   background-color: crimson;
@@ -185,19 +198,70 @@ export default {
   transition: background-color 0.3s ease-in-out;
   animation: breathing 4s infinite;
 }
-.sidebar {
+
+div.sidebar {
   position: fixed;
-  top: 0;
-  left: -300px; /* Position when off-screen. Because, yeah, we don't wanna see them unless they're wanted lol*/
-  width: 300px;
-  height: 100%;
-  background-color: lightblue;
-  color: white;
+  background: url(@/components/GrayBackground.jpg);
+  background-size: cover;
+  background-position: center;
+  border-radius: 0px 25px 25px 0px;
+  border-style: solid;
+  border-color: #000000;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  top: 20%;
+  left: 0;
+  left: -250px;
+  width: 250px;
+  height: 250px;
   transition: left 0.3s ease-in-out;
-  z-index: 1000; /* This is will bring it to the front so that no other elements on the webpage show in front of the sidebar.*/
+  z-index: 1000; /* Ensure the sidebar is above other content */
 }
+
 .sidebar.open {
-  left: 0; /* No idea what I wanna add here until I view it working in full (aka when I can actually view the damn page properly)*/
+  left: 0; /* Slide the sidebar into view */
+}
+
+div.sidebar h2 {
+  text-align: center;
+  padding: 0px;
+  margin: 10px;
+  color: #9616ff;
+  text-shadow: 2px 2px #000000;
+  background: #ffffff;
+  font-family: "Comic Sans MS", cursive;
+  font-weight: bold;
+  border-style: outset;
+  border-radius: 5px;
+}
+
+.sidebar-nav {
+  padding: 0px;
+}
+
+div.sidebar-nav ul {
+  list-style: none;
+  padding: 20;
+  margin: 20;
+}
+
+div.sidebar-nav li {
+  margin-bottom: 10px;
+}
+
+div.sidebar-nav a {
+  font-family: "Comic Sans MS", cursive;
+  color: #ffffff;
+  text-decoration: none;
+  text-shadow: 2px 2px #000000;
+  font-weight: 300;
+  font-size: 24px;
+  transition: font-size 0.3s, margin-bottom 0.3s;
+}
+
+.sidebar-nav a:hover {
+  font-weight: 500;
+  font-size: 36px;
+  margin-bottom: 20px;
 }
 </style>
 
