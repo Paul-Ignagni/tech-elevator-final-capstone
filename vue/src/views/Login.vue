@@ -1,8 +1,6 @@
 <template>
   <div id="login" class="login-page">
-    <div
-      class="sidebar"
-      :class="{ open: isSidebarOpen }"
+    <div class="sidebar" :class="{ open: isSidebarOpen }"
       @mouseenter="openSidebar"
       @mouseleave="closeSidebar"
     >
@@ -191,10 +189,12 @@ export default {
   text-shadow: 2px 2px #000000;
   font-weight: bolder;
   font-family: "Comic Sans MS", cursive;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .login-button:hover {
   background-color: #7411c5;
+
 }
 
 .signup-link {
@@ -220,13 +220,13 @@ export default {
   left: 0;
   left: -250px;
   width: 250px;
-  height: 250px;
+  height: 300px;
   transition: left 0.3s ease-in-out;
-  z-index: 1000; /* Ensure the sidebar is above other content */
+  z-index: 1000; 
 }
 
 .sidebar.open {
-  left: 0; /* Slide the sidebar into view */
+  left: 0; 
 }
 
 .sidebar h2 {

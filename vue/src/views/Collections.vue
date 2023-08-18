@@ -1,9 +1,6 @@
 <template>
   <div class="collections">
-    <h2>Public Collections</h2>
-    <div
-      class="sidebar"
-      :class="{ open: isSidebarOpen }"
+    <div class="sidebar" :class="{ open: isSidebarOpen }"
       @mouseenter="openSidebar"
       @mouseleave="closeSidebar"
     >
@@ -12,11 +9,11 @@
         <ul>
           <li><router-link to="/">Home</router-link></li>
           <li><router-link to="/login">Login</router-link></li>
-          <li><router-link to="/logout">Logout</router-link></li>
           <li><router-link to="/profile">Profile</router-link></li>
         </ul>
       </nav>
     </div>
+    <h2>Public Collections</h2>
 
     <!-- Search bars for character and creator -->
     <div class="search-bar">
@@ -43,12 +40,8 @@
     </p>
     </div>
 
-    <!-- Display collections -->
     <div
-      v-for="collection in collections"
-      :key="collection.id"
-      class="collection"
-    >
+      v-for="collection in collections" :key="collection.id" class="collection-comic">
       <h3>{{ collection.name }}</h3>
       <h5>User ID: {{ collection.userId }}</h5>
       <button type="button">View this collection</button>
@@ -58,9 +51,9 @@
 
 <script>
 import ComicService from "../services/ComicService";
+
 export default {
   data() {
-    
     return {
       collections: [],
       characterSearchKeyword: "",
@@ -109,9 +102,50 @@ export default {
 </script>
 
 <style>
+
 .collections {
   text-align: center;
+  background: url(@/components/PurpleBackground.jpg);
+  height: 100vh;
 }
+
+h2 {
+  font-size: 30px;
+  padding: 10px;
+  font-family: "Comic Sans MS", cursive;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+}
+
+label {
+  padding: 10px;
+  font-family: "Comic Sans MS", cursive;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+}
+
+button {
+  font-family: "Comic Sans MS", cursive;
+  text-shadow: 2px 2px #000000;
+  font-size: 24px;
+  background-color: #9616ff;
+  color: #ffffff;
+  border-style: none;
+  border-radius: 5px;
+  margin-left: 1rem;
+  transition: background-color 0.3s ease-in-out;
+  padding: 5px;
+}
+
+button:hover {
+  background-color: #6f0fbd;
+}
+
+.search-bar {
+  padding: 5px;
+  margin-bottom: 1rem;
+}
+
 .sidebar {
   position: fixed;
   background: url(@/components/GrayBackground.jpg);
@@ -127,11 +161,11 @@ export default {
   width: 250px;
   height: 250px;
   transition: left 0.3s ease-in-out;
-  z-index: 1000; /* Ensure the sidebar is above other content */
+  z-index: 1000;
 }
 
 .sidebar.open {
-  left: 0; /* Slide the sidebar into view */
+  left: 0;
 }
 
 .sidebar h2 {

@@ -3,7 +3,7 @@
     
     <h1 class="comic-heading">Comic Book Search</h1>
     <div class="search-container">
-      <input v-model="searchQuery" placeholder="Enter comic name" class="search-input" @keydown.enter="searchComics" />
+      <input v-model="searchQuery" placeholder="Enter comic search" class="search-input" @keydown.enter="searchComics" />
       <button @click="searchComics" class="search-button">Search</button>
     </div>
     <div class="search-results">
@@ -100,15 +100,12 @@ export default {
 
 <style>
 
-.home {
-  text-align: center;
-}
-
 .comic-heading {
-  font-family: 'Comic Sans MS', cursive; /* Use a comic book font here */
+  font-family: 'Comic Sans MS', cursive;
   font-size: 28px;
   margin-bottom: 20px;
-  color: darkcyan;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
 }
 
 .search-container {
@@ -121,23 +118,25 @@ export default {
 .search-input {
   padding: 8px;
   font-size: 16px;
-  border: 2px solid #000; 
+  border: 2px solid #000000; 
   border-radius: 10px;
 }
 
-.search-button {
+button.search-button {
   padding: 8px 16px;
-  font-size: 16px;
-  background-color: crimson; 
-  color: #FFF; 
+  font-size: 20px;
+  font-family: "Comic Sans MS", cursive;
+  text-shadow: 2px 2px #000000;
+  background-color: #9616ff; 
+  color: #ffffff; 
   border: none;
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
 
-.search-button:hover {
-  background-color: #990000; 
+button.search-button:hover {
+  background-color: #7d11d4; 
 }
 
 .comic-card {
@@ -147,9 +146,9 @@ export default {
   margin: 10px;
   display: inline-block;
   max-width: 200px;
-  max-height: 300px; /* Adjust the max-height to your preference */
-  overflow: hidden; /* Ensure content doesn't overflow */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
+  max-height: 300px; 
+  overflow: hidden; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 .comic-card:hover {
   transform: translateY(-10px) scale(1.05);
@@ -158,7 +157,7 @@ export default {
 .comic-card.clicked {
   transform: translateY(-5px) scale(0.9);
   opacity: 0;
-  box-shadow: none; /* Remove box shadow during the disappearing animation */
+  box-shadow: none;
 }
 @keyframes rainbow-border {
   0% {
@@ -175,18 +174,22 @@ export default {
   max-width: 100%;
   height: auto;
 }
+
 .home {
-  /* Set the background gradient */
-  background: linear-gradient(45deg, pink 50%, lightblue 50%);
+  text-align: center; 
+  background: url(@/components/PurpleBackground.jpg);
   padding: 20px;
   color: white;
   position: relative;
+  background-size: cover;
+  background-position: centered;
 }
+
 .add-to-collection-button {
-  position: absolute; /* Position the button absolutely within the comic card */
-  bottom: 10px; /* Adjust the distance from the bottom as needed */
-  left: 50%; /* Position the button horizontally centered */
-  transform: translateX(-50%); /* Center the button horizontally */
+  position: absolute; 
+  bottom: 10px; 
+  left: 50%; 
+  transform: translateX(-50%);
   padding: 8px 16px;
   font-size: 14px;
   background-color: crimson;
@@ -197,7 +200,8 @@ export default {
   transition: background-color 0.3s ease-in-out;
   animation: breathing 4s infinite;
 }
-.sidebar {
+
+div.sidebar {
   position: fixed;
   background: url(@/components/GrayBackground.jpg);
   background-size: cover;
@@ -210,13 +214,13 @@ export default {
   left: 0;
   left: -250px;
   width: 250px;
-  height: 250px;
+  height: 300px;
   transition: left 0.3s ease-in-out;
-  z-index: 1000; /* Ensure the sidebar is above other content */
+  z-index: 1000; 
 }
 
 .sidebar.open {
-  left: 0; /* Slide the sidebar into view */
+  left: 0; 
 }
 
 .sidebar h2 {
