@@ -32,7 +32,6 @@
           <li><router-link to="/collections">Collections</router-link></li>
           <li><router-link to="/characters">Characters</router-link></li>
           <li><router-link to="/creators">Creators</router-link></li>
-          <li><router-link to="/profile">Profile</router-link></li>
           <li><router-link to="/logout">Logout</router-link></li>
         </ul>
       </nav>

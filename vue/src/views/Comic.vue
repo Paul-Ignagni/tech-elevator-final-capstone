@@ -118,6 +118,7 @@ export default {
 .comic {
   text-align: center;
   font-size: 24px;
+  background: url(@/components/PurpleBackground.jpg);
 }
 .add-to-collection-button-container {
   display: flex;
