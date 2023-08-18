@@ -1,5 +1,5 @@
 <template>
-  <div class = "comic">
+  <div class="comic">
     <div :key="comic.serial" class="comic-cover">
       <img
         v-if="comic.images && comic.images.length > 0"
@@ -18,22 +18,31 @@
       <p v-if="comic.pageCount">Page Count: {{ comic.pageCount }}</p>
       <h3 v-if="authors.length > 0">Authors:</h3>
       <div v-for="author in authors" :key="author">
-        {{author}}
-        </div>
-        <h3 v-if="characters.length > 0">Characters:</h3>
+        {{ author }}
+      </div>
+      <h3 v-if="characters.length > 0">Characters:</h3>
       <div v-for="character in characters" :key="character">
-        {{character}}
-        </div>
+        {{ character }}
+      </div>
+    </div>
+    
     <div v-if="collections.length > 0" class="button-add">
-      <h3>Add to a collection: </h3>
+      <h3>Add to a collection:</h3>
       <label for="collection">Select a collection: </label>
       <select id="collection" class="collection-tags" v-model="collectionId">
         <option v-for="collection in collections" :key="collection.id" :value="collection.id">
-          {{collection.name}}
-          </option>
-        </select>
-      <button @click="addToCollectionAndNavigate()" class="add-to-collection-button">Add to Collection</button>
+          {{ collection.name }}
+        </option>
+      </select>
     </div>
+    <div class="add-to-collection-button-container">
+      <button
+        v-if="collections.length > 0"
+        @click="addToCollectionAndNavigate()"
+        class="add-to-collection-button"
+      >
+        Add to Collection
+      </button>
     </div>
   </div>
 </template>
@@ -110,5 +119,30 @@ export default {
   text-align: center;
   font-size: 24px;
   background: url(@/components/PurpleBackground.jpg);
+}
+.add-to-collection-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+  position: fixed;
+  bottom: 0px; /* Adjust this value as needed */
+  left: 0;
+  z-index: 999;
+  background-color: #fff;
+  padding: 10px 0;
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+}
+.add-to-collection-button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.button-add {
+  padding-bottom: 100px;
 }
 </style>
